@@ -206,37 +206,63 @@ const SignIn = () => {
         setShowPassword(!showPassword)
     }
 
-    // const validationSchema = Yup.object({
-    //     email: ,
-    //     password: ,
-    // })
+    const validationSchema = Yup.object().shape({
+        email: Yup.string().email("Invalid email").required("Email is required"),
+        password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
+    })
 
     const formik = useFormik({
         initialValues: {
             email: "",
             password: ""
         },
+        validationSchema,
         onSubmit: async(values, {setSubmitting}) => {
-            email: values.email
-            password: values.password
+            try {
+                const signInData = {
+                    username: values.username,
+                    email: values.email,
+                    password: values.password
+                }
+                const login = await loginUser(signInData)
+                const userData = login.data.data.user
+                dispatch(setCredentials(userData))
+                navigate(redirect)
+            } catch (error) {
+                console.log("Cannot login user")
+                setSubmitting(false)
+            }
         }
     })
 
     return(
         <>
-        <form className='space-y-4 w-[80%] pb-10 pt-5'>
+        <form onSubmit={formik.handleSubmit} className='space-y-4 w-[80%] pb-10 pt-5'>
         <div className='space-y-2'>
         <label htmlFor="">Email Address</label>
-        <Input type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} className="rounded outline-gray-400 outline outline-1"/>
+        <Input type="email" id="email" placeholder="Email" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} className="rounded outline-gray-400 outline outline-1"/>
+        {formik.touched.email && formik.errors.email ? (
+            <div className='text-red-500 text-sm'>{formik.errors.email}</div>
+        ) : (
+            null
+        )}
         </div>
         <div className='space-y-2'>
         <label htmlFor="password">Password</label>
         <div className='relative'>
-        <Input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} className="pr-10 outline-gray-400 outline outline-1"/>
+        <Input type={showPassword ? "text" : "password"} id="password" placeholder="Password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} className="pr-10 outline-gray-400 outline outline-1"/>
         {showPassword ? (<PiEye onClick={handlePasswordToggle} className='text-xl absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer'/>) : (<PiEyeSlash onClick={handlePasswordToggle} className='text-xl absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer'/>)}
         </div>
+        {formik.touched.password && formik.errors.password ? (
+            <div className='text-red-500 text-sm'>{formik.errors.password}</div>
+        ) : (
+            null
+        )}
         </div>
-        <Button className="w-full py-3 rounded" variant="shop" onClick={handleSignIn}>Sign In<IoMdArrowForward className='text-lg ml-2'/></Button>
+        <Button type="submit" disabled={formik.isSubmitting} className="w-full py-3 rounded" variant="shop">
+            {formik.isSubmitting ? "Signing In..." : "Sign In"}
+            <IoMdArrowForward className='text-lg ml-2'/>
+        </Button>
         <div className='flex items-center gap-16 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
             <img src={googleLogo} alt="" className='w-[2vw] h-[2vw]'/>
             <p>Sign up with Google</p>
