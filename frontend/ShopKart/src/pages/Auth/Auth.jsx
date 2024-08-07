@@ -19,12 +19,6 @@ import * as Yup from "yup"
 
 const SignUp = ({onSignUpSuccess}) => {
 
-    const navigate = useNavigate()
-
-    const [username, setUsername] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
@@ -178,29 +172,26 @@ const SignIn = () => {
         }
     }, [navigate, redirect, userInfo])
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
 
     const [showPassword, setShowPassword] = useState(false)
 
     const [loginUser] = useLoginUserMutation()
 
-    const handleSignIn = async(e) => {
-        e.preventDefault()
-        try {
-            const signIn = {
-                email,
-                password,
-            }
-            const login = await loginUser(signIn)
-            const userData = login.data.data.user
-            // console.log("User logged in", userData)
-            dispatch(setCredentials(userData))
-            navigate(redirect)
-        } catch (error) {
-            console.log("Cannot logged in", error)
-        }
-    }
+    // const handleSignIn = async(e) => {
+    //     e.preventDefault()
+    //     try {
+    //         const signIn = {
+    //             email,
+    //             password,
+    //         }
+    //         const login = await loginUser(signIn)
+    //         const userData = login.data.data.user
+    //         dispatch(setCredentials(userData))
+    //         navigate(redirect)
+    //     } catch (error) {
+    //         console.log("Cannot logged in", error)
+    //     }
+    // }
 
     const handlePasswordToggle = () => {
         setShowPassword(!showPassword)
