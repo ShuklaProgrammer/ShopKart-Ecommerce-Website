@@ -19,7 +19,6 @@ import userRoutes from "./routes/user.routes.js"
 import profileRoutes from "./routes/profile.routes.js"
 import categoryRoutes from "./routes/category.routes.js"
 import brandRoutes from "./routes/brand.routes.js"
-import colorRoutes from "./routes/color.routes.js"
 import discountRoutes from "./routes/discount.routes.js"
 import couponRoutes from "./routes/coupon.routes.js"
 import productRoutes from "./routes/product.routes.js"
@@ -38,7 +37,6 @@ app.use("/api/v1/wishlists", wishlistRoutes)
 app.use("/api/v1/reviews", reviewRoutes)
 app.use("/api/v1/categories", categoryRoutes)
 app.use("/api/v1/brands", brandRoutes)
-app.use("/api/v1/colors", colorRoutes)
 app.use("/api/v1/discounts", discountRoutes)
 app.use("/api/v1/coupons", couponRoutes)
 app.use("/api/v1/orders", orderRoutes)
