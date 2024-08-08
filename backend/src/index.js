@@ -7,7 +7,7 @@ import dotenv from "dotenv"
 
 dotenv.config({path: "/env"})
 
-CronJob.start()
+// CronJob.start()
 
 
 connectDatabase().then(()=>{
