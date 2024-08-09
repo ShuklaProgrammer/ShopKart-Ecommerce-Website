@@ -75,7 +75,7 @@ const AddProduct = () => {
   // console.log(brandResponse)
 
   if (!categoryResponse || !brandResponse) {
-    return <Loader size='3em' fullScreen={true} center={true}/>;
+    return <Loader size='3em' speed='0.4s' fullScreen={true} center={true}/>;
   }
 
   // if (!colorResponse) {
