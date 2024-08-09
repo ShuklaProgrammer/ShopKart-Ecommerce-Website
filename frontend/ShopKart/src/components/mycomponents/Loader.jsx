@@ -3,7 +3,7 @@ import React from 'react';
 const Loader = ({
   size = '2em',               // Size of the loader
   borderThickness = '0.2em',  // Thickness of the loader border
-  color = '#3498db',          // Color of the loader
+  color = '#2563eb',          // Color of the loader
   speed = '1s',               // Speed of the spinning animation
   fullScreen = true,          // Whether the loader should take up the full screen
   center = true,              // Whether the loader should be centered
