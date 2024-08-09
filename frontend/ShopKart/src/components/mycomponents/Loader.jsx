@@ -7,7 +7,7 @@ const Loader = ({
   speed = '1s',               // Speed of the spinning animation
   fullScreen = true,          // Whether the loader should take up the full screen
   center = true,              // Whether the loader should be centered
-  topBorderSize = '0.4em',    // Thickness of the rotating top border
+  topBorderSize = '0.3em',    // Thickness of the rotating top border
 }) => {
   const loaderStyle = {
     display: center ? 'flex' : 'inline-block',
@@ -18,7 +18,7 @@ const Loader = ({
     position: fullScreen ? 'fixed' : 'relative',  // Ensures it's positioned relative to the viewport
     top: fullScreen ? 0 : 'initial',
     left: fullScreen ? 0 : 'initial',
-    margin: '0 auto',  // Center horizontally if not full-screen
+    margin: center ? '0 auto' : 'initial', // Center horizontally if not full-screen
   };
 
   const spinnerStyle = {
