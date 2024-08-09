@@ -36,6 +36,7 @@ import { useGetAllCategoryQuery } from '@/redux/api/categoryApiSlice';
 import { useGetAllBrandsQuery } from '@/redux/api/brandApiSlice';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllColorsQuery } from '@/redux/api/colorApiSlice';
+import Loader from '@/components/mycomponents/Loader';
 
 const AddProduct = () => {
 
@@ -71,21 +72,18 @@ const AddProduct = () => {
 
   const { data: brandResponse } = useGetAllBrandsQuery()
 
-  const { data: colorResponse } = useGetAllColorsQuery()
-
   // console.log(brandResponse)
 
   if (!categoryResponse || !brandResponse) {
-    return <div>Loading...</div>;
+    return <Loader size='5em' borderThickness='0.5em' color='#3b82f6' speed='0.5s' fullScreen={true} center={true} topBorderSize='0.3em'/>;
   }
 
-  if (!colorResponse) {
-    return <div>Loading...</div>
-  }
+  // if (!colorResponse) {
+  //   return <div>Loading...</div>
+  // }
 
   const { data: categories } = categoryResponse
   const { data: brands } = brandResponse
-  const { data: colors } = colorResponse
 
 
   const handleTagInputChange = (e) => {
@@ -126,10 +124,6 @@ const AddProduct = () => {
     setShippingInfo(newProductShippingInfo)
   }
 
-  const addProductFeatureField = (e) => {
-    e.preventDefault()
-    setFeature([...feature, ""])
-  }
 
   const addProductAdditionalInfoField = (e) => {
     e.preventDefault()
@@ -243,10 +237,6 @@ const AddProduct = () => {
       })
 
 
-      feature.forEach((feat, index) => {
-        formData.append(`feature[${index}]`, feat)
-      })
-
       additionalInformation.filter(info => info.key.trim() !== "" && info.value.trim() !== "").forEach((info, index) => {
         formData.append(`additionalInformation[${index}][key]`, info.key)
         formData.append(`additionalInformation[${index}][value]`, info.value)
@@ -297,9 +287,12 @@ const AddProduct = () => {
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories?.map((category, index) => (
+                    {categories && categories.length > 0 ? (categories?.map((category, index) => (
                       <SelectItem key={index} value={category._id}>{category.categoryName}</SelectItem>
-                    ))}
+                    ))
+                    ) : (
+                      <SelectItem value="notFound">No Category Available</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
 
@@ -311,9 +304,12 @@ const AddProduct = () => {
                     <SelectValue placeholder="Select Brand" />
                   </SelectTrigger>
                   <SelectContent>
-                    {brands?.map((brand, index) => (
+                    {brands && brands.length > 0 ? ( brands?.map((brand, index) => (
                       <SelectItem key={index} value={brand._id}>{brand.brandName}</SelectItem>
-                    ))}
+                    ))
+                  ) : (
+                    <SelectItem value="notFound">No Brand Available</SelectItem>
+                  )}
                   </SelectContent>
                 </Select>
               </div>
@@ -338,37 +334,6 @@ const AddProduct = () => {
               </div>
             </div>
             
-
-
-            <div className='space-y-2'>
-              <p>Feature</p>
-              <Dialog>
-                <DialogTrigger className='outline-gray-300 outline outline-1 hover:bg-gray-100 w-full py-2 rounded-lg'>Add Feature</DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Add Feature</DialogTitle>
-                    <DialogDescription>
-                      {feature.map((feat, index) => (
-                        <div key={index}>
-                          {index === 0 && (
-                            <label htmlFor="title">Feature</label>
-                          )}
-                          <div className='flex items-center'>
-                            <Input type="text" className="my-2 outline-gray-300 outline outline-1" value={feat} onChange={e => handleProductFeatureChange(index, e.target.value)} placeholder="Feature" />
-                            {index === 0 && (
-                              <Button variant="shop" className="ml-2 px-6" onClick={addProductFeatureField}>Add</Button>
-                            )}
-                            {index !== 0 && (
-                              <RxCrossCircled className='hover:cursor-pointer hover:text-red-500 text-xl mx-9' onClick={() => removeProductFeature(index)} />
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
-            </div>
 
             <div className='space-y-2'>
               <p>Additional Information</p>

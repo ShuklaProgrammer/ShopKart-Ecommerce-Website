@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useFormik } from 'formik';
 import * as Yup from "yup"
+import Loader from '@/components/mycomponents/Loader';
 
 
 const SignUp = ({onSignUpSuccess}) => {
@@ -136,7 +137,7 @@ const SignUp = ({onSignUpSuccess}) => {
                 null
             )}
         <Button type="submit" disabled={formik.isSubmitting} className="w-full py-3 rounded mt-4" variant="shop">
-            {formik.isSubmitting ? "Signing Up...": "Sign Up"}
+            {formik.isSubmitting ? <>Signing Up... <Loader size='2em' borderThickness='0.2em' color='#3b82f6' speed='0.5s' fullScreen={false} center={false} topBorderSize='0.3em'/></>: "Sign Up"}
             <IoMdArrowForward className='text-lg ml-2'/>
             </Button>
         <div className='flex items-center gap-16 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
@@ -251,7 +252,7 @@ const SignIn = () => {
         )}
         </div>
         <Button type="submit" disabled={formik.isSubmitting} className="w-full py-3 rounded" variant="shop">
-            {formik.isSubmitting ? "Signing In..." : "Sign In"}
+            {formik.isSubmitting ? <>Signing In... <Loader size='2em' borderThickness='0.2em' color='#3b82f6' speed='0.5s' fullScreen={false} center={false} topBorderSize='0.3em'/></> : "Sign In"}
             <IoMdArrowForward className='text-lg ml-2'/>
         </Button>
         <div className='flex items-center gap-16 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
