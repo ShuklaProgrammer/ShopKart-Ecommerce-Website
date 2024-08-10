@@ -38,6 +38,10 @@ import { useNavigate } from 'react-router-dom';
 import { useGetAllColorsQuery } from '@/redux/api/colorApiSlice';
 import Loader from '@/components/mycomponents/Loader';
 
+import { useFormik } from 'formik';
+import * as Yup from "yup"
+
+
 const AddProduct = () => {
 
   const navigate = useNavigate()
@@ -47,43 +51,37 @@ const AddProduct = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null)
 
 
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [price, setPrice] = useState("")
+  // const [title, setTitle] = useState("")
+  // const [description, setDescription] = useState("")
+  // const [price, setPrice] = useState("")
   const [productImage, setProductImage] = useState([])
   const [productVideo, setProductVideo] = useState("")
-  const [brand, setBrand] = useState("")
-  const [category, setCategory] = useState("")
-  const [color, setColor] = useState("")
-  const [sku, setSku] = useState("")
-  const [stockQuantity, setStockQuantity] = useState(0)
-  const [tags, setTags] = useState([])
+  // const [brand, setBrand] = useState("")
+  // const [category, setCategory] = useState("")
+  // const [color, setColor] = useState("")
+  // const [sku, setSku] = useState("")
+  // const [stockQuantity, setStockQuantity] = useState(0)
+  // const [tags, setTags] = useState([])
 
   const [tagInput, setTagInput] = useState("")
 
-  const [additionalInformation, setAdditionalInformation] = useState([{ key: "", value: "" }])
-  const [specifications, setSpecifications] = useState([{ key: "", value: "" }])
-  const [shippingInfo, setShippingInfo] = useState([{ key: "", value: "" }])
-  const [feature, setFeature] = useState([""])
+  // const [additionalInformation, setAdditionalInformation] = useState([{ key: "", value: "" }])
+  // const [specifications, setSpecifications] = useState([{ key: "", value: "" }])
+  // const [shippingInfo, setShippingInfo] = useState([{ key: "", value: "" }])
+  // const [feature, setFeature] = useState([""])
 
   const [createProduct] = useCreateProductMutation()
 
-  const { data: categoryResponse } = useGetAllCategoryQuery()
+  const { data: getAllCategory } = useGetAllCategoryQuery()
 
-  const { data: brandResponse } = useGetAllBrandsQuery()
+  const { data: getAllBarnds } = useGetAllBrandsQuery()
 
-  // console.log(brandResponse)
+  const categories = getAllCategory?.data || []
+  const brands = getAllBarnds?.data || []
 
-  if (!categoryResponse || !brandResponse) {
-    return <Loader size='3em' speed='0.4s' fullScreen={true} center={true}/>;
-  }
-
-  // if (!colorResponse) {
-  //   return <div>Loading...</div>
+  // if (!categoryResponse || !brandResponse) {
+  //   return <Loader size='3em' speed='0.4s' fullScreen={true} center={true} />;
   // }
-
-  const { data: categories } = categoryResponse
-  const { data: brands } = brandResponse
 
 
   const handleTagInputChange = (e) => {
@@ -91,82 +89,75 @@ const AddProduct = () => {
   }
 
   const handleTagInputPressKey = (e) => {
-    if (e.key === "Enter" || e.key === ",") {
-      e.preventDefault()
-      if (tagInput.trim() !== '') {
-        setTags([...tags, tagInput.trim()]);
-        setTagInput('');
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const newTag = e.target.value.trim();
+      if (newTag && !formik.values.tags.includes(newTag)) {
+        formik.setFieldValue("tags", [...formik.values.tags, newTag]);
+        setTagInput("");
       }
     }
-  }
-
-  const handleProductFeatureChange = (index, value) => {
-    const newProductFeature = [...feature]
-    newProductFeature[index] = value
-    setFeature(newProductFeature)
-  }
+  };
 
   const handleProductAdditionalInfoChange = (index, key, value) => {
-    const newProductAdditionalInfo = [...additionalInformation]
-    newProductAdditionalInfo[index] = { key, value }
-    setAdditionalInformation(newProductAdditionalInfo)
+    const additionalInfo = [...formik.values.additionalInformation]
+    additionalInfo[index] = { key, value }
+    formik.setFieldValue("additionalInformation", additionalInfo)
   }
 
   const handleProductSpecificationsChange = (index, key, value) => {
-    const newProductSpecifications = [...specifications]
-    newProductSpecifications[index] = { key, value }
-    setSpecifications(newProductSpecifications)
+    const specs = [...formik.values.specifications]
+    specs[index] = { key, value }
+    formik.setFieldValue("specifications", specs)
   }
 
-  const handleProductShippingInfoChange = (index, key, value) => {
-    const newProductShippingInfo = [...shippingInfo]
-    newProductShippingInfo[index] = { key, value }
-    setShippingInfo(newProductShippingInfo)
+  const handleProductDeliveryInfoChange = (index, key, value) => {
+    const delivery = [...formik.values.deliveryInfo]
+    delivery[index] = { key, value }
+    formik.setFieldValue("deliveryInfo", delivery)
   }
 
 
   const addProductAdditionalInfoField = (e) => {
-    e.preventDefault()
-    setAdditionalInformation([...additionalInformation, { key: "", value: "" }])
+    formik.setFieldValue("addintionalInformation", [
+      ...formik.values.additionalInformation, {key: "", value: ""}
+    ])
   }
 
-  const addProductSpecificationsField = (e) => {
-    e.preventDefault()
-    setSpecifications([...specifications, { key: "", value: "" }])
-  }
-
-  const addProductShippingInfoField = (e) => {
-    e.preventDefault()
-    setShippingInfo([...shippingInfo, { key: "", value: "" }])
-  }
-
-  const removeTag = (indexToRemove) => {
-    setTags(tags.filter((_, index) => index !== indexToRemove));
+  const addProductSpecificationsField = () => {
+    formik.setFieldValue("specifications", [
+      ...formik.values.specifications,
+      { key: "", value: "" },
+    ]);
   };
 
-  const removeProductFeature = (index) => {
-    const newProductFeature = [...feature]
-    newProductFeature.splice(index, 1)
-    setFeature(newProductFeature)
-  }
+  const addProductDeliveryInfoField = () => {
+    formik.setFieldValue("deliveryInfo", [
+      ...formik.values.deliveryInfo,
+      { key: "", value: "" },
+    ]);
+  };
+
+  const removeTag = (index) => {
+    const updatedTags = formik.values.tags.filter((_, i) => i !== index);
+    formik.setFieldValue("tags", updatedTags);
+  };
+
 
   const removeProductAdditionalInfoField = (index) => {
-    const newProductAdditionalInfo = [...additionalInformation]
-    newProductAdditionalInfo.splice(index, 1)
-    setAdditionalInformation(newProductAdditionalInfo)
-  }
+    const additionalInfo = formik.values.additionalInformation.filter((_, i) => i !== index);
+    formik.setFieldValue("additionalInformation", additionalInfo);
+  };
 
   const removeProductSpecificationsField = (index) => {
-    const newProductSpecifications = [...specifications]
-    newProductSpecifications.splice(index, 1)
-    setSpecifications(newProductSpecifications)
-  }
+    const specs = formik.values.specifications.filter((_, i) => i !== index);
+    formik.setFieldValue("specifications", specs);
+  };
 
-  const removeProductShippingInfoField = (index) => {
-    const newProductShippingInfo = [...shippingInfo]
-    newProductShippingInfo.splice(index, 1)
-    setShippingInfo(newProductShippingInfo)
-  }
+  const removeProductDeliveryInfoField = (index) => {
+    const delivery = formik.values.deliveryInfo.filter((_, i) => i !== index);
+    formik.setFieldValue("deliveryInfo", delivery);
+  };
 
   const handleImageUploadClick = () => {
     imageInputRef.current.click()
@@ -191,8 +182,8 @@ const AddProduct = () => {
 
   const handleVideoUploadChange = (e) => {
     const file = e.target.files[0]
-    console.log("Selected Video File:", file); 
-    if(file){
+    console.log("Selected Video File:", file);
+    if (file) {
       setProductVideo(file)
       console.log("Product Video after setting:", file);
     }
@@ -204,60 +195,145 @@ const AddProduct = () => {
 
 
   //get the api
-  const handleProductSubmit = async (e) => {
-    console.log("Product Video on Submit:", productVideo);
-    e.preventDefault()
-    try {
-      const formData = new FormData()
-      formData.append("title", title)
-      formData.append("description", description)
-      formData.append("price", price)
-      // formData.append("productImage", productImage)
-      // formData.append("productVideo", productVideo)
-      formData.append("brand", brand)
-      formData.append("category", category)
-      formData.append("sku", sku)
-      // formData.append("specifications", specifications)
-      // formData.append("additionalInformation", additionalInformation)
-      // formData.append("shippingInfo", shippingInfo)
-      formData.append("stockQuantity", stockQuantity)
-      // formData.append("tags", tags)
-      
-      if(productVideo){
-        formData.append(`productVideo`, productVideo)
+  // const handleProductSubmit = async (e) => {
+  //   console.log("Product Video on Submit:", productVideo);
+  //   e.preventDefault()
+  //   try {
+  //     const formData = new FormData()
+  //     formData.append("title", title)
+  //     formData.append("description", description)
+  //     formData.append("price", price)
+  //     // formData.append("productImage", productImage)
+  //     // formData.append("productVideo", productVideo)
+  //     formData.append("brand", brand)
+  //     formData.append("category", category)
+  //     formData.append("sku", sku)
+  //     // formData.append("specifications", specifications)
+  //     // formData.append("additionalInformation", additionalInformation)
+  //     // formData.append("shippingInfo", shippingInfo)
+  //     formData.append("stockQuantity", stockQuantity)
+  //     // formData.append("tags", tags)
+
+  //     if (productVideo) {
+  //       formData.append(`productVideo`, productVideo)
+  //     }
+
+  //     productImage.forEach((image) => {
+  //       formData.append(`productImage`, image)
+  //     })
+
+
+  //     tags.forEach((tag) => {
+  //       formData.append(`tags`, tag)
+  //     })
+
+
+  //     additionalInformation.filter(info => info.key.trim() !== "" && info.value.trim() !== "").forEach((info, index) => {
+  //       formData.append(`additionalInformation[${index}][key]`, info.key)
+  //       formData.append(`additionalInformation[${index}][value]`, info.value)
+  //     })
+
+  //     specifications.filter(spec => spec.key.trim() !== "" && spec.value.trim() !== "").forEach((spec, index) => {
+  //       formData.append(`specifications[${index}][key]`, spec.key)
+  //       formData.append(`specifications[${index}][value]`, spec.value)
+  //     })
+
+  //     shippingInfo.filter(ship => ship.key.trim() !== "" && ship.value.trim() !== "").forEach((ship, index) => {
+  //       formData.append(`shippingInfo[${index}][key]`, ship.key)
+  //       formData.append(`shippingInfo[${index}][value]`, ship.value)
+  //     })
+
+  //     await createProduct(formData)
+  //     // navigate("/admin/products")
+  //   } catch (error) {
+  //     console.log("Product creation failed", error)
+  //   }
+  // }
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("Title is required"),
+    description: Yup.string().required("Description is required"),
+    price: Yup.number().required("Price is required"),
+    // productImage: Yup.array().of(Yup.mixed().required("Product Image is required")),
+    productImage: Yup.array()
+    .min(1, "At least one product image is required")
+    .of(Yup.mixed().required("Product image is required")),
+    productVideo: Yup.string().notRequired(),
+    brand: Yup.string().required("Brand is required"),
+    category: Yup.string().required("Category is required"),
+    sku: Yup.string().notRequired(),
+    stockQuantity: Yup.number().required("Stock quantity is required"),
+    tags: Yup.array().of(Yup.string().required("Tag cannot be empty")).min(1, "At least one tag is required"),
+    additionalInformation: Yup.array().of(Yup.object().shape({
+      key: Yup.string().notRequired(),
+      value: Yup.string().notRequired()
+    })),    
+    specifications: Yup.array().of(Yup.object().shape({
+      key: Yup.string().notRequired(),
+      value: Yup.string().notRequired()
+    })),
+    deliveryInfo: Yup.array().of(Yup.object().shape({
+      key: Yup.string().notRequired(),
+      value: Yup.string().notRequired()
+    }))
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      price: "",
+      productImage: [],
+      productVideo: "",
+      brand: "",
+      category: "",
+      sku: "",
+      stockQuantity: "",
+      tags: [],
+      additionalInformation: [{ key: "", value: "" }],
+      specifications: [{ key: "", value: "" }],
+      deliveryInfo: [{ key: "", value: "" }],
+    },
+    validationSchema,
+    onSubmit: async(values, {setSubmitting}) => {
+      try {
+        const formData = new FormData()
+        formData.append("title", values.title)
+        formData.append("description", values.description)
+        formData.append("price", values.price)
+        values.productImage.forEach((image) => {
+          formData.append("productImage", image)
+        })
+        if(values.productVideo){
+          formData.append("productVideo", values.productVideo)
+        }
+        formData.append("brand", values.brand)
+        formData.append("category", values.category),
+        formData.append("sku", values.sku)
+        formData.append("stockQuantity", values.stockQuantity)
+        values.tags.forEach((tag) => {
+          formData.append("tags", tag)
+        })
+        values.additionalInformation.forEach((info, index) => {
+          formData.append(`additionalInformation[${index}][key]`, info.key)
+          formData.append(`additionalInformation[${index}][value]`, info.value)
+        })
+        values.specifications.forEach((spec, index) => {
+          formData.append(`specifications[${index}][key]`, spec.key)
+          formData.append(`specifications[${index}][value]`, spec.value)
+        })
+        values.deliveryInfo.forEach((delivery, index) => {
+          formData.append(`shippingInfo[${index}][key]`, delivery.key)
+          formData.append(`shippingInfo[${index}][value]`, delivery.value)
+        })
+
+        await createProduct(formData)
+      } catch (error) {
+        console.log("Product submmision failed", error)
+        setSubmitting(false)
       }
-
-      productImage.forEach((image) => {
-        formData.append(`productImage`, image)
-      })
-
-
-      tags.forEach((tag) => {
-        formData.append(`tags`, tag)
-      })
-
-
-      additionalInformation.filter(info => info.key.trim() !== "" && info.value.trim() !== "").forEach((info, index) => {
-        formData.append(`additionalInformation[${index}][key]`, info.key)
-        formData.append(`additionalInformation[${index}][value]`, info.value)
-      })
-
-      specifications.filter(spec => spec.key.trim() !== "" && spec.value.trim() !== "").forEach((spec, index) => {
-        formData.append(`specifications[${index}][key]`, spec.key)
-        formData.append(`specifications[${index}][value]`, spec.value)
-      })
-
-      shippingInfo.filter(ship => ship.key.trim() !== "" && ship.value.trim() !== "").forEach((ship, index) => {
-        formData.append(`shippingInfo[${index}][key]`, ship.key)
-        formData.append(`shippingInfo[${index}][value]`, ship.value)
-      })
-
-      await createProduct(formData)
-      // navigate("/admin/products")
-    } catch (error) {
-      console.log("Product creation failed", error)
     }
-  }
+  })
 
 
 
@@ -265,24 +341,39 @@ const AddProduct = () => {
     <section className="flex flex-grow">
       <main className='pb-10'>
         <h1 className='text-xl my-5 font-semibold'>Product</h1>
-        <form action="" className='flex justify-between gap-20'>
+        <form onSubmit={formik.handleSubmit} className='flex justify-between gap-20'>
           <section className='w-full space-y-4'>
             <div className='space-y-2'>
               <label htmlFor="title">Title</label>
-              <Input type="text" className="outline-gray-300 outline outline-1" value={title} onChange={e => setTitle(e.target.value)} />
+              <Input id="title" type="text" className="outline-gray-300 outline outline-1" value={formik.values.title} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+              {formik.touched.title && formik.errors.title ? (
+                <div className='text-red-500 text-sm'>{formik.errors.title}</div>
+              ) : (
+                null
+              )}
             </div>
             <div className='space-y-2'>
-              <label htmlFor="title">Decription</label>
-              <Textarea type="text" className="h-36" value={description} onChange={e => setDescription(e.target.value)} />
+              <label htmlFor="description">Decription</label>
+              <Textarea id="description" type="text" className="h-36" value={formik.values.description} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              {formik.touched.description && formik.errors.description ? (
+                <div className='text-red-500 text-sm'>{formik.errors.description}</div>
+              ) : (
+                null
+              )}
             </div>
             <div className='space-y-2'>
-              <label htmlFor="title">Price</label>
-              <Input type="number" className="outline-gray-300 outline outline-1" value={price} onChange={e => setPrice(e.target.value)} />
+              <label htmlFor="price">Price</label>
+              <Input id="price" type="number" className="outline-gray-300 outline outline-1" value={formik.values.price} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              {formik.touched.price && formik.errors.price ? (
+                <div className='text-red-500 text-sm'>{formik.errors.price}</div>
+              ) : (
+                null
+              )}
             </div>
             <div className='flex justify-between gap-5'>
               <div className='space-y-2'>
                 <label htmlFor="category">Category</label>
-                <Select onValueChange={(value) => setCategory(value) }>
+                <Select onValueChange={(value) => formik.setFieldValue("category", value)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
@@ -295,45 +386,70 @@ const AddProduct = () => {
                     )}
                   </SelectContent>
                 </Select>
+                {formik.touched.category && formik.errors.category ? (
+                <div className='text-red-500 text-sm'>{formik.errors.category}</div>
+              ) : (
+                null
+              )}
 
               </div>
               <div className='space-y-2'>
-                <label htmlFor="category">Brand</label>
-                <Select onValueChange={(value) =>  setBrand(value) }>
+                <label htmlFor="brand">Brand</label>
+                <Select onValueChange={(value) => formik.setFieldValue("brand", value)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="Select Brand" />
                   </SelectTrigger>
                   <SelectContent>
-                    {brands && brands.length > 0 ? ( brands?.map((brand, index) => (
+                    {brands && brands.length > 0 ? (brands?.map((brand, index) => (
                       <SelectItem key={index} value={brand._id}>{brand.brandName}</SelectItem>
                     ))
-                  ) : (
-                    <SelectItem value="notFound">No Brand Available</SelectItem>
-                  )}
+                    ) : (
+                      <SelectItem value="notFound">No Brand Available</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
+                {formik.touched.brand && formik.errors.brand ? (
+                <div className='text-red-500 text-sm'>{formik.errors.brand}</div>
+              ) : (
+                null
+              )}
               </div>
             </div>
             <div className='space-y-2'>
-              <label htmlFor="title">Sku</label>
-              <Input type="text" className="outline-gray-300 outline outline-1" value={sku} onChange={e => setSku(e.target.value)}/>
+              <label htmlFor="sku">Sku <span className='text-gray-500'>(Optional)</span></label>
+              <Input id="sku" type="text" className="outline-gray-300 outline outline-1" value={formik.values.sku} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              {formik.touched.sku && formik.errors.sku ? (
+                <div className='text-red-500 text-sm'>{formik.errors.sku}</div>
+              ) : (
+                null
+              )}
             </div>
             <div className='space-y-2'>
-              <label htmlFor="title">Stock Quantity</label>
-              <Input type="number" className="outline-gray-300 outline outline-1" value={stockQuantity} onChange={e => setStockQuantity(e.target.value)} />
+              <label htmlFor="stockQuantity">Stock Quantity</label>
+              <Input id="stockQuantity" type="number" className="outline-gray-300 outline outline-1" value={formik.values.stockQuantity} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              {formik.touched.stockQuantity && formik.errors.stockQuantity ? (
+                <div className='text-red-500 text-sm'>{formik.errors.stockQuantity}</div>
+              ) : (
+                null
+              )}
             </div>
 
 
             <div className='space-y-2'>
-              <label htmlFor="title">Tags</label>
-              <Input type="text" className="outline-gray-300 outline outline-1" value={tagInput} onChange={handleTagInputChange} onKeyPress={handleTagInputPressKey} placeholder="Enter tags..." />
+              <label htmlFor="tag">Tags</label>
+              <Input id="tag" type="text" className="outline-gray-300 outline outline-1" value={tagInput} onChange={handleTagInputChange} onBlur={() => formik.setFieldTouched("tags", true)} onKeyPress={handleTagInputPressKey} placeholder="Enter tags..." />
+              {formik.touched.tags && formik.errors.tags ? (
+                <div className='text-red-500 text-sm'>{formik.errors.tags}</div>
+              ) : (
+                null
+              )}
               <div>
-                {tags.map((tag, index) => (
+                {formik.values.tags.map((tag, index) => (
                   <span key={index} className='tag'>{tag}<button onClick={() => removeTag(index)}>x</button></span>
                 ))}
               </div>
             </div>
-            
+
 
             <div className='space-y-2'>
               <p>Additional Information</p>
@@ -343,7 +459,7 @@ const AddProduct = () => {
                   <DialogHeader>
                     <DialogTitle>Add Additional Information</DialogTitle>
                     <DialogDescription>
-                      {additionalInformation.map((info, index) => (
+                      {formik.values.additionalInformation.map((info, index) => (
                         <div key={index}>
                           {index === 0 && (
                             <label htmlFor="additionalInfo">Additional Info</label>
@@ -366,6 +482,11 @@ const AddProduct = () => {
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
+              {formik.touched.additionalInformation && formik.errors.additionalInformation ? (
+                <div className='text-red-500 text-sm'>{formik.errors.additionalInformation}</div>
+              ) : (
+                null
+              )}
             </div>
 
             <div className='space-y-2'>
@@ -377,7 +498,7 @@ const AddProduct = () => {
                     <DialogTitle>Add Specifications</DialogTitle>
                     <DialogDescription>
 
-                      {specifications.map((spec, index) => (
+                      {formik.values.specifications.map((spec, index) => (
                         <div key={index}>
                           {index === 0 && (
                             <label htmlFor="specifications">Specifications</label>
@@ -400,32 +521,37 @@ const AddProduct = () => {
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
+              {formik.touched.specifications && formik.errors.specifications ? (
+                <div className='text-red-500 text-sm'>{formik.errors.specifications}</div>
+              ) : (
+                null
+              )}
             </div>
 
             <div className='space-y-2'>
-              <p>Add Shipping Information</p>
+              <p>Add Delivery Information</p>
 
               <Dialog>
-                <DialogTrigger className='outline-gray-300 outline outline-1 hover:bg-gray-100 w-full py-2 rounded-lg'>Add Shipping Information</DialogTrigger>
+                <DialogTrigger className='outline-gray-300 outline outline-1 hover:bg-gray-100 w-full py-2 rounded-lg'>Add Delivery Information</DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Add Shipping Information</DialogTitle>
+                    <DialogTitle>Add Delivery Information</DialogTitle>
                     <DialogDescription>
-                      {shippingInfo.map((ship, index) => (
+                      {formik.values.deliveryInfo.map((ship, index) => (
                         <div key={index}>
                           {index === 0 && (
-                            <label htmlFor="shippingInfo">Shipping Info</label>
+                            <label htmlFor="deliveryInfo">Delivery Info</label>
                           )}
                           <div className='flex items-center justify-between'>
                             <div className='flex items-center w-full my-2'>
-                              <Input type="text" className="outline-gray-300 outline outline-1" value={ship.key} onChange={e => handleProductShippingInfoChange(index, e.target.value, ship.value)} placeholder="Key" />
-                              <Input type="text" className="outline-gray-300 outline outline-1" value={ship.value} onChange={e => handleProductShippingInfoChange(index, ship.key, e.target.value)} placeholder="Value" />
+                              <Input type="text" className="outline-gray-300 outline outline-1" value={ship.key} onChange={e => handleProductDeliveryInfoChange(index, e.target.value, ship.value)} placeholder="Key" />
+                              <Input type="text" className="outline-gray-300 outline outline-1" value={ship.value} onChange={e => handleProductDeliveryInfoChange(index, ship.key, e.target.value)} placeholder="Value" />
                             </div>
                             {index === 0 && (
-                              <Button variant="shop" onClick={addProductShippingInfoField}>Add</Button>
+                              <Button variant="shop" onClick={addProductDeliveryInfoField}>Add</Button>
                             )}
                             {index !== 0 && (
-                              <RxCrossCircled className='text-xl hover:text-red-500 hover:cursor-pointer' onClick={() => removeProductShippingInfoField(index)} />
+                              <RxCrossCircled className='text-xl hover:text-red-500 hover:cursor-pointer' onClick={() => removeProductDeliveryInfoField(index)} />
                             )}
                           </div>
                         </div>
@@ -434,6 +560,12 @@ const AddProduct = () => {
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
+
+              {formik.touched.deliveryInfo && formik.errors.deliveryInfo ? (
+                <div className='text-red-500 text-sm'>{formik.errors.deliveryInfo}</div>
+              ) : (
+                null
+              )}
             </div>
 
 
@@ -459,7 +591,11 @@ const AddProduct = () => {
                   </div>
                 ))}
               </div>
-
+              {formik.touched.productImage && formik.errors.productImage ? (
+                <div className='text-red-500 text-sm'>{formik.errors.productImage}</div>
+              ) : (
+                null
+              )}
 
               <Button variant="shop" type="button" onClick={handleImageUploadClick}>Upload Image</Button>
             </div>
@@ -474,7 +610,7 @@ const AddProduct = () => {
                     <p className='ml-2 text-gray-500'>Click here to upload video</p>
                   </>
                 )}
-                {productVideo && productVideo instanceof File &&(
+                {productVideo && productVideo instanceof File && (
                   <div>
                     <video controls width={400} height={340}>
                       <source src={URL.createObjectURL(productVideo)} type={productVideo.type} />
@@ -485,7 +621,7 @@ const AddProduct = () => {
               <Button variant="shop" type="button" onClick={handleVideoUploadClick} className="w-full">Upload Video</Button>
             </div>
 
-            <Button variant="shop" onClick={handleProductSubmit}>Add Product</Button>
+            <Button type="submit" disabled={formik.isSubmitting} variant="shop">Add Product{formik.isSubmitting ? <Loader size='2em' center={false} fullScreen={false}/> : ""}</Button>
 
           </section>
 
