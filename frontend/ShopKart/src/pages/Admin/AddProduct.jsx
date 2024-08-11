@@ -120,7 +120,7 @@ const AddProduct = () => {
 
   const addProductAdditionalInfoField = (e) => {
     formik.setFieldValue("additionalInformation", [
-      ...formik.values.additionalInformation, {key: "", value: ""}
+      ...formik.values.additionalInformation, { key: "", value: "" }
     ])
   }
 
@@ -168,26 +168,26 @@ const AddProduct = () => {
   }
 
   const handleImageUploadChange = (e) => {
-    const uploadImage = Array.from(e.target.files)
-    if (productImage.length + uploadImage.length <= 10) {
-      setProductImage([...productImage, ...uploadImage])
-    } else {
-      alert("You can upload only 10 images")
-    }
+    const files = Array.from(e.target.files);
+    const newImages = files.map(file => URL.createObjectURL(file));
+    const updatedImages = [...formik.values.productImage, ...newImages];
 
-    if (selectedImageIndex === null && uploadImage.length > 0) {
-      setSelectedImageIndex(0);
+    if (updatedImages.length <= 10) {
+      formik.setFieldValue('productImage', updatedImages);
+      if (selectedImageIndex === null && newImages.length > 0) {
+        setSelectedImageIndex(0);
+      }
+    } else {
+      alert("You can upload only 10 images");
     }
-  }
+  };
 
   const handleVideoUploadChange = (e) => {
-    const file = e.target.files[0]
-    console.log("Selected Video File:", file);
+    const file = e.target.files[0];
     if (file) {
-      setProductVideo(file)
-      console.log("Product Video after setting:", file);
+      formik.setFieldValue('productVideo', file);
     }
-  }
+  };
 
   const handleThumbnailUpload = (imageIndex) => {
     setSelectedImageIndex(imageIndex)
@@ -256,8 +256,8 @@ const AddProduct = () => {
     price: Yup.number().required("Price is required"),
     // productImage: Yup.array().of(Yup.mixed().required("Product Image is required")),
     productImage: Yup.array()
-    .min(1, "At least one product image is required")
-    .of(Yup.mixed().required("Product image is required")),
+      .min(1, "At least one product image is required")
+      .of(Yup.mixed().required("Product image is required")),
     productVideo: Yup.string().notRequired(),
     brand: Yup.string().required("Brand is required"),
     category: Yup.string().required("Category is required"),
@@ -267,7 +267,7 @@ const AddProduct = () => {
     additionalInformation: Yup.array().of(Yup.object().shape({
       key: Yup.string().notRequired(),
       value: Yup.string().notRequired()
-    })),    
+    })),
     specifications: Yup.array().of(Yup.object().shape({
       key: Yup.string().notRequired(),
       value: Yup.string().notRequired()
@@ -295,7 +295,7 @@ const AddProduct = () => {
       deliveryInfo: [{ key: "", value: "" }],
     },
     validationSchema,
-    onSubmit: async(values, {setSubmitting}) => {
+    onSubmit: async (values, { setSubmitting }) => {
       try {
         const formData = new FormData()
         formData.append("title", values.title)
@@ -304,12 +304,12 @@ const AddProduct = () => {
         values.productImage.forEach((image) => {
           formData.append("productImage", image)
         })
-        if(values.productVideo){
+        if (values.productVideo) {
           formData.append("productVideo", values.productVideo)
         }
         formData.append("brand", values.brand)
         formData.append("category", values.category),
-        formData.append("sku", values.sku)
+          formData.append("sku", values.sku)
         formData.append("stockQuantity", values.stockQuantity)
         values.tags.forEach((tag) => {
           formData.append("tags", tag)
@@ -354,7 +354,7 @@ const AddProduct = () => {
             </div>
             <div className='space-y-2'>
               <label htmlFor="description">Decription</label>
-              <Textarea id="description" type="text" className="h-36" value={formik.values.description} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              <Textarea id="description" type="text" className="h-36" value={formik.values.description} onChange={formik.handleChange} onBlur={formik.handleBlur} />
               {formik.touched.description && formik.errors.description ? (
                 <div className='text-red-500 text-sm'>{formik.errors.description}</div>
               ) : (
@@ -363,7 +363,7 @@ const AddProduct = () => {
             </div>
             <div className='space-y-2'>
               <label htmlFor="price">Price</label>
-              <Input id="price" type="number" className="outline-gray-300 outline outline-1" value={formik.values.price} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              <Input id="price" type="number" className="outline-gray-300 outline outline-1" value={formik.values.price} onChange={formik.handleChange} onBlur={formik.handleBlur} />
               {formik.touched.price && formik.errors.price ? (
                 <div className='text-red-500 text-sm'>{formik.errors.price}</div>
               ) : (
@@ -387,10 +387,10 @@ const AddProduct = () => {
                   </SelectContent>
                 </Select>
                 {formik.touched.category && formik.errors.category ? (
-                <div className='text-red-500 text-sm'>{formik.errors.category}</div>
-              ) : (
-                null
-              )}
+                  <div className='text-red-500 text-sm'>{formik.errors.category}</div>
+                ) : (
+                  null
+                )}
 
               </div>
               <div className='space-y-2'>
@@ -409,15 +409,15 @@ const AddProduct = () => {
                   </SelectContent>
                 </Select>
                 {formik.touched.brand && formik.errors.brand ? (
-                <div className='text-red-500 text-sm'>{formik.errors.brand}</div>
-              ) : (
-                null
-              )}
+                  <div className='text-red-500 text-sm'>{formik.errors.brand}</div>
+                ) : (
+                  null
+                )}
               </div>
             </div>
             <div className='space-y-2'>
               <label htmlFor="sku">Sku <span className='text-gray-500'>(Optional)</span></label>
-              <Input id="sku" type="text" className="outline-gray-300 outline outline-1" value={formik.values.sku} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              <Input id="sku" type="text" className="outline-gray-300 outline outline-1" value={formik.values.sku} onChange={formik.handleChange} onBlur={formik.handleBlur} />
               {formik.touched.sku && formik.errors.sku ? (
                 <div className='text-red-500 text-sm'>{formik.errors.sku}</div>
               ) : (
@@ -426,7 +426,7 @@ const AddProduct = () => {
             </div>
             <div className='space-y-2'>
               <label htmlFor="stockQuantity">Stock Quantity</label>
-              <Input id="stockQuantity" type="number" className="outline-gray-300 outline outline-1" value={formik.values.stockQuantity} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
+              <Input id="stockQuantity" type="number" className="outline-gray-300 outline outline-1" value={formik.values.stockQuantity} onChange={formik.handleChange} onBlur={formik.handleBlur} />
               {formik.touched.stockQuantity && formik.errors.stockQuantity ? (
                 <div className='text-red-500 text-sm'>{formik.errors.stockQuantity}</div>
               ) : (
@@ -575,8 +575,8 @@ const AddProduct = () => {
             <div className='flex flex-col gap-5'>
               <div className='outline-gray-300 outline outline-1 w-[30vw] h-[40vh] hover:cursor-pointer hover:bg-gray-100 flex items-center justify-center' onClick={handleImageUploadClick}>
                 <input type="file" accept='image/*' onChange={handleImageUploadChange} ref={imageInputRef} className='hidden' />
-                {selectedImageIndex !== null && productImage.length > 0 ? (
-                  <img src={URL.createObjectURL(productImage[selectedImageIndex])} alt="" className='w-[60%]' />
+                {formik.values.productImage.length > 0 ? (
+                  <img src={selectedImageIndex !== null ? formik.values.productImage[selectedImageIndex] : formik.values.productImage[0]} alt="" className='w-[60%]' />
                 ) : (
                   <>
                     <FiUploadCloud className='text-6xl text-gray-400' />
@@ -585,9 +585,9 @@ const AddProduct = () => {
                 )}
               </div>
               <div className='overflow-x-auto w-[30vw] whitespace-nowrap'>
-                {productImage.map((image, index) => (
+                {formik.values.productImage.map((image, index) => (
                   <div key={index} className='border border-1 border-gray-400 w-14 h-14 inline-block hover:cursor-pointer' onClick={() => handleThumbnailUpload(index)}>
-                    <img src={URL.createObjectURL(image)} alt="" className='w-20' />
+                    <img src={image} alt="" className='w-20' />
                   </div>
                 ))}
               </div>
@@ -604,24 +604,25 @@ const AddProduct = () => {
             <div>
               <div className='outline-gray-300 outline outline-1 w-[30vw] h-[40vh] hover:cursor-pointer hover:bg-gray-100 flex justify-center items-center mb-5' onClick={handleVideoUploadClick}>
                 <input type="file" accept='video/*' onChange={handleVideoUploadChange} ref={videoInputRef} className='hidden' />
-                {!productVideo && (
+                {!formik.values.productVideo ? (
                   <>
                     <RiVideoUploadLine className='text-4xl text-gray-400' />
                     <p className='ml-2 text-gray-500'>Click here to upload video</p>
                   </>
-                )}
-                {productVideo && productVideo instanceof File && (
+                ) : (
+
                   <div>
                     <video controls width={400} height={340}>
-                      <source src={URL.createObjectURL(productVideo)} type={productVideo.type} />
+                      <source src={URL.createObjectURL(formik.values.productVideo)} type={formik.values.productVideo.type} />
                     </video>
                   </div>
                 )}
+
               </div>
               <Button variant="shop" type="button" onClick={handleVideoUploadClick} className="w-full">Upload Video</Button>
             </div>
 
-            <Button type="submit" disabled={formik.isSubmitting} variant="shop">Add Product{formik.isSubmitting ? <Loader size='2em' center={false} fullScreen={false}/> : ""}</Button>
+            <Button type="submit" disabled={formik.isSubmitting} variant="shop">Add Product{formik.isSubmitting ? <Loader size='2em' center={false} fullScreen={false} /> : ""}</Button>
 
           </section>
 
