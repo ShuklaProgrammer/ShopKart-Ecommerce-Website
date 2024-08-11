@@ -40,22 +40,27 @@ import { MdDeleteOutline } from "react-icons/md";
 
 
 import { useCreateBrandMutation, useDeleteBrandMutation, useGetAllBrandsQuery, useUpdateBrandMutation } from '@/redux/api/brandApiSlice'
+import { useFormik } from 'formik'
+import * as Yup from "yup"
+import Loader from '@/components/mycomponents/Loader'
 
 const Brand = () => {
 
     const [brandName, setBrandName] = useState("")
     const [updatedBrandName, setUpdatedBrandName] = useState("")
 
-    const { data: brandResponse } = useGetAllBrandsQuery()
+    const { data: getAllBrand } = useGetAllBrandsQuery()
     const [createBrand] = useCreateBrandMutation()
     const [deleteBrand] = useDeleteBrandMutation()
     const [updateBrand] = useUpdateBrandMutation()
 
-    if (!brandResponse) {
-        return <h1>Cannot get the brands</h1>
-    }
+    const brands = getAllBrand?.data || []
 
-    const { data: brands } = brandResponse
+    // if (!brandResponse) {
+    //     return <h1>Cannot get the brands</h1>
+    // }
+
+    // const { data: brands } = brandResponse
     // console.log(brands)
 
     const handleCreateBrandName = async () => {
@@ -70,13 +75,38 @@ const Brand = () => {
     const handleDeleteBrand = async (brandId) => {
         await deleteBrand(brandId)
     }
+
+
+    const validationSchema = Yup.object().shape({
+        brandName: Yup.string().required("The brand name is required")
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            brandName: ""
+        },
+        validationSchema,
+        onSubmit: async(values, {setSubmitting}) => {
+            try {
+                await createBrand({brandName: values.brandName}).unwrap()
+            } catch (error) {
+                console.log("Cannot create the brand", error)
+                setSubmitting(false)
+            }
+        }
+    })
     return (
         <section>
             <main>
-                <div className='flex items-center gap-5'>
-                    <Input value={brandName} onChange={e => setBrandName(e.target.value)} placeholder="Create brand" className="outline outline-1 outline-gray-300 w-[50%]" />
-                    <Button variant="shop" onClick={handleCreateBrandName}>Create Brand</Button>
-                </div>
+                <form onSubmit={formik.handleSubmit} className='flex items-center gap-5'>
+                    <Input id="brandName" name="brandName" value={formik.values.brandName} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Create brand" className="outline outline-1 outline-gray-300 w-[50%]" />
+                    <Button variant="shop" type="submit" disabled={formik.isSubmitting}>{formik.isSubmitting ? <div className='flex items-center gap-2'>Adding Brand...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></div> : "Add Brand"}</Button>
+                </form>
+                {formik.touched.brandName && formik.errors.brandName ? (
+                    <div className='text-red-500 text-sm'>{formik.errors.brandName}</div>
+                ) : (
+                    null
+                )}
 
                 <div className='border-2 mt-5'>
 

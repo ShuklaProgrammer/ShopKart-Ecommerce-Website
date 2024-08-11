@@ -40,6 +40,9 @@ import { GrEdit } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
 
 import { useCreateCategoryMutation, useGetAllCategoryQuery, useDeleteCategoryMutation, useUpdateCategoryMutation } from '@/redux/api/categoryApiSlice'
+import { useFormik } from 'formik'
+import * as Yup from "yup"
+import Loader from '@/components/mycomponents/Loader'
 
 
 const AddCategory = () => {
@@ -49,26 +52,17 @@ const AddCategory = () => {
     const [deleteCategory] = useDeleteCategoryMutation()
     const [updateCategory] = useUpdateCategoryMutation()
 
-    const [categoryName, setCategoryName] = useState("")
     const [updatedCategoryName, setUpdatedCategoryName] = useState("")
 
-    const { data: categoryResponse } = useGetAllCategoryQuery()
+    const { data: getAllCategory } = useGetAllCategoryQuery()
 
-    // const {data: categoryData} = useGetCategoryByIdQuery(params)
-
-    // console.log(categoryData)
-
-    if (!categoryResponse) {
-        return <h1>Cannot get response</h1>
-    }
-
-    const { data: categories } = categoryResponse
+   const categories = getAllCategory?.data || []
 
 
 
-    const createCategory = async () => {
-        await addCategory({ categoryName }).unwrap()
-    }
+    // const createCategory = async () => {
+    //     await addCategory({ categoryName }).unwrap()
+    // }
 
     const handleUpdateCategory = async (categoryId, updatedName) => {
         console.log("Updating category with ID:", categoryId, "and name:", updatedName);
@@ -79,13 +73,37 @@ const AddCategory = () => {
         await deleteCategory(categoryId)
     }
 
+    const validationSchema = Yup.object().shape({
+        categoryName: Yup.string().required("The category name is required")
+    })
+
+    const formik = useFormik({
+        initialValues:{
+            categoryName: ""
+        },
+        validationSchema,
+        onSubmit: async(values, {setSubmitting}) => {
+            try {
+                await addCategory({categoryName: values.categoryName}).unwrap()
+            } catch (error) {
+                console.log("Cannot add the category", error)
+                setSubmitting(false)
+            }
+        }
+    })
+
     return (
         <section className='flex flex-grow'>
             <main className='w-[50%]'>
-                <div className='flex items-center gap-2'>
-                    <Input type="text" value={categoryName} onChange={e => setCategoryName(e.target.value)} placeholder="Enter your category name..." className="outline outline-1 outline-gray-300 w-[50%]" />
-                    <Button variant="shop" onClick={createCategory}>Add Category</Button>
-                </div>
+                <form onSubmit={formik.handleSubmit} className='flex items-center gap-2'>
+                    <Input id="categoryName" type="text" value={formik.values.categoryName} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Enter your category name..." className="outline outline-1 outline-gray-300 w-[50%]" />
+                    <Button variant="shop" type="submit" disabled={formik.isSubmitting}>{formik.isSubmitting ? <div className='flex items-center gap-2'>Adding Category...<Loader size='1.8em' topBorderSize='0.2em' center={false} fullScreen={false}/></div> : "Add Category"}</Button>
+                </form>
+                {formik.touched.categoryName && formik.errors.categoryName ? (
+                        <div className='text-red-500 text-sm'>{formik.errors.categoryName}</div>
+                    ) : (
+                        null
+                    )}
 
                 <div className='border-2 mt-5'>
                     <Table>

@@ -24,6 +24,9 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
+import { useFormik } from 'formik'
+import * as Yup from "yup"
+import Loader from '@/components/mycomponents/Loader'
   
 
 
@@ -33,15 +36,13 @@ const AddDiscount = () => {
 
     const navigate = useNavigate()
 
-    const [discountName, setDiscountName] = useState("")
-    const [discountType, setDiscountType] = useState("")
-    const [discountValue, setDiscountValue] = useState("")
-    const [discountExpiry, setDiscountExpiry] = useState("")
+    const [actionType, setActionType] = useState("")
 
 
     const [createDiscount] = useCreateDiscountMutation()
     const [addDiscountToProduct] = useAddDiscountToAProductMutation(productId)
-    const {data: productData} = useGetProductByIdQuery(productId)
+    const {data: productData} = useGetProductByIdQuery(productId, {skip: !productId})
+    
     const product = productData?.data || []
 
     
@@ -78,17 +79,59 @@ const AddDiscount = () => {
             console.log("The error while adding discount to the product", error)
         }
     }
+
+
+    const validationSchema = Yup.object().shape({
+        discountName: Yup.string().required("Discount name is required"),
+        discountType: Yup.string().required("Discount type is required"),
+        discountValue: Yup.number().required("Discount value is required"),
+        discountExpiry: Yup.date().required("Discount expiry is required")
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            discountName: "",
+            discountType: "",
+            discountValue: "",
+            discountExpiry: ""
+        },
+        validationSchema,
+        onSubmit: async(values, {setSubmitting}) => {
+            try {
+                const discountData = {
+                    discountName: values.discountName,
+                    discountType: values.discountType,
+                    discountValue: values.discountValue,
+                    discountExpiry: values.discountExpiry
+                }
+                if(actionType === "addDiscountToProduct"){
+                    await addDiscountToProduct({ productId, discountData })
+                }else if(actionType === "createDiscount"){
+                    await createDiscount(discountData)
+                }
+            } catch (error) {
+                console.log("Cannot add the discount", error)
+                setSubmitting(false)
+            }
+        }
+    })
+
     return (
         <section className='w-full'>
             <main className='flex justify-between gap-5'>
-                <form action='' className='space-y-4 w-full'>
+                <form onSubmit={formik.handleSubmit} className='space-y-4 w-full'>
                     <div className='space-y-2 w-full'>
                         <label htmlFor="discountName">Discount Name</label>
-                        <Input type="text" id="discountName" value={discountName} onChange={e => setDiscountName(e.target.value)} placeholder="Discount Name" className="outline outline-1 outline-gray-300 w-[50%]" />
+                        <Input id="discountName" name="discountName" type="text" value={formik.values.discountName} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Discount Name" className="outline outline-1 outline-gray-300 w-[50%]" />
+                        {formik.touched.discountName && formik.errors.discountName ? (
+                            <div className='text-red-500 text-sm'>{formik.errors.discountName}</div>
+                        ) : (
+                            null
+                        )}
                     </div>
                     <div className='space-y-2 w-full'>
                         <label htmlFor="discountType">Discount Type</label>
-                        <Select onValueChange={(value) => setDiscountType(value)}>
+                        <Select onValueChange={(value) => formik.setFieldValue("discountType", value)}>
                             <SelectTrigger className="w-[200px]">
                                 <SelectValue placeholder="Select Discount Type" />
                             </SelectTrigger>
@@ -97,19 +140,34 @@ const AddDiscount = () => {
                                 <SelectItem value="Fixed">Fixed</SelectItem>
                             </SelectContent>
                         </Select>
+                        {formik.touched.discountType && formik.errors.discountType ? (
+                            <div className='text-red-500 text-sm'>{formik.errors.discountType}</div>
+                        ) : (
+                            null
+                        )}
                     </div>
                     <div className='space-y-2 w-full'>
                         <label htmlFor="discountValue">Discount Value</label>
-                        <Input type="number" id="discountValue" value={discountValue} onChange={e => setDiscountValue(e.target.value)} placeholder="Discount Value" className="outline outline-1 outline-gray-300 w-[50%]" />
+                        <Input name="discountValue" type="number" id="discountValue" value={formik.values.discountValue} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Discount Value" className="outline outline-1 outline-gray-300 w-[50%]" />
+                        {formik.touched.discountValue && formik.errors.discountValue ? (
+                            <div className='text-red-500 text-sm'>{formik.errors.discountValue}</div>
+                        ) : (
+                            null
+                        )}
                     </div>
                     <div className='space-y-2 w-full'>
                         <label htmlFor="discountExpiry">Discount Expiry</label>
-                        <Input type="datetime-local" id="discountExpiry" value={discountExpiry} onChange={e => setDiscountExpiry(e.target.value)} placeholder="Discount Expiry" className="outline outline-1 outline-gray-300 w-[50%] block" />
+                        <Input name="discountExpiry" type="datetime-local" id="discountExpiry" value={formik.values.discountExpiry} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Discount Expiry" className="outline outline-1 outline-gray-300 w-[50%] block" />
+                        {formik.touched.discountExpiry && formik.errors.discountExpiry ? (
+                            <div className='text-red-500 text-sm'>{formik.errors.discountExpiry}</div>
+                        ) : (
+                            null
+                        )}
                     </div>
                     {productId ? (
-                        <Button variant="shop" onClick={handleAddDiscountToAProduct}>Add Discount To Product</Button>
+                        <Button variant="shop" type="submit" onClick={() => setActionType("addDiscountToProduct")} disabled={formik.isSubmitting}>{formik.isSubmitting ? <span className='flex items-center gap-2'>Adding Discount To Product...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Add Discount To Product"}</Button>
                     ) : (
-                        <Button variant="shop" onClick={handleDiscountSubmit}>Add Discount</Button>
+                        <Button variant="shop" type="submit" onClick={() => setActionType("createDiscount")} disabled={formik.isSubmitting}>{formik.isSubmitting ? <span className='flex items-center gap-2'>Adding Discount...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Add Discount"}</Button>
                     )}
                 </form>
 
