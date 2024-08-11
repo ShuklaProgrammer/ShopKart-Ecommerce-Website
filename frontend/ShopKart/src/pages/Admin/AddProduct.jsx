@@ -119,7 +119,7 @@ const AddProduct = () => {
 
 
   const addProductAdditionalInfoField = (e) => {
-    formik.setFieldValue("addintionalInformation", [
+    formik.setFieldValue("additionalInformation", [
       ...formik.values.additionalInformation, {key: "", value: ""}
     ])
   }
@@ -323,8 +323,8 @@ const AddProduct = () => {
           formData.append(`specifications[${index}][value]`, spec.value)
         })
         values.deliveryInfo.forEach((delivery, index) => {
-          formData.append(`shippingInfo[${index}][key]`, delivery.key)
-          formData.append(`shippingInfo[${index}][value]`, delivery.value)
+          formData.append(`deliveryInfo[${index}][key]`, delivery.key)
+          formData.append(`deliveryInfo[${index}][value]`, delivery.value)
         })
 
         await createProduct(formData)
