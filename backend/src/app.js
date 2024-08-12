@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.use(cors({
-    origin: "https://shopkart-ecommerce.vercel.app",
+    origin: "http://localhost:5173", //https://shopkart-ecommerce.vercel.app
     credentials: true,
 }))
 app.use(cookieParser())

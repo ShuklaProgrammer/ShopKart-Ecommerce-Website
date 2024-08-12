@@ -10,7 +10,7 @@ import uploadOnCloudinary from "../utils/cloudinary.js"
 
 
 const createProduct = asyncHandler(async(req, res) => {
-    const {title, description, price, discountedPrice, brand, category, sku, specifications, additionalInformation, shippingInfo, stockQuantity, tags, review, discount} = req.body
+    const {title, description, price, discountedPrice, brand, category, sku, specifications, additionalInformation, deliveryInfo, stockQuantity, tags, review, discount} = req.body
 
     if(!title || !description || !price || !brand || !category || !stockQuantity || !tags){
         throw new ApiError(400, "Please fill all the fields for product")
@@ -24,7 +24,7 @@ const createProduct = asyncHandler(async(req, res) => {
 
     const imageOfProductLocalPath = req.files?.productImage?.map(file => file.path);
 
-    const videoOfProductLocalPath = req.files?.productVideo?.path
+    const videoOfProductLocalPath = req.files?.productVideo[0]?.path
 
 
     const imageOfProduct = await uploadOnCloudinary(imageOfProductLocalPath)
@@ -56,7 +56,7 @@ const createProduct = asyncHandler(async(req, res) => {
         sku: generateSku,
         specifications,
         additionalInformation,
-        shippingInfo,
+        deliveryInfo,
         stockQuantity,
         tags,
         review,
@@ -179,7 +179,8 @@ const deleteADiscountFromProduct = asyncHandler(async(req, res) => {
 
 const updateProduct = asyncHandler(async(req, res) => {
     const {productId} = req.params
-    const {title, description, price, discountedPrice, brand, category, sku, specifications, additionalInformation, shippingInfo, stockQuantity, tags, review} = req.body
+
+    const {title, description, price, discountedPrice, brand, category, sku, specifications, additionalInformation, deliveryInfo, stockQuantity, tags, review} = req.body
 
     if(!title || !description || !price || !brand || !category || !stockQuantity || !tags){
         throw new ApiError(400, "Please fill all the fields for product")
@@ -191,17 +192,24 @@ const updateProduct = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Cannot find the product by id for updation")
     }
 
-    const imageOfProduct = req.files?.productImage?.map(file => file.path)
+    const imageOfProductLocalPath = req.files?.productImage?.map(file => file.path);
 
-    // const specificationInfo = Object.entries(specifications)
-    // const additionalInfo = Object.entries(additionalInformation)
-    // const shippingInformation = Object.entries(shippingInfo)
+    const videoOfProductLocalPath = req.files?.productVideo[0]?.path
+
+
+    const imageOfProduct = await uploadOnCloudinary(imageOfProductLocalPath)
+    const videoOfProduct = await uploadOnCloudinary(videoOfProductLocalPath)
+
+    const productImage = Array.isArray(imageOfProduct) ? imageOfProduct.map(img => img.url) : imageOfProduct?.url
+
+
 
     const updatedProduct = await Product.findByIdAndUpdate(product._id, 
         {
             title,
             description,
-            productImage: imageOfProduct,
+            productImage,
+            productVideo: videoOfProduct?.url,
             price,
             discountedPrice,
             brand, 
@@ -209,7 +217,7 @@ const updateProduct = asyncHandler(async(req, res) => {
             sku, 
             specifications,
             additionalInformation,
-            shippingInfo,
+            deliveryInfo,
             stockQuantity,
             tags,
             review
@@ -362,6 +370,7 @@ const getProductById = asyncHandler(async (req, res) => {
                 specifications: 1,
                 stockQuantity: 1,
                 tags: 1,
+                deliveryInfo: 1,
                 discount: 1,
                 coupon: 1,
                 reviews: 1

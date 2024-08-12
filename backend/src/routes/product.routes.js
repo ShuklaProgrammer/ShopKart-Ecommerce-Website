@@ -21,6 +21,10 @@ router.route("/create-product").post(upload.fields([
 router.route("/:productId").put(upload.fields([
     {
         name: "productImage"
+    },
+    {
+        name: "productVideo",
+        maxCount: 1
     }
 ]), updateProduct)
 
