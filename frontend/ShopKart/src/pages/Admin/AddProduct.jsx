@@ -54,8 +54,6 @@ const AddProduct = () => {
   // const [title, setTitle] = useState("")
   // const [description, setDescription] = useState("")
   // const [price, setPrice] = useState("")
-  const [productImage, setProductImage] = useState([])
-  const [productVideo, setProductVideo] = useState("")
   // const [brand, setBrand] = useState("")
   // const [category, setCategory] = useState("")
   // const [color, setColor] = useState("")
@@ -169,25 +167,31 @@ const AddProduct = () => {
 
   const handleImageUploadChange = (e) => {
     const files = Array.from(e.target.files);
-    const newImages = files.map(file => URL.createObjectURL(file));
-    const updatedImages = [...formik.values.productImage, ...newImages];
 
-    if (updatedImages.length <= 10) {
-      formik.setFieldValue('productImage', updatedImages);
-      if (selectedImageIndex === null && newImages.length > 0) {
-        setSelectedImageIndex(0);
-      }
+    if (formik.values.productImage.length + files.length <= 10) {
+        // Set actual file objects for Formik
+        formik.setFieldValue('productImage', [
+            ...formik.values.productImage,
+            ...files
+        ]);
+
+        if (selectedImageIndex === null && files.length > 0) {
+            setSelectedImageIndex(0);
+        }
     } else {
-      alert("You can upload only 10 images");
+        alert("You can upload only 10 images");
     }
-  };
+};
 
-  const handleVideoUploadChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+
+const handleVideoUploadChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
       formik.setFieldValue('productVideo', file);
-    }
-  };
+  }
+};
+
+
 
   const handleThumbnailUpload = (imageIndex) => {
     setSelectedImageIndex(imageIndex)
@@ -304,7 +308,8 @@ const AddProduct = () => {
         values.productImage.forEach((image) => {
           formData.append("productImage", image)
         })
-        if (values.productVideo) {
+        console.log(values.productVideo)
+        if(values.productVideo) {
           formData.append("productVideo", values.productVideo)
         }
         formData.append("brand", values.brand)
@@ -328,6 +333,7 @@ const AddProduct = () => {
         })
 
         await createProduct(formData)
+        console.log(formData)
       } catch (error) {
         console.log("Product submmision failed", error)
         setSubmitting(false)
@@ -576,7 +582,7 @@ const AddProduct = () => {
               <div className='outline-gray-300 outline outline-1 w-[30vw] h-[40vh] hover:cursor-pointer hover:bg-gray-100 flex items-center justify-center' onClick={handleImageUploadClick}>
                 <input type="file" accept='image/*' onChange={handleImageUploadChange} ref={imageInputRef} className='hidden' />
                 {formik.values.productImage.length > 0 ? (
-                  <img src={selectedImageIndex !== null ? formik.values.productImage[selectedImageIndex] : formik.values.productImage[0]} alt="" className='w-[60%]' />
+                  <img src={selectedImageIndex !== null ? URL.createObjectURL(formik.values.productImage[selectedImageIndex]) : URL.createObjectURL(formik.values.productImage[0])} alt="" className='w-[60%]' />
                 ) : (
                   <>
                     <FiUploadCloud className='text-6xl text-gray-400' />
@@ -587,7 +593,7 @@ const AddProduct = () => {
               <div className='overflow-x-auto w-[30vw] whitespace-nowrap'>
                 {formik.values.productImage.map((image, index) => (
                   <div key={index} className='border border-1 border-gray-400 w-14 h-14 inline-block hover:cursor-pointer' onClick={() => handleThumbnailUpload(index)}>
-                    <img src={image} alt="" className='w-20' />
+                    <img src={URL.createObjectURL(image)} alt="" className='w-20' />
                   </div>
                 ))}
               </div>
