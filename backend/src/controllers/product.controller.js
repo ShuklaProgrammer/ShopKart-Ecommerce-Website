@@ -24,7 +24,7 @@ const createProduct = asyncHandler(async(req, res) => {
 
     const imageOfProductLocalPath = req.files?.productImage?.map(file => file.path);
 
-    const videoOfProductLocalPath = req.files?.productVideo[0]?.path
+    const videoOfProductLocalPath = req.files?.productVideo?.[0]?.path
 
 
     const imageOfProduct = await uploadOnCloudinary(imageOfProductLocalPath)
@@ -194,7 +194,7 @@ const updateProduct = asyncHandler(async(req, res) => {
 
     const imageOfProductLocalPath = req.files?.productImage?.map(file => file.path);
 
-    const videoOfProductLocalPath = req.files?.productVideo[0]?.path
+    const videoOfProductLocalPath = req.files?.productVideo?.[0]?.path
 
 
     const imageOfProduct = await uploadOnCloudinary(imageOfProductLocalPath)
