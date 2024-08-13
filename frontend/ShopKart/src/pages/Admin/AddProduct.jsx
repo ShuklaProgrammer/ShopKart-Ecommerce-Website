@@ -628,7 +628,7 @@ const handleVideoUploadChange = (e) => {
               <Button variant="shop" type="button" onClick={handleVideoUploadClick} className="w-full">Upload Video</Button>
             </div>
 
-            <Button type="submit" disabled={formik.isSubmitting} variant="shop">Add Product{formik.isSubmitting ? <Loader size='2em' center={false} fullScreen={false} /> : ""}</Button>
+            <Button type="submit" disabled={formik.isSubmitting} variant="shop">{formik.isSubmitting ? <span className='flex items-center gap-2'>Adding Product...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Add Product"}</Button>
 
           </section>
 

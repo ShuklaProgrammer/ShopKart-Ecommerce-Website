@@ -97,7 +97,7 @@ const AddCategory = () => {
             <main className='w-[50%]'>
                 <form onSubmit={formik.handleSubmit} className='flex items-center gap-2'>
                     <Input id="categoryName" type="text" value={formik.values.categoryName} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Enter your category name..." className="outline outline-1 outline-gray-300 w-[50%]" />
-                    <Button variant="shop" type="submit" disabled={formik.isSubmitting}>{formik.isSubmitting ? <div className='flex items-center gap-2'>Adding Category...<Loader size='1.8em' topBorderSize='0.2em' center={false} fullScreen={false}/></div> : "Add Category"}</Button>
+                    <Button variant="shop" type="submit" disabled={formik.isSubmitting}>{formik.isSubmitting ? <span className='flex items-center gap-2'>Adding Category...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Add Category"}</Button>
                 </form>
                 {formik.touched.categoryName && formik.errors.categoryName ? (
                         <div className='text-red-500 text-sm'>{formik.errors.categoryName}</div>
