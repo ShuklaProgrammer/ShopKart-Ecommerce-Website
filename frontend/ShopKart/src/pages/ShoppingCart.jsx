@@ -105,8 +105,8 @@ const ShoppingCart = () => {
     return (
         <section className='flex justify-center'>
             <main className='w-[90%] flex gap-4 my-10'>
-                {(cart.cartItems?.length === 0 || !userInfo?._id || cart) && (
-            <div className='flex items-center justify-center w-full py-24 bg-gray-100'>
+                {(cart.cartItems?.length === 0 || !userInfo?._id || !cart) && (
+            <div className='flex items-center justify-center w-full py-24 bg-gray-100 border-2'>
                     <div className='flex flex-col items-center gap-2'>
                     <FaCartArrowDown className='text-8xl text-blue-500'/>
                     <h1 className='text-lg font-semibold'>Cart is empty!</h1>

@@ -137,7 +137,7 @@ const SignUp = ({onSignUpSuccess}) => {
                 null
             )}
         <Button type="submit" disabled={formik.isSubmitting} className="w-full py-3 rounded mt-4" variant="shop">
-            {formik.isSubmitting ? <span className='flex items-center gap-2'>Signing Up... <Loader size='2em' center={false} speed='0.4s' fullScreen={false}/></span>: "Sign Up"}
+            {formik.isSubmitting ? <span className='flex items-center gap-2'>Signing Up...<Loader size='2em' speed='0.4s' topBorderSize='0.2em' center={false} fullScreen={false}/></span>: "Sign Up"}
             <IoMdArrowForward className='text-lg ml-2'/>
             </Button>
         <div className='flex items-center gap-16 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
@@ -252,7 +252,7 @@ const SignIn = () => {
         )}
         </div>
         <Button type="submit" disabled={formik.isSubmitting} className="w-full py-3 rounded" variant="shop">
-            {formik.isSubmitting ? <span className='flex items-center gap-2'>Signing In... <Loader size='2em' center={false} speed='0.4s' fullScreen={false}/></span> : "Sign In"}
+            {formik.isSubmitting ? <span className='flex items-center gap-2'>Signing In...<Loader size='2em' speed='0.4s' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Sign In"}
             <IoMdArrowForward className='text-lg ml-2'/>
         </Button>
         <div className='flex items-center gap-16 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>

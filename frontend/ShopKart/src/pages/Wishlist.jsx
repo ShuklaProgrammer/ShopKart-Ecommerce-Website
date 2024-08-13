@@ -52,9 +52,9 @@ const Wishlist = () => {
 
   return (
     <section className='flex justify-center my-5'>
-      <main className='w-[90%] border-2'>
+      <main className='w-[90%] border-2 my-10'>
         {(wishlist?.wishlistItems?.length === 0 || !userInfo?._id || !wishlist) && (
-        <div className='flex items-center justify-center my-20'>
+        <div className='flex items-center justify-center py-20 bg-gray-100'>
           <div className='flex flex-col items-center justify-center gap-3'>
           <MdFavorite className='text-8xl text-center text-blue-500'/>
           <h1 className='text-xl font-semibold'>Wishlist is Empty</h1>
