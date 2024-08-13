@@ -386,7 +386,7 @@ const Home = () => {
                 <span className='pl-4'>$2000</span>
               </div>
 
-              <div className='row-span-2 border-r-2 py-12'>
+              {/* <div className='row-span-2 border-r-2 py-12'>
                 <div className='flex justify-center'>
                   <img src="" alt="" className='w-[15vw] h-[15vw] mt-5 mb-3' />
                 </div>
@@ -403,7 +403,7 @@ const Home = () => {
                     <FaRegEye className='text-2xl' />
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className='col-span-1 border-r-2'>
                 <div className='flex justify-center'>
