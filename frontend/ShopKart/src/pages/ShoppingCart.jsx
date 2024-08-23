@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 // icons
 import { RxCrossCircled } from 'react-icons/rx'
@@ -15,6 +15,7 @@ import { setCart } from '@/redux/features/cart/cartSlice';
 import { FaCartArrowDown } from 'react-icons/fa';
 import { useCreateOrderMutation, useGetUserOrderQuery } from '@/redux/api/orderApiSlice';
 import { useNavigate } from 'react-router-dom';
+import Loader from '@/components/mycomponents/Loader';
 
 
 
@@ -23,11 +24,14 @@ const ShoppingCart = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const {userInfo} = useSelector((state) => state.auth)
     
     const cart = useSelector((state) => state.cart.cart)
 
-    const {data: cartData} = useGetUserCartApiQuery(userInfo ? userInfo._id : null, {skip: !userInfo})
+
+    const {data: cartData, isLoading: loadingCartData, isError} = useGetUserCartApiQuery(userInfo ? userInfo._id : null, {skip: !userInfo})
     const userCart = cartData?.data || null
 
     const [addToCartApi] = useAddToCartApiMutation()
@@ -100,6 +104,14 @@ const ShoppingCart = () => {
                 dispatch(setCart(updateCart))
             }
         }
+    }
+
+    if(loadingCartData){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+    }
+
+    if(isError){
+        return <span>No cart</span>
     }
 
     return (
@@ -184,7 +196,7 @@ const ShoppingCart = () => {
                     </div>
 
                     <div className='flex justify-center mt-5'>
-                        <Button onClick={handleCheckoutCart} variant="shop" className="px-5 py-3 w-full">Proceed to Checkout<IoMdArrowForward className='text-xl ml-2' /></Button>
+                        <Button onClick={handleCheckoutCart} variant="shop" className="px-5 py-3 w-full">{isLoading ? <span className='flex items-center gap-2'>Processing...<Loader size='2em' speed='0.4s' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center gap-2'>Proceed To Checkout<IoMdArrowForward className='text-xl ml-2' /></span>}</Button>
                     </div>
                     </div>
 

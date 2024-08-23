@@ -24,11 +24,11 @@ const Wishlist = () => {
   const [addToCartApi] = useAddToCartApiMutation()
 
   const [removeProductInWishlist] = useRemoveOneProductFromWishlistMutation()
-  const {data: getUserWishlist} = useGetUserWishlistQuery(userInfo ? userInfo._id : null, {skip: !userInfo})
+  const { data: getUserWishlist, isLoading, isError } = useGetUserWishlistQuery(userInfo ? userInfo._id : null, { skip: !userInfo })
   const wishlistData = getUserWishlist?.data || null
 
-  useEffect(()=>{
-    if(wishlistData && userInfo){
+  useEffect(() => {
+    if (wishlistData && userInfo) {
       dispatch(setWishlist(wishlistData))
     }
   }, [getUserWishlist, dispatch])
@@ -50,28 +50,37 @@ const Wishlist = () => {
     }
   }
 
+  if (isLoading) {
+    return <div className='h-96'><Loader size='3em' topBorderSize='0.3em' /></div>
+  }
+
+  if (isError) {
+    return <span>No wishlist</span>
+  }
+
+
   return (
     <section className='flex justify-center my-5'>
       <main className='w-[90%] border-2 my-10'>
         {(wishlist?.wishlistItems?.length === 0 || !userInfo?._id || !wishlist) && (
-        <div className='flex items-center justify-center py-20 bg-gray-100'>
-          <div className='flex flex-col items-center justify-center gap-3'>
-          <MdFavorite className='text-8xl text-center text-blue-500'/>
-          <h1 className='text-xl font-semibold'>Wishlist is Empty</h1>
-          <p>You have no items in your wishlist. Start adding!</p>
+          <div className='flex items-center justify-center py-20 bg-gray-100'>
+            <div className='flex flex-col items-center justify-center gap-3'>
+              <MdFavorite className='text-8xl text-center text-blue-500' />
+              <h1 className='text-xl font-semibold'>Wishlist is Empty</h1>
+              <p>You have no items in your wishlist. Start adding!</p>
+            </div>
           </div>
-        </div>
         )}
         {wishlist?.wishlistItems?.length > 0 && (
           <>
-        <h1 className='text-xl font-semibold ml-5 py-3'>Wishlist</h1>
-        <div className='grid grid-cols-6 items-center justify-around bg-gray-300 pl-5 py-2'>
-          <p className='col-span-3'>Products</p>
-          <p>Price</p>
-          <p>Stock Status</p>
-          <p>Actions</p>
-        </div>
-        </>
+            <h1 className='text-xl font-semibold ml-5 py-3'>Wishlist</h1>
+            <div className='grid grid-cols-6 items-center justify-around bg-gray-300 pl-5 py-2'>
+              <p className='col-span-3'>Products</p>
+              <p>Price</p>
+              <p>Stock Status</p>
+              <p>Actions</p>
+            </div>
+          </>
         )}
         {wishlist?.wishlistItems?.map((item, index) => (
           <div key={index} className='flex items-center justify-between'>

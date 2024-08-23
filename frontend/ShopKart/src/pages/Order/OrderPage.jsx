@@ -20,6 +20,9 @@ import { useAddPaymentMutation, useGetUserOrderQuery, useVerifyPaymentMutation }
 import { useCreateProfileMutation, useGetUserProfileQuery, useUpdateProfileMutation } from '@/redux/api/profileApiSlice';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Loader from '@/components/mycomponents/Loader';
+import { useFormik } from 'formik';
+import * as Yup from "yup"
 
 
 
@@ -30,7 +33,6 @@ const OrderPage = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const { orderId } = location.state || {}
-
 
     const [editAddress, setEditAddress] = useState(false)
     const [currentAddressId, setCurrentAddressId] = useState(null)
@@ -52,12 +54,12 @@ const OrderPage = () => {
     const cart = useSelector((state) => state.cart.cart)
 
 
-    const { data: orderData } = useGetUserOrderQuery({ orderedBy: userInfo._id, orderId })
+    const { data: orderData, isLoading, isError } = useGetUserOrderQuery({ orderedBy: userInfo._id, orderId })
 
     const orderDataAddress = orderData?.data[0]?.deliveryAddress || []
     const orderItems = orderData?.data[0]?.orderItems || []
     const order = orderData?.data[0] || []
-    console.log(order)
+    // console.log(order)
 
 
 
@@ -125,8 +127,7 @@ const OrderPage = () => {
         }
     }, [])
 
-    const handleAddPayment = async (e, paymentMethod, deliveryAddress) => {
-        e.preventDefault()
+    const handleAddPayment = async (paymentMethod, deliveryAddress) => {
         try {
             const paymentData = {
                 orderId: orderId,
@@ -135,7 +136,7 @@ const OrderPage = () => {
             }
             const response = await addPayment(paymentData)
             const paymentOrder = response.data.data
-            console.log(paymentOrder)
+
 
             if (paymentMethod === "Online") {
                 const options = {
@@ -186,80 +187,117 @@ const OrderPage = () => {
         setAddNewAddress(true)
     }
 
+    const validationSchema = Yup.object().shape({
+        deliveryAddress: Yup.string().required("Please select a delivery address"),
+        paymentOption: Yup.string().required("Select a payment option")
+    })
+
+    const formik = useFormik({
+        initialValues: {
+            deliveryAddress: "",
+            paymentOption: ""
+        },
+        validationSchema,
+        onSubmit: async (values, { setSubmitting }) => {
+            try {
+                await handleAddPayment(values.paymentOption, values.deliveryAddress)
+            } catch (error) {
+                console.log("Cannot add the payment", error)
+                setSubmitting(false)
+            }
+        }
+    })
+
+
+    if (isLoading) {
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em' /></div>
+    }
+
+    if (isError) {
+        return <span>No Order Data Available</span>
+    }
+
     return (
         <section className='flex justify-center mt-10'>
-            <main className='flex gap-5'>
+            <form onSubmit={formik.handleSubmit} className='flex gap-5'>
                 <section>
                     <div className='border border-1 border-gray-300'>
                         <h1 className='text-lg font-semibold p-4 border-b border-gray-300'>Delivery Address</h1>
                         {orderDataAddress.map((addressData, index) => (
                             <div key={index} className='flex items-baseline gap-2 border-1 border border-gray-300 m-5 p-5'>
-                                <RadioGroup value={isSelectDeliveryAddress} onValueChange={setIsSelectDeliveryAddress}>
-                                    <div onClick={() => setIsSelectDeliveryAddress(addressData._id)} className="flex items-center space-x-2">
+                                <RadioGroup value={formik.values.deliveryAddress} onValueChange={(value) => formik.setFieldValue("deliveryAddress", value)}>
+                                    <div onClick={() => formik.setFieldValue("deliveryAddress", addressData._id)} className="flex items-center space-x-2">
                                         <RadioGroupItem value={addressData._id} id={addressData._id} />
-                                        {/* <Label htmlFor="option-one">Option One</Label> */}
+                                        {/* <Label htmlFor={addressData._id}></Label> */}
                                     </div>
                                 </RadioGroup>
+
                                 <div className='w-full'>
-                                <div className='flex items-center justify-between'>
-                                    <h1 className='text-lg font-semibold'>{addressData.fullName}</h1>
-                                    <h2 onClick={() => handleEditAddressClick(addressData._id)} className='text-lg font-semibold text-blue-500 hover:cursor-pointer'>Edit</h2>
-                                </div>
-                                <p>{addressData.address}, {addressData.city}, {addressData.state}, {addressData.country} - {addressData.postalCode}</p>
-                                <h4>Phone Number: <span>{addressData.phoneNumber}</span></h4>
-                                <h4>Email: <span>{addressData.email}</span></h4>
-                                {editAddress && currentAddressId === addressData._id && (
-                                    <form action="" className='w-full space-y-4 mt-10'>
-                                        <h1 className='uppercase font-semibold text-blue-500'>{editAddress ? "Edit Delivery Address" : "Add Delivey Address"}</h1>
-                                        <div className='flex items-center gap-5'>
-                                            <div className='space-y-2 w-full'>
-                                                <label htmlFor="">Full Name</label>
-                                                <Input type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                    <div className='flex items-center justify-between'>
+                                        <h1 className='text-lg font-semibold'>{addressData.fullName}</h1>
+                                        <h2 onClick={() => handleEditAddressClick(addressData._id)} className='text-lg font-semibold text-blue-500 hover:cursor-pointer'>Edit</h2>
+                                    </div>
+                                    <p>{addressData.address}, {addressData.city}, {addressData.state}, {addressData.country} - {addressData.postalCode}</p>
+                                    <h4>Phone Number: <span>{addressData.phoneNumber}</span></h4>
+                                    <h4>Email: <span>{addressData.email}</span></h4>
+                                    {editAddress && currentAddressId === addressData._id && (
+                                        <form action="" className='w-full space-y-4 mt-10'>
+                                            <h1 className='uppercase font-semibold text-blue-500'>{editAddress ? "Edit Delivery Address" : "Add Delivey Address"}</h1>
+                                            <div className='flex items-center gap-5'>
+                                                <div className='space-y-2 w-full'>
+                                                    <label htmlFor="">Full Name</label>
+                                                    <Input type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='space-y-2'>
-                                            <label htmlFor="">Company Name (Optional)</label>
-                                            <Input type="text" value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
-                                        </div>
-                                        <div className='space-y-2'>
-                                            <label htmlFor="">Address</label>
-                                            <Input type="text" value={address} onChange={e => setAddress(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
-                                        </div>
-                                        <div className='space-y-2'>
-                                            <label htmlFor="">Country</label>
-                                            <Input type="text" value={country} onChange={e => setCountry(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
-                                        </div>
-                                        <div className='space-y-2'>
-                                            <label htmlFor="">Region/State</label>
-                                            <Input type="text" value={state} onChange={e => setState(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
-                                        </div>
-                                        <div className='flex items-center gap-5'>
-                                            <div className='space-y-2 w-full'>
-                                                <label htmlFor="">City</label>
-                                                <Input type="text" value={city} onChange={e => setCity(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                            <div className='space-y-2'>
+                                                <label htmlFor="">Company Name (Optional)</label>
+                                                <Input type="text" value={companyName} onChange={e => setCompanyName(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
                                             </div>
-                                            <div className='space-y-2 w-full'>
-                                                <label htmlFor="">Zip Code</label>
-                                                <Input type="text" value={postalCode} onChange={e => setPostalCode(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                            <div className='space-y-2'>
+                                                <label htmlFor="">Address</label>
+                                                <Input type="text" value={address} onChange={e => setAddress(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
                                             </div>
-                                        </div>
-                                        <div className='space-y-2'>
-                                            <label htmlFor="">Email</label>
-                                            <Input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
-                                        </div>
-                                        <div className='space-y-2'>
-                                            <label htmlFor="">Phone Number</label>
-                                            <Input type="text" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
-                                        </div>
-                                        <div className='flex items-center gap-5'>
-                                            <Button variant="shop" onClick={handleUpdateAddress}>Update Address</Button>
-                                            <h2 className='text-lg text-blue-400 font-semibold hover:cursor-pointer' onClick={() => setEditAddress(false)}>Cancel</h2>
-                                        </div>
-                                    </form>
-                                )}
+                                            <div className='space-y-2'>
+                                                <label htmlFor="">Country</label>
+                                                <Input type="text" value={country} onChange={e => setCountry(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                            </div>
+                                            <div className='space-y-2'>
+                                                <label htmlFor="">Region/State</label>
+                                                <Input type="text" value={state} onChange={e => setState(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                            </div>
+                                            <div className='flex items-center gap-5'>
+                                                <div className='space-y-2 w-full'>
+                                                    <label htmlFor="">City</label>
+                                                    <Input type="text" value={city} onChange={e => setCity(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                                </div>
+                                                <div className='space-y-2 w-full'>
+                                                    <label htmlFor="">Zip Code</label>
+                                                    <Input type="text" value={postalCode} onChange={e => setPostalCode(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                                </div>
+                                            </div>
+                                            <div className='space-y-2'>
+                                                <label htmlFor="">Email</label>
+                                                <Input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                            </div>
+                                            <div className='space-y-2'>
+                                                <label htmlFor="">Phone Number</label>
+                                                <Input type="text" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300" />
+                                            </div>
+                                            <div className='flex items-center gap-5'>
+                                                <Button variant="shop" onClick={handleUpdateAddress}>Update Address</Button>
+                                                <h2 className='text-lg text-blue-400 font-semibold hover:cursor-pointer' onClick={() => setEditAddress(false)}>Cancel</h2>
+                                            </div>
+                                        </form>
+                                    )}
                                 </div>
                             </div>
                         ))}
+
+                        {formik.errors.deliveryAddress && formik.touched.deliveryAddress ? (
+                            <div className='text-red-500 text-sm font-semibold px-5 pb-4'>{formik.errors.deliveryAddress}</div>
+                        ) : (
+                            null
+                        )}
 
                         {/* {!editAddress && 
                         <Button className="m-5" variant="shop" onClick={handleAddNewAddressClick}>Add a new address</Button>
@@ -324,8 +362,8 @@ const OrderPage = () => {
 
                     <div className='border border-1 border-gray-300 space-y-4 mt-10 mb-10'>
                         <h1 className='font-semibold text-lg pt-5 pl-5'>Payment Option</h1>
-                        <RadioGroup value={isSelectPaymentOption} onValueChange={setIsSelectPaymentOption} className='flex items-center gap-10 border-t border-b border-gray-300 p-4'>
-                            <div onClick={() => setIsSelectPaymentOption("Cash On Delivery")} className='flex flex-col items-center justify-center hover:cursor-pointer'>
+                        <RadioGroup value={formik.values.paymentOption} onValueChange={(value) => formik.setFieldValue("paymentOption", value)} className='flex items-center gap-10 border-t border-gray-300 p-4'>
+                            <div onClick={() => formik.setFieldValue("paymentOption", "Cash On Delivery")} className='flex flex-col items-center justify-center hover:cursor-pointer'>
                                 <RiMoneyDollarCircleLine className='text-4xl text-orange-400' />
                                 <h2>Cash on Delivery</h2>
                                 <div className="flex items-center space-x-2">
@@ -334,7 +372,7 @@ const OrderPage = () => {
                             </div>
                             {/* vertical line */}
                             <div className='h-16 border border-1 border-gray-300'></div>
-                            <div onClick={() => setIsSelectPaymentOption("Online")} className='flex flex-col items-center justify-center hover:cursor-pointer'>
+                            <div onClick={() => formik.setFieldValue("paymentOption", "Online")} className='flex flex-col items-center justify-center hover:cursor-pointer'>
                                 <FaRegCreditCard className='text-4xl text-orange-400' />
                                 <h2>Online Payment</h2>
                                 <div className="flex items-center space-x-2">
@@ -342,6 +380,11 @@ const OrderPage = () => {
                                 </div>
                             </div>
                         </RadioGroup>
+                        {formik.touched.paymentOption && formik.errors.paymentOption ? (
+                            <div className='text-red-500 text-sm p-4 font-semibold'>{formik.errors.paymentOption}</div>
+                        ) : (
+                            null
+                        )}
                         {/* {isSelectPaymentOption === "card-payment" && (<div className='space-y-4 p-5'>
                             <div className='space-y-2'>
                                 <label htmlFor="">Name on Card</label>
@@ -389,10 +432,10 @@ const OrderPage = () => {
                         {order && (
                             <p className='flex items-center justify-between'>Total<span className='font-black'>${order.totalPrice} USD</span></p>
                         )}
-                        <Button variant="shop" onClick={(e) => handleAddPayment(e, isSelectPaymentOption, isSelectDeliveryAddress)} className="w-full">Place order<IoMdArrowForward className='text-xl ml-2' /></Button>
+                        <Button type="submit" variant="shop" disabled={formik.isSubmitting} className="w-full flex gap-2 items-center">Place order{formik.isSubmitting ? <Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false} /> : <IoMdArrowForward className='text-xl' />}</Button>
                     </div>
                 </section>
-            </main>
+            </form>
         </section>
     )
 }

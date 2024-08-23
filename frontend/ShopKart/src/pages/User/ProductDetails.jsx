@@ -47,30 +47,33 @@ import { setCredentials } from '@/redux/features/auth/authSlice';
 import { useAddWishlistMutation } from '@/redux/api/wishlistApiSlice';
 import { setWishlist } from '@/redux/features/wishlist/wishlistSlice';
 import { useCreateOrderMutation } from '@/redux/api/orderApiSlice';
+import Loader from '@/components/mycomponents/Loader';
 
 const ProductDetails = () => {
 
     const { productId } = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const [isLoading, setIsLoading] = useState(false)
 
     const [isSelectProductInfo, setIsSelectProductInfo] = useState("description")
     const [rating, setRating] = useState(0)
     const [hoverStar, setHoverStar] = useState(null)
     const [comment, setComment] = useState("")
+    const [selectedMedia, setSelectedMedia] = useState("")
 
     const cart = useSelector((state) => state.cart)
     const wishlist = useSelector((state) => state.wishlist.wishlist)
+    const { userInfo } = useSelector((state) => state.auth)
     // console.log(wishlist)
 
-    const dispatch = useDispatch()
 
-    const { userInfo } = useSelector((state) => state.auth)
 
-    const { data: productDataById } = useGetProductByIdQuery(productId)
+    const { data: productDataById, isLoading: loadingProduct, isFetching, isError } = useGetProductByIdQuery(productId)
     const product = productDataById?.data || []
-    console.log(product)
 
-    const [selectedMedia, setSelectedMedia] = useState("")
+
 
     useEffect(() => {
         // Set the default image to the first image in the list when productImages changes
@@ -80,6 +83,7 @@ const ProductDetails = () => {
             setSelectedMedia(product.productVideo)
         }
     }, [product.productImage, product.productVideo]);
+
 
 
     const [addToCartApi] = useAddToCartApiMutation()
@@ -138,6 +142,7 @@ const ProductDetails = () => {
 
     const handleBuyNow = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         try {
             if (userInfo?._id) {
                 const orderData = {
@@ -151,8 +156,10 @@ const ProductDetails = () => {
                 const response = await createOrder(orderData)
                 const orderId = response.data.data._id
                 navigate("/order", { state: { orderId } })
+                setIsLoading(false)
             } else {
                 navigate("/auth")
+                setIsLoading(false)
             }
         } catch (error) {
             console.log("The order cannot be created", error)
@@ -202,8 +209,16 @@ const ProductDetails = () => {
 
     const isVideo = (url) => url.endsWith('.mp4') || url.endsWith('.mov') || url.includes('video');
 
+    if(loadingProduct){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+    }
+
+    if(isError){
+        return <span>No Product</span>
+    }
+
     return (
-        <section className='flex justify-center my-10 '>
+        <section className='flex justify-center my-10'>
             {product && (
                 <main className='w-[90%] '>
                     <section className='flex justify-between py-5'>
@@ -273,18 +288,23 @@ const ProductDetails = () => {
                             </div>
 
                             <div className='flex justify-between pt-5 items-center gap-10'>
-                                <Button onClick={handleAddToCart} variant="shop" className="w-full py-6">Add to Cart<FiShoppingCart className='text-xl ml-2' /></Button>
-                                <Button onClick={handleBuyNow} variant="shop" className="w-full py-6">Buy Now</Button>
+                                <Button onClick={handleAddToCart} disabled={isLoading} variant="shop" className="w-full py-6">{isLoading ? <span className='flex items-center gap-2'>Adding To Cart...<FiShoppingCart className='text-xl ml-2' /><Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center'>Add TO Cart<FiShoppingCart className='text-xl ml-2' /></span>}</Button>
+                                <Button onClick={handleBuyNow} disabled={isLoading} variant="shop" className="w-full py-6">{isLoading ? <span className='flex items-center gap-2'> Buy Now<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Buy Now"}</Button>
                             </div>
 
                             <div className='flex justify-between pt-5'>
-                                <div onClick={() => handleAddToWishlist(product._id)} className='flex items-center gap-2 hover:cursor-pointer'>
-                                    {wishlist?.wishlistItems.some(item => item.productId === product._id) ? (
+                                <div className='hover:cursor-pointer'>
+                                    {wishlist?.wishlistItems?.some(item => item.productId === product._id) ? (
+                                        <div className='flex items-center gap-2 pointer-events-none'>
                                         <FaHeart className='text-red-500' />
+                                        <p>Added to Wishlist</p>
+                                        </div>
                                     ) : (
+                                        <div onClick={() => handleAddToWishlist(product._id)} className='flex items-center gap-2 hover:text-orange-500'>
                                         <FaRegHeart />
+                                        <p>Add to Wishlist</p>
+                                        </div>
                                     )}
-                                    <p>Add to Wishlist</p>
                                 </div>
                                 {/* <div className='flex items-center gap-2 hover:cursor-pointer'>
                                     <FiRefreshCcw />
@@ -318,12 +338,26 @@ const ProductDetails = () => {
                             <h2 onClick={() => setIsSelectProductInfo("review")} className={`text-base uppercase text-gray-500 hover:cursor-pointer px-5 py-2 ${isSelectProductInfo === "review" ? "border-b-4 border-orange-400" : ""}`}>Review</h2>
                         </div>
                         {isSelectProductInfo === "description" && (
-                            <div className='p-10'>
+                            <>
+                            {isLoading ? (
+                                <div className='flex items-center justify-center'>
+                                <Loader size='2em' topBorderSize='0.2em' fullScreen={false} center={false}/>
+                                </div>
+                            ) : (
+                                <div className='p-10'>
                                 <p>{product.description}</p>
                             </div>
+                            )}
+                            </> 
                         )}
                         {isSelectProductInfo === "additionalInfo" && (
-                            <div className='p-10'>
+                            <>
+                            {isLoading ? (
+                                <div className='flex items-center justify-center'>
+                                <Loader size='2em' topBorderSize='0.2em' fullScreen={false} center={false}/>
+                                </div>
+                            ) : (
+                                <div className='p-10'>
                                 {product.additionalInformation.length > 0 ? (
                                 <p className='flex flex-col'>
                                     {product.additionalInformation.map((info, index) => (
@@ -334,9 +368,17 @@ const ProductDetails = () => {
                                     <p>No Additional Information</p>
                                 )}
                             </div>
+                            )}
+                            </>
                         )}
                         {isSelectProductInfo === "specification" && (
-                            <div className='p-10'>
+                            <>
+                            {isLoading ? (
+                                <div className='flex items-center justify-center'>
+                                <Loader size='2em' topBorderSize='0.2em' fullScreen={false} center={false}/>
+                                </div>
+                            ) : (
+                                <div className='p-10'>
                                 {product.specifications.length > 0 ? (
                                 <p className='flex flex-col'>
                                     {product.specifications.map((spec, index) => (
@@ -347,9 +389,17 @@ const ProductDetails = () => {
                                     <p>No Specifications</p>
                                 )}
                             </div>
+                            )}
+                            </>
                         )}
                         {isSelectProductInfo === "review" && (
-                            <div className='p-5'>
+                            <>
+                            {isLoading ? (
+                                 <div className='flex items-center justify-center'>
+                                 <Loader size='2em' topBorderSize='0.2em' fullScreen={false} center={false}/>
+                                 </div>
+                            ) : (
+                                <div className='p-5'>
                                 {userInfo?._id && (
                                     <div className='flex flex-col gap-4 mb-4'>
                                         <h2 className='text-xl font-semibold'>Add Review</h2>
@@ -406,6 +456,8 @@ const ProductDetails = () => {
                                     </div>
                                 ))}
                             </div>
+                            )}
+                            </>
                         )}
                     </section>
                 </main>
