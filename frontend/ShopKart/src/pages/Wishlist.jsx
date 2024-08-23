@@ -11,6 +11,7 @@ import { setCart } from '@/redux/features/cart/cartSlice';
 import { useGetUserWishlistQuery, useRemoveOneProductFromWishlistMutation } from '@/redux/api/wishlistApiSlice';
 import { setWishlist } from '@/redux/features/wishlist/wishlistSlice';
 import { MdFavorite } from "react-icons/md";
+import Loader from '@/components/mycomponents/Loader';
 
 
 const Wishlist = () => {
