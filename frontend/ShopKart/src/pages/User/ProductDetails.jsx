@@ -95,12 +95,15 @@ const ProductDetails = () => {
 
     const handleAddToCart = async () => {
         if (userInfo) {
+            setIsLoading(true)
             const response = await addToCartApi({ userId: userInfo._id, productId })
             const cartData = response.data.data
             // console.log(cartData)
             dispatch(setCart(cartData))
+            setIsLoading(false)
         } else {
             navigate("/auth")
+            setIsLoading(false)
         }
     }
 
