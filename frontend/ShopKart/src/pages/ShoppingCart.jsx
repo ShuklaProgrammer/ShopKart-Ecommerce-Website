@@ -79,6 +79,7 @@ const ShoppingCart = () => {
     }
 
     const handleCheckoutCart = async () => {
+        setIsLoading(true)
         try {
                 const orderData = {
                     orderedBy: userInfo._id,
@@ -91,8 +92,10 @@ const ShoppingCart = () => {
                 const response = await createOrder(orderData);
                 const orderId = response.data.data._id
                 navigate("/order", {state: {orderId}})
+                setIsLoading(false)
         } catch (error) {
             console.log("Cannot create order from cart", error)
+            setIsLoading(false)
         }
     }
 
@@ -196,7 +199,7 @@ const ShoppingCart = () => {
                     </div>
 
                     <div className='flex justify-center mt-5'>
-                        <Button onClick={handleCheckoutCart} variant="shop" className="px-5 py-3 w-full">{isLoading ? <span className='flex items-center gap-2'>Processing...<Loader size='2em' speed='0.4s' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center gap-2'>Proceed To Checkout<IoMdArrowForward className='text-xl ml-2' /></span>}</Button>
+                        <Button onClick={handleCheckoutCart} disabled={isLoading} variant="shop" className="px-5 py-3 w-full">{isLoading ? <span className='flex items-center gap-2'>Processing...<Loader size='2em' speed='0.4s' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center gap-2'>Proceed To Checkout<IoMdArrowForward className='text-xl ml-2' /></span>}</Button>
                     </div>
                     </div>
 
