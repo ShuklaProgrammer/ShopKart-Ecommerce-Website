@@ -55,7 +55,7 @@ const ProductDetails = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(null)
 
     const [isSelectProductInfo, setIsSelectProductInfo] = useState("description")
     const [rating, setRating] = useState(0)
@@ -95,15 +95,15 @@ const ProductDetails = () => {
 
     const handleAddToCart = async () => {
         if (userInfo) {
-            setIsLoading(true)
+            setIsLoading("addToCart")
             const response = await addToCartApi({ userId: userInfo._id, productId })
             const cartData = response.data.data
             // console.log(cartData)
             dispatch(setCart(cartData))
-            setIsLoading(false)
+            setIsLoading(null)
         } else {
             navigate("/auth")
-            setIsLoading(false)
+            setIsLoading(null)
         }
     }
 
@@ -145,7 +145,7 @@ const ProductDetails = () => {
 
     const handleBuyNow = async (e) => {
         e.preventDefault()
-        setIsLoading(true)
+        setIsLoading("buyNow")
         try {
             if (userInfo?._id) {
                 const orderData = {
@@ -159,10 +159,10 @@ const ProductDetails = () => {
                 const response = await createOrder(orderData)
                 const orderId = response.data.data._id
                 navigate("/order", { state: { orderId } })
-                setIsLoading(false)
+                setIsLoading(null)
             } else {
                 navigate("/auth")
-                setIsLoading(false)
+                setIsLoading(null)
             }
         } catch (error) {
             console.log("The order cannot be created", error)
@@ -291,8 +291,8 @@ const ProductDetails = () => {
                             </div>
 
                             <div className='flex justify-between pt-5 items-center gap-10'>
-                                <Button onClick={handleAddToCart} disabled={isLoading} variant="shop" className="w-full py-6">{isLoading ? <span className='flex items-center gap-2'>Adding To Cart...<FiShoppingCart className='text-xl ml-2' /><Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center'>Add TO Cart<FiShoppingCart className='text-xl ml-2' /></span>}</Button>
-                                <Button onClick={handleBuyNow} disabled={isLoading} variant="shop" className="w-full py-6">{isLoading ? <span className='flex items-center gap-2'> Buy Now<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Buy Now"}</Button>
+                                <Button onClick={handleAddToCart} disabled={isLoading === "addToCart"} variant="shop" className="w-full py-6">{isLoading === "addToCart" ? <span className='flex items-center gap-2'>Adding To Cart...<FiShoppingCart className='text-xl ml-2' /><Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center'>Add TO Cart<FiShoppingCart className='text-xl ml-2' /></span>}</Button>
+                                <Button onClick={handleBuyNow} disabled={isLoading === "buyNow"} variant="shop" className="w-full py-6">{isLoading === "buyNow" ? <span className='flex items-center gap-2'> Buy Now<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Buy Now"}</Button>
                             </div>
 
                             <div className='flex justify-between pt-5'>
