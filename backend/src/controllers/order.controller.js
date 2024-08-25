@@ -156,7 +156,7 @@ const addOrder = asyncHandler(async (req, res) => {
     let totalDiscount = 0;
     orderItemsData.forEach(item => {
         const product = products.find(p => p._id.equals(item.productId))
-        const itemDiscount = product.discount ? (item.price - product.discountedPrice) * item.quantity : 0;
+        const itemDiscount = product.discount && product.discount.length > 0 ? (item.price - product.discountedPrice) * item.quantity : 0;
         totalDiscount += itemDiscount;
     });
 
