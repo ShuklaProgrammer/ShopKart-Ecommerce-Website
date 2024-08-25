@@ -66,8 +66,6 @@ const createProduct = asyncHandler(async(req, res) => {
     if(discount){
         product.discount = discount
         product.discountedPrice = await product.calculateDiscountedPrice()
-    }else{
-        product.discountedPrice = 0
     }
 
     await product.save()
