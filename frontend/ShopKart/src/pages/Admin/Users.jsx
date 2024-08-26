@@ -88,8 +88,8 @@ const Users = () => {
                                     <TableCell>{user._id}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>
-                                        <Select value={roles[user._id] || ""} onValueChange={(value) => handleRoleChange(user._id, value)}>
-                                            <SelectTrigger className="w-[140px]">
+                                        <Select disabled={userInfo._id === user._id && user.role === "admin"} value={roles[user._id] || ""} onValueChange={(value) => handleRoleChange(user._id, value)}>
+                                            <SelectTrigger className={`w-[140px] ${userInfo._id === user._id && user.role === "admin" ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}`}>
                                                 <SelectValue placeholder="Change Role" />
                                             </SelectTrigger>
                                             <SelectContent>
