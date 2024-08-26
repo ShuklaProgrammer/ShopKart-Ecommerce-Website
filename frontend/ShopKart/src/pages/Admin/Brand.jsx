@@ -49,7 +49,7 @@ const Brand = () => {
     const [brandName, setBrandName] = useState("")
     const [updatedBrandName, setUpdatedBrandName] = useState("")
 
-    const { data: getAllBrand } = useGetAllBrandsQuery()
+    const { data: getAllBrand, isLoading } = useGetAllBrandsQuery()
     const [createBrand] = useCreateBrandMutation()
     const [deleteBrand] = useDeleteBrandMutation()
     const [updateBrand] = useUpdateBrandMutation()
@@ -95,6 +95,12 @@ const Brand = () => {
             }
         }
     })
+
+    if(isLoading){
+    return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+    }
+
+    
     return (
         <section>
             <main>

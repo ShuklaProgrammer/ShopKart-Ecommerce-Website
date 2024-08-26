@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select"
 import { useGetDiscountByIdQuery, useUpdateDiscountMutation } from '@/redux/api/discountApiSlice'
 import { useNavigate, useParams } from 'react-router-dom'
+import Loader from '@/components/mycomponents/Loader'
 
 const UpdateDiscount = () => {
 
@@ -24,7 +25,7 @@ const UpdateDiscount = () => {
     const [discountExpiry, setDiscountExpiry] = useState("")
 
     const [updateDiscount] = useUpdateDiscountMutation()
-    const {data: discounts} = useGetDiscountByIdQuery(discountId)
+    const {data: discounts, isLoading} = useGetDiscountByIdQuery(discountId)
 
 
     useEffect(()=>{
@@ -51,6 +52,10 @@ const UpdateDiscount = () => {
         } catch (error) {
             console.log("Failed to update", error)
         }
+    }
+
+    if(isLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
     }
   return (
     <section className='w-full'>

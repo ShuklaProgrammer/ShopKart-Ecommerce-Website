@@ -61,6 +61,7 @@ import { useNavigate } from 'react-router-dom'
 import { Input } from '@/components/ui/input';
 import { FaSearch } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
+import Loader from '@/components/mycomponents/Loader';
 
 
 const AllOrder = () => {
@@ -76,7 +77,7 @@ const AllOrder = () => {
     const [page, setPage] = useState(1)
     const limit = 10
 
-    const { data: getAllOrders } = useGetAllOrdersQuery({ page, limit, search: searchQuery })
+    const { data: getAllOrders, isLoading } = useGetAllOrdersQuery({ page, limit, search: searchQuery })
 
     const { data: getOrderById } = useGetOrderByIdQuery(selectOrderId, { skip: !selectOrderId })
     const orderData = getOrderById?.data || {}
@@ -139,6 +140,11 @@ const AllOrder = () => {
             setSelectOrderStatus(orderData.orderStatus)
         }
     }, [orderData])
+
+
+    if(isLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+    }
 
 
     return (

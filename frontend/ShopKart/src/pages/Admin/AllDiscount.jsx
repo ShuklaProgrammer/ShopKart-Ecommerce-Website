@@ -36,11 +36,12 @@ import { useDeleteDiscountMutation, useGetAllDiscountsQuery } from '@/redux/api/
 //all the icons imported here
 import { PiDotsThreeOutline } from 'react-icons/pi'
 import { Link, useParams } from 'react-router-dom'
+import Loader from '@/components/mycomponents/Loader'
 
 
 const AllDiscount = () => {
 
-    const { data: discountData } = useGetAllDiscountsQuery()
+    const { data: discountData, isLoading } = useGetAllDiscountsQuery()
     const discounts = discountData?.data || []
 
     const [deleteDiscount] = useDeleteDiscountMutation()
@@ -49,7 +50,9 @@ const AllDiscount = () => {
         await deleteDiscount(discountId)
     }
 
-    console.log(discounts)
+    if(isLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+    }
     return (
         <section className='w-full'>
             <main className='w-[90%]'>

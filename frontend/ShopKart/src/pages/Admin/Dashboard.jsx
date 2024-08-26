@@ -25,17 +25,18 @@ import {
 } from "@/components/ui/table"
 import { useTopReviewsQuery } from '@/redux/api/productApiSlice';
 import { FaStar } from 'react-icons/fa';
+import Loader from '@/components/mycomponents/Loader';
 
 
 
 const Dashboard = () => {
 
 
-  const { data: getOrderStatistics } = useGetOrderStatisticsQuery({})
-  const {data: getAllOrders} = useGetAllOrdersQuery({})
-  const {data: getTopStatesSales} = useTopStatesBySalesQuery()
-  const {data: getTopProductBySales} = useTopProductBySalesQuery()
-  const {data: getTopReviews} = useTopReviewsQuery({})
+  const { data: getOrderStatistics, isLoading: orderStatisticsLoading } = useGetOrderStatisticsQuery({})
+  const {data: getAllOrders, isLoading: ordersLoading} = useGetAllOrdersQuery({})
+  const {data: getTopStatesSales, isLoading: topSalesLoading} = useTopStatesBySalesQuery()
+  const {data: getTopProductBySales, isLoading: topSalesProductLoading} = useTopProductBySalesQuery()
+  const {data: getTopReviews, isLoading: reviewsLoading} = useTopReviewsQuery({})
 
   const orders = getAllOrders?.data?.orders || []
   const orderStatistics = getOrderStatistics?.data || []
@@ -218,6 +219,13 @@ const Dashboard = () => {
    const orderTrend = determineTrend(orderPercentageChange);
    const incomeTrend = determineTrend(incomePercentageChange);
    const userTrend = determineTrend(userPercentageChange);
+
+
+   const isLoading = orderStatisticsLoading || ordersLoading || topSalesLoading || topSalesProductLoading || reviewsLoading
+
+   if(isLoading){
+    return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+   }
 
 
   return (

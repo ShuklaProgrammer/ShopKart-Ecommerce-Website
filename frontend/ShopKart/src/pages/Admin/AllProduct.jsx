@@ -60,6 +60,7 @@ import { PiDotsThreeOutline } from "react-icons/pi";
 import { Link, useParams } from 'react-router-dom'
 import { Input } from '@/components/ui/input'
 import { useGetAllCategoryQuery } from '@/redux/api/categoryApiSlice'
+import Loader from '@/components/mycomponents/Loader'
 
 
 const AllProduct = () => {
@@ -75,10 +76,10 @@ const AllProduct = () => {
 
     const [deleteProduct] = useDeleteProductMutation()
 
-    const { data: categoryData } = useGetAllCategoryQuery()
+    const { data: categoryData, isLoading: categoryLoading } = useGetAllCategoryQuery()
     const categories = categoryData?.data || []
 
-    const { data: productsData } = useGetAllProductQuery({
+    const { data: productsData, isLoading: productsLoading } = useGetAllProductQuery({
         sort,
         search,
         filterCategory,
@@ -113,6 +114,12 @@ const AllProduct = () => {
         if(newPage > 0 && newPage <= totalPages){
             setPage(newPage)
         }
+    }
+
+    const isLoading = productsLoading || categoryLoading
+
+    if(isLoading){
+    return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
     }
 
 

@@ -54,7 +54,7 @@ const AddCategory = () => {
 
     const [updatedCategoryName, setUpdatedCategoryName] = useState("")
 
-    const { data: getAllCategory } = useGetAllCategoryQuery()
+    const { data: getAllCategory, isLoading } = useGetAllCategoryQuery()
 
    const categories = getAllCategory?.data || []
 
@@ -91,6 +91,10 @@ const AddCategory = () => {
             }
         }
     })
+
+    if(isLoading){
+    return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+    }
 
     return (
         <section className='flex flex-grow'>

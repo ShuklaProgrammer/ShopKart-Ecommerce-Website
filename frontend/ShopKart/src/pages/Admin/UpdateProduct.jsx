@@ -79,7 +79,7 @@ const UpdateProduct = () => {
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(null)
 
-    const { data: productDataById } = useGetProductByIdQuery(productId)
+    const { data: productDataById, isLoading: productLoading } = useGetProductByIdQuery(productId)
     
     // console.log(productDataById)
 
@@ -88,9 +88,9 @@ const UpdateProduct = () => {
     const [updateProduct] = useUpdateProductMutation()
 
 
-    const { data: getAllCategory } = useGetAllCategoryQuery()
+    const { data: getAllCategory, isLoading: categoryLoading } = useGetAllCategoryQuery()
 
-    const { data: getAllBarnds } = useGetAllBrandsQuery()
+    const { data: getAllBarnds, isLoading: brandLoading } = useGetAllBrandsQuery()
 
     const categories = getAllCategory?.data || []
     const brands = getAllBarnds?.data || []
@@ -329,6 +329,13 @@ const UpdateProduct = () => {
             }
         }
     }, [productDataById])
+
+
+    const isLoading = productLoading || categoryLoading || brandLoading
+
+    if(isLoading){
+    return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
+    }
 
 
 

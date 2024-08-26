@@ -22,12 +22,13 @@ import {
 import { useChangeUserRoleMutation, useGetAllUsersQuery } from '@/redux/api/userApiSlice'
 import { useGetUserProfileQuery } from '@/redux/api/profileApiSlice'
 import { useSelector } from 'react-redux'
+import Loader from '@/components/mycomponents/Loader'
 
 
 const Users = () => {
 
-    const {userInfo} = useSelector((state) => state.auth)
-    const { data: usersResponse } = useGetAllUsersQuery()
+    const { userInfo } = useSelector((state) => state.auth)
+    const { data: usersResponse, isLoading } = useGetAllUsersQuery()
     const [changeUserRole] = useChangeUserRoleMutation()
     const { data: profileData } = useGetUserProfileQuery()
 
@@ -36,7 +37,7 @@ const Users = () => {
     console.log(userInfo)
 
     useEffect(() => {
-        if(users && users.length > 0){
+        if (users && users.length > 0) {
             const initialRole = users.reduce((acc, user) => {
                 acc[user._id] = user.role
                 return acc
@@ -45,9 +46,9 @@ const Users = () => {
         }
     }, [users])
 
-    const handleRoleChange = async(userId, newRole) => {
+    const handleRoleChange = async (userId, newRole) => {
         try {
-            await changeUserRole({userId, role: newRole})
+            await changeUserRole({ userId, role: newRole })
             setRoles(prevRoles => ({
                 ...prevRoles,
                 [userId]: newRole
@@ -55,6 +56,10 @@ const Users = () => {
         } catch (error) {
             console.log("Cannot change the user role", error)
         }
+    }
+
+    if (isLoading) {
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em' /></div>
     }
 
 
@@ -83,7 +88,7 @@ const Users = () => {
                                     <TableCell>{user._id}</TableCell>
                                     <TableCell>{user.email}</TableCell>
                                     <TableCell>
-                                        <Select value={roles[user._id] || ""} onValueChange={(value)=>handleRoleChange(user._id, value)}>
+                                        <Select value={roles[user._id] || ""} onValueChange={(value) => handleRoleChange(user._id, value)}>
                                             <SelectTrigger className="w-[140px]">
                                                 <SelectValue placeholder="Change Role" />
                                             </SelectTrigger>
