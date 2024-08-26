@@ -22,7 +22,7 @@ const ProfileSetting = () => {
   const {userInfo} = useSelector((state) => state.auth)
   // console.log(userInfo)
   
-  const {data: profileData} = useGetUserProfileQuery({userId: userInfo._id})
+  const {data: profileData, isLoading: isProfileLoading} = useGetUserProfileQuery({userId: userInfo._id})
   console.log(profileData)
   
   const [createProfile] = useCreateProfileMutation()
@@ -67,6 +67,11 @@ const ProfileSetting = () => {
       console.log("Cannot create profile", error)
       setIsloading(null)
     }
+  }
+
+
+  if(isProfileLoading){
+    return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
   }
 
     

@@ -26,6 +26,7 @@ import {
 import { useSelector } from 'react-redux'
 import { useGetAllUserOrdersQuery } from '@/redux/api/orderApiSlice'
 import { useNavigate } from 'react-router-dom';
+import Loader from '@/components/mycomponents/Loader';
 
 
 const ProfileOrders = () => {
@@ -37,7 +38,7 @@ const ProfileOrders = () => {
     const [page, setPage] = useState(1)
     const limit = 10
 
-    const { data: getAllUserOrdersData } = useGetAllUserOrdersQuery({ orderedBy: userInfo._id, page, limit })
+    const { data: getAllUserOrdersData, isLoading } = useGetAllUserOrdersQuery({ orderedBy: userInfo._id, page, limit })
     const userOrders = getAllUserOrdersData?.data.userAllOrders || []
     const totalPages = getAllUserOrdersData?.data.totalPages || 1
 
@@ -64,6 +65,10 @@ const ProfileOrders = () => {
 
     const handleViewOrderDetails = (orderId) => {
         navigate("/profile/order-details", {state: {orderId}})
+    }
+
+    if(isLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
     }
 
     return (

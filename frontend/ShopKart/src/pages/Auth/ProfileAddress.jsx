@@ -47,7 +47,7 @@ const ProfileAddress = () => {
     const [deleteProfileAddress] = useDeleteUserProfileMutation()
 
     const { userInfo } = useSelector((state) => state.auth)
-    const { data: profileData } = useGetUserProfileQuery({ userId: userInfo._id })
+    const { data: profileData, isLoading: isProfileLoading } = useGetUserProfileQuery({ userId: userInfo._id })
 
     const profileAddressData = profileData?.data?.deliveryAddress || []
 
@@ -155,6 +155,10 @@ const ProfileAddress = () => {
             console.log("Cannot delete the profile address")
             setIsLoading(null)
         }
+    }
+
+    if(isProfileLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
     }
 
     return (

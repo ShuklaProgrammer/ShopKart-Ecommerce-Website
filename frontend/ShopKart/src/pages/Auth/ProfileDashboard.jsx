@@ -26,6 +26,7 @@ import { useSelector } from 'react-redux';
 import { useGetUserProfileQuery } from '@/redux/api/profileApiSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetAllUserOrdersQuery, useGetUserOrderStatisticsQuery } from '@/redux/api/orderApiSlice';
+import Loader from '@/components/mycomponents/Loader';
 
 
 
@@ -34,9 +35,9 @@ const ProfileDashboard = () => {
     const navigate = useNavigate()
 
     const {userInfo} = useSelector((state) => state.auth)
-    const {data: profileData} = useGetUserProfileQuery({userId: userInfo._id})
-    const {data: userOrderStatisticsData} = useGetUserOrderStatisticsQuery({orderedBy: userInfo._id})
-    const {data: getAllUserOrdersData} = useGetAllUserOrdersQuery({orderedBy: userInfo._id})
+    const {data: profileData, isLoading: isProfileLoading} = useGetUserProfileQuery({userId: userInfo._id})
+    const {data: userOrderStatisticsData, isLoading: isOrderStatistics} = useGetUserOrderStatisticsQuery({orderedBy: userInfo._id})
+    const {data: getAllUserOrdersData, isLoading: isUserOrderLoading} = useGetAllUserOrdersQuery({orderedBy: userInfo._id})
     
     const userProfile = profileData?.data
     const userOrderStatistics = userOrderStatisticsData?.data || {}
@@ -46,6 +47,12 @@ const ProfileDashboard = () => {
 
     const handleViewOrderDetails = (orderId) => {
         navigate("/profile/order-details", {state: {orderId}})
+    }
+
+    const isLoading = isProfileLoading || isOrderStatistics || isUserOrderLoading
+
+    if(isLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
     }
     
     return (
