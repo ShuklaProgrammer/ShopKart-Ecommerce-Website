@@ -41,6 +41,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useAddProductReviewMutation } from '@/redux/api/productApiSlice';
+import { MdOutlinePending } from 'react-icons/md';
 
 
 
@@ -236,6 +237,9 @@ const ProfileOrderDetails = () => {
                                 <p className='flex items-center gap-2'><span className='bg-green-100 p-2'><FaRegCheckCircle className='text-2xl text-green-700' /></span>Your order is successfully verified.</p>
                                 <p className='flex items-center gap-2'><span className='bg-sky-200 p-2'><PiNotepad className='text-2xl text-blue-500' /></span>Your order has been confirmed.</p>
                             </>
+                        )}
+                         {userOrderData[0]?.orderStatus === "pending" && (
+                                <p className='flex items-center gap-2'><span className='bg-yellow-100 p-2'><MdOutlinePending className='text-2xl text-yellow-600' /></span>Your order is pending.</p>
                         )}
                     </div>
 

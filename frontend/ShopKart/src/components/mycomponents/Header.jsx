@@ -12,6 +12,9 @@ import { FiRefreshCcw } from "react-icons/fi";
 import { FiHeadphones } from "react-icons/fi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { FiPhoneCall } from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
+import { RiAdminLine } from "react-icons/ri";
+import { CgProfile } from "react-icons/cg";
 
 
 
@@ -52,6 +55,8 @@ const Header = () => {
   const searchParams = new URLSearchParams(location.search)
   const searchTerm = searchParams.get("search") || ""
   const [searching, setSearching] = useState("")
+
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const { userInfo } = useSelector((state) => state.auth)
   const cart = useSelector((state) => state.cart.cart)
@@ -154,19 +159,19 @@ const Header = () => {
           <ul className='flex items-center text-white gap-4'>
             <li>
               {userInfo ? (
-                <DropdownMenu>
+                <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                   <DropdownMenuTrigger className='flex items-center gap-2'>
                     <Link to="/auth" className='flex justify-center items-center gap-2 hover:bg-orange-400 px-4 py-2 rounded-md'>
                       <AiOutlineUser className='text-2xl' />
                       <span>{userInfo.username}</span>
                     </Link>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <Link to="/profile"><p className='hover:bg-gray-200 cursor-pointer p-1'>Profile</p></Link>
+                  <DropdownMenuContent onClick={() => setDropdownOpen(false)}>
+                    <Link to="/profile"><p className='hover:bg-gray-200 cursor-pointer p-1 flex items-center gap-2 pr-20'><CgProfile className='text-lg'/>Profile</p></Link>
                     {userInfo.role === "admin" && (
-                    <Link to="/admin/dashboard"><p className='hover:bg-gray-200 cursor-pointer p-1'>Admin Panel</p></Link>
+                    <Link to="/admin/dashboard"><p className='hover:bg-gray-200 cursor-pointer p-1 flex items-center gap-2 pr-20'><RiAdminLine className='text-lg'/>Admin Panel</p></Link>
                     )}
-                    <p className='hover:bg-gray-200 cursor-pointer p-1' onClick={handleLogoutUser}>Logout</p>
+                    <p className='hover:bg-gray-200 cursor-pointer p-1 flex items-center gap-2 pr-20' onClick={handleLogoutUser}><FiLogOut/>Logout</p>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
