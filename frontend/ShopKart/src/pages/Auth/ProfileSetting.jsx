@@ -5,8 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useSelector } from 'react-redux';
 import { useCreateProfileMutation, useGetUserProfileQuery, useUpdateProfileMutation } from '@/redux/api/profileApiSlice';
+import Loader from '@/components/mycomponents/Loader';
 
 const ProfileSetting = () => {
+
+  const [isLoading, setIsloading] = useState(null)
 
   const [username, setUsername] = useState("")
   const [firstName, setFirstName] = useState("")
@@ -37,6 +40,7 @@ const ProfileSetting = () => {
   }, [profileData])
 
   const handleCreateProfile = async(e, userId) => {
+    setIsloading("addAddress")
     e.preventDefault()
     try {
       const profileData = new FormData()
@@ -58,8 +62,10 @@ const ProfileSetting = () => {
       }
 
       await createProfile(profileData)
+      setIsloading(null)
     } catch (error) {
       console.log("Cannot create profile", error)
+      setIsloading(null)
     }
   }
 
@@ -106,7 +112,7 @@ const ProfileSetting = () => {
             <Input type="text" value={contactNumber} onChange={e=>setContactNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
           </div>
           </div>
-          <Button variant="shop" onClick={(e)=>{handleCreateProfile(e, userInfo._id)}}>SAVE CHANGES</Button>
+          <Button variant="shop" disabled={isLoading === "addProfile"} onClick={(e)=>{handleCreateProfile(e, userInfo._id)}}>{isLoading === "addProfile" ? <span>Saving...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "SAVE CHANGES"}</Button>
           </div>
         </form>
 

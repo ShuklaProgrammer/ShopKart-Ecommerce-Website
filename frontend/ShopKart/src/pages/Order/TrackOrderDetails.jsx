@@ -3,6 +3,7 @@ import React from 'react'
 //icons
 import { PiPackageDuotone, PiTruckDuotone, PiHandshake, PiNotebookBold, PiChecks, PiUser, PiMapPinLine, PiMapTrifold, PiNotepad } from "react-icons/pi";
 import { FaCheck, FaRegCheckCircle } from "react-icons/fa";
+import { MdOutlinePending } from "react-icons/md";
 import { useGetOrderByIdQuery } from '@/redux/api/orderApiSlice';
 import { useLocation } from 'react-router-dom';
 
@@ -110,6 +111,9 @@ const TrackOrderDetails = () => {
                                 <p className='flex items-center gap-2'><span className='bg-green-100 p-2'><FaRegCheckCircle className='text-2xl text-green-700' /></span>Your order is successfully verified.</p>
                                 <p className='flex items-center gap-2'><span className='bg-sky-200 p-2'><PiNotepad className='text-2xl text-blue-500' /></span>Your order has been confirmed.</p>
                             </>
+                        )}
+                        {orderData?.orderStatus === "pending" && (
+                                <p className='flex items-center gap-2'><span className='bg-yellow-100 p-2'><MdOutlinePending className='text-2xl text-yellow-600' /></span>Your order is pending.</p>
                         )}
                     </div>
                 </section>
