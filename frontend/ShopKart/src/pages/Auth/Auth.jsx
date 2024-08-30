@@ -129,7 +129,7 @@ const SignUp = ({onSignUpSuccess}) => {
         </div>
         <div className='flex gap-2 w-full'>
             <Checkbox className="mt-1" id="terms" name="terms" checked={formik.values.terms} onCheckedChange={(checked) => formik.setFieldValue("terms", checked)} onBlur={formik.handleBlur}/>
-            <label htmlFor="terms">Are you agree to Clicon Terms of Condition and Privacy Policy.</label>
+            <label htmlFor="terms" className='cursor-pointer'>Are you agree to ShopKart <span className='text-blue-400'>Terms of Condition</span> and <span className='text-blue-400'>Privacy Policy.</span></label>
             </div>
             {formik.touched.terms && formik.errors.terms ? (
                 <div className='text-red-500 text-sm'>{formik.errors.terms}</div>
@@ -140,11 +140,11 @@ const SignUp = ({onSignUpSuccess}) => {
             {formik.isSubmitting ? <span className='flex items-center gap-2'>Signing Up...<Loader size='2em' speed='0.4s' topBorderSize='0.2em' center={false} fullScreen={false}/></span>: "Sign Up"}
             <IoMdArrowForward className='text-lg ml-2'/>
             </Button>
-        <div className='flex items-center gap-16 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
+        <div className='flex items-center sm:gap-16 gap-5 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
             <img src={googleLogo} alt="" className='w-[2vw] h-[2vw]'/>
             <p>Sign up with Google</p>
         </div>
-        <div className='flex items-center gap-16 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
+        <div className='flex items-center sm:gap-16 gap-5 pl-2 hover:cursor-pointer border border-1 border-solid border-gray-400 w-full py-2'>
             <FaApple className='text-3xl'/>
             <p>Sign up with Apple</p>
         </div>
@@ -289,7 +289,7 @@ const Auth = () => {
 
   return (
     <section className='flex justify-center my-10'>
-        <main className='w-[30%] bg-white shadow-2xl'>
+        <main className='bg-white shadow-2xl w-full mx-4 sm:mx-0 sm:w-[30%]'>
             <div className='flex items-center text-2xl justify-evenly'>
                 <h1 onClick={handleClickedOnSignIn} className={`hover:cursor-pointer p-3 ${!isBorderBottomOnAuth ? "border-b-orange-400 border-solid border-b-4": ""}`}>Sign In</h1>
                 <h1 onClick={handleClickedOnSignUp} className={`hover:cursor-pointer p-3 ${isBorderBottomOnAuth ? "border-b-orange-400 border-solid border-b-4" : ""}`}>Sign Up</h1>
