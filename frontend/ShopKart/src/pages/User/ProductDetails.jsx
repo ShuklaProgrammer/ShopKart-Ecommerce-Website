@@ -221,7 +221,7 @@ const ProductDetails = () => {
     }
 
     return (
-        <section className='flex justify-center sm:my-10 my-4'>
+        <section className='flex justify-center sm:my-10 my-6'>
             {product && (
                 <main className='w-[90%] '>
                     <section className='sm:flex justify-between sm:py-5'>
@@ -295,15 +295,15 @@ const ProductDetails = () => {
                                 <Button onClick={handleBuyNow} disabled={isLoading === "buyNow"} variant="shop" className="w-full py-6">{isLoading === "buyNow" ? <span className='flex items-center gap-2'> Buy Now<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Buy Now"}</Button>
                             </div>
 
-                            <div className='flex justify-between pt-5'>
+                            <div className='flex justify-between pt-5 gap-2'>
                                 <div className='hover:cursor-pointer'>
                                     {wishlist?.wishlistItems?.some(item => item.productId === product._id) ? (
-                                        <div className='flex items-center gap-2 pointer-events-none'>
+                                        <div className='flex items-center sm:gap-2 pointer-events-none'>
                                         <FaHeart className='text-red-500' />
                                         <p>Added to Wishlist</p>
                                         </div>
                                     ) : (
-                                        <div onClick={() => handleAddToWishlist(product._id)} className='flex items-center gap-2 hover:text-orange-500'>
+                                        <div onClick={() => handleAddToWishlist(product._id)} className='flex items-center sm:gap-2 gap-1 hover:text-orange-500'>
                                         <FaRegHeart />
                                         <p>Add to Wishlist</p>
                                         </div>
@@ -313,8 +313,9 @@ const ProductDetails = () => {
                                     <FiRefreshCcw />
                                     <p>Add to Compare</p>
                                 </div> */}
-                                <div className='flex items-center gap-2'>
-                                    <p>Share product:</p>
+                                <div className='flex items-center sm:gap-2 gap-1'>
+                                    <p className='hidden sm:block'>Share product:</p>
+                                    <p className='block sm:hidden'>Share:</p>
                                     <FaRegCopy onClick={copyUrlToClipBoard} className='hover:text-orange-400 hover:cursor-pointer text-lg' />
                                     <FaFacebook onClick={shareOnFacebook} className='hover:text-orange-400 hover:cursor-pointer text-lg' />
                                     <FaTwitter onClick={shareOnTwitter} className='hover:text-orange-400 hover:cursor-pointer text-lg' />
@@ -471,13 +472,13 @@ const ProductDetails = () => {
                         </div>
                         <div>
                         <h2 className='uppercase text-lg font-semibold'>Additional Information</h2>
-                        <p>{product.additionalInformation.map((spec, index) => (
+                        <p className='flex flex-col'>{product.additionalInformation.map((spec, index) => (
                             <span key={index}>{spec.key}: {spec.value}</span>
                         ))}</p>
                         </div>
                         <div>
                         <h2 className='uppercase text-lg font-semibold'>Specifications</h2>
-                        <p>{product.specifications.map((spec, index) => (
+                        <p className='flex flex-col'>{product.specifications.map((spec, index) => (
                             <span key={index}>{spec.key}: {spec.value}</span>
                         ))}</p>
                         </div>
