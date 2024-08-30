@@ -79,7 +79,7 @@ const Wishlist = () => {
             <div className='flex flex-col items-center justify-center gap-3'>
               <MdFavorite className='text-8xl text-center text-blue-500' />
               <h1 className='text-xl font-semibold'>Wishlist is Empty</h1>
-              <p>You have no items in your wishlist. Start adding!</p>
+              <p className='text-center'>You have no items in your wishlist. Start adding!</p>
             </div>
           </div>
         )}

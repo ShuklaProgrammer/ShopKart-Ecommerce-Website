@@ -221,20 +221,20 @@ const ProductDetails = () => {
     }
 
     return (
-        <section className='flex justify-center my-10'>
+        <section className='flex justify-center sm:my-10 my-4'>
             {product && (
                 <main className='w-[90%] '>
-                    <section className='flex justify-between py-5'>
-                        <div className='flex flex-col w-[50%]'>
+                    <section className='sm:flex justify-between sm:py-5'>
+                        <div className='flex flex-col sm:w-[50%]'>
                             <div className='flex justify-center'>
-                                <div className="w-[30vw] h-[25vw] flex justify-center items-center overflow-hidden">
+                                <div className="flex justify-center items-center">
                                     {isVideo(selectedMedia) ? (
                                         <video src={selectedMedia} controls className='w-full h-full' />
                                     ) : (
                                         <img
                                             src={selectedMedia}
                                             alt="Selected Product"
-                                            className='w-[70vw] h-[40vw]'
+                                            className='w-96'
                                         />
                                     )}
                                 </div>
@@ -262,14 +262,14 @@ const ProductDetails = () => {
                             )}
                         </div>
 
-                        <div className='w-[50%] space-y-2'>
+                        <div className='sm:w-[50%] sm:mt-0 mt-4 space-y-2'>
                             <div className='flex gap-2'>
                                 <span className='bg-green-600 rounded-sm font-semibold text-sm px-2 py-0.5 text-white flex items-center'>
                                     5
                                     <FaStar className='' />
                                 </span>
                             </div>
-                            <h2 className='w-[40vw] text-lg font-semibold'>{product.title}</h2>
+                            <h2 className='sm:text-lg font-semibold'>{product.title}</h2>
                             <div className='flex justify-between items-center mt-3'>
                                 <div className='space-y-1'>
                                     <p className='text-sm'>Sku: <span className='font-semibold'>{product.sku}</span></p>
@@ -290,7 +290,7 @@ const ProductDetails = () => {
                                 )}
                             </div>
 
-                            <div className='flex justify-between pt-5 items-center gap-10'>
+                            <div className='flex justify-between pt-5 items-center gap-4 sm:gap-10'>
                                 <Button onClick={handleAddToCart} disabled={isLoading === "addToCart"} variant="shop" className="w-full py-6">{isLoading === "addToCart" ? <span className='flex items-center gap-2'>Adding To Cart...<FiShoppingCart className='text-xl ml-2' /><Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center'>Add TO Cart<FiShoppingCart className='text-xl ml-2' /></span>}</Button>
                                 <Button onClick={handleBuyNow} disabled={isLoading === "buyNow"} variant="shop" className="w-full py-6">{isLoading === "buyNow" ? <span className='flex items-center gap-2'> Buy Now<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Buy Now"}</Button>
                             </div>
@@ -333,7 +333,7 @@ const ProductDetails = () => {
                         </div>
                     </section>
 
-                    <section className='border-2 mt-10'>
+                    <section className='border-2 sm:mt-10 mt-2 sm:block hidden'>
                         <div className='flex justify-evenly border-b-2 px-32'>
                             <h2 onClick={() => setIsSelectProductInfo("description")} className={`text-base uppercase text-gray-500 hover:cursor-pointer px-5 py-2 ${isSelectProductInfo === "description" ? "border-b-4 border-orange-400" : ""}`}>Description</h2>
                             <h2 onClick={() => setIsSelectProductInfo("additionalInfo")} className={`text-base uppercase text-gray-500 hover:cursor-pointer px-5 py-2 ${isSelectProductInfo === "additionalInfo" ? "border-b-4 border-orange-400" : ""}`}>Additional information</h2>
@@ -462,6 +462,82 @@ const ProductDetails = () => {
                             )}
                             </>
                         )}
+                    </section>
+
+                    <section className='block sm:hidden space-y-4'>
+                        <div>
+                        <h2 className='uppercase text-lg font-semibold'>Description</h2>
+                        <p>{product.description}</p>
+                        </div>
+                        <div>
+                        <h2 className='uppercase text-lg font-semibold'>Additional Information</h2>
+                        <p>{product.additionalInformation.map((spec, index) => (
+                            <span key={index}>{spec.key}: {spec.value}</span>
+                        ))}</p>
+                        </div>
+                        <div>
+                        <h2 className='uppercase text-lg font-semibold'>Specifications</h2>
+                        <p>{product.specifications.map((spec, index) => (
+                            <span key={index}>{spec.key}: {spec.value}</span>
+                        ))}</p>
+                        </div>
+                        <div className=''>
+                                {userInfo?._id && (
+                                    <div className='flex flex-col gap-4 mb-4'>
+                                        <h2 className='text-xl font-semibold'>Add Review</h2>
+                                        <div className='flex items-center gap-2'>
+                                            <div className='w-10 h-10 rounded-full bg-red-300'>
+                                                <img src="" alt="" />
+                                            </div>
+                                            <h3 className='font-black'>{userInfo.username ? userInfo.username : "Anoymous"}</h3>
+                                            {generateStars(5)}
+                                        </div>
+                                        <div className='flex items-center gap-2'>
+                                            <Textarea value={comment} onChange={(e) => setComment(e.target.value)} className="outline outline-1 outline-gray-300" />
+                                            <Button onClick={handleAddReview} variant="shop"><span className='hidden sm:block'>Send</span><IoSendSharp className='text-xl sm:ml-2' /></Button>
+                                        </div>
+                                    </div>
+                                )}
+                                 {product.reviews ? (
+                                    <h2 className='text-xl font-semibold'>All Reviews</h2>
+                                ) : (
+                                    <h2 className='text-xl font-semibold'>No Reviews</h2>
+                                )}
+                                {product.reviews?.map((review, index) => (
+                                    <div key={index} className='border-2 p-2 my-4'>
+                                        <div className='flex items-center gap-2'>
+                                            <div className='rounded-full h-10 w-10 bg-red-300'>
+                                                <img src="" alt="" />
+                                            </div>
+                                            <div className='flex items-center gap-2'>
+                                                <h3 className='font-semibold'>{review.commenterName}</h3>
+                                                <span className='bg-green-600 rounded-sm font-semibold text-sm px-2 py-0.5 text-white flex items-center'>
+                                                    {review.rating}
+                                                    <FaStar className='' />
+                                                </span>
+                                            </div>
+                                            {review.userId === userInfo?._id ? (
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger><RiDeleteBin6Line className='text-lg' /></AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                Do you want to delete you review. This action cannot be undone.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => deleteUserReview(review._id)}>Delete</AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
+                                            ) : ""}
+                                        </div>
+                                        <p>{review.comment}</p>
+                                    </div>
+                                ))}
+                            </div>
                     </section>
                 </main>
             )}
