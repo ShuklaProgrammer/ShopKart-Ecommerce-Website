@@ -12,7 +12,7 @@ const Footer = () => {
 
   return (
     <>
-    <footer className='bg-gray-900 flex flex-wrap justify-between gap-10 py-10 px-20'>
+    <footer className='bg-gray-900 flex flex-wrap justify-between gap-10 sm:py-10 px-5 py-10 sm:px-20'>
     <section className='hidden sm:block'>
     <h1 className='text-2xl font-extrabold text-white flex gap-2'><FaShoppingBag className='text-3xl text-orange-400' />ShopKart</h1>
     <ul className='text-white space-y-2 mt-10'>

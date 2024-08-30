@@ -95,12 +95,12 @@ const Header = () => {
   return (
     <>
       <header className='bg-blue-600'>
-        <nav className='flex flex-col sm:flex-row mx-10 sm:mx-20 justify-between items-center'>
+        <nav className='flex flex-col gap-2 sm:flex-row mx-2 sm:mx-20 justify-between items-center'>
 
           {/* Welcome message */}
-          <p className='text-sm text-white'>Welcome to ShopKart online ecommerce store</p>
+          <p className='text-sm text-white py-2'>Welcome to ShopKart online ecommerce store</p>
 
-          <div className='flex gap-6 sm:gap-10 sm:mt-0'>
+          <div className='sm:flex flex-col hidden sm:flex-row sm:gap-10 sm:mt-0'>
 
             {/* Social media icons */}
             <ul className='flex items-center gap-2'>
@@ -151,8 +151,8 @@ const Header = () => {
             </h1>
           </Link>
 
-          <div className='flex items-center relative w-[40%]'>
-            <Input value={searching} onChange={e=>setSearching(e.target.value)} onKeyDown={handleSearchProduct} className="rounded-sm" placeholder="Search for anything..." />
+          <div className='sm:flex items-center relative w-[40%] hidden'>
+            <Input value={searching} onChange={e=>setSearching(e.target.value)} onKeyDown={handleSearchProduct} className="rounded-sm w-full" placeholder="Search for anything..." />
             <FaSearch onClick={handleSearchProduct} className='absolute text-gray-500 right-2 hover:cursor-pointer hover:text-orange-400' />
           </div>
 
@@ -163,7 +163,7 @@ const Header = () => {
                   <DropdownMenuTrigger className='flex items-center gap-2'>
                     <Link to="/auth" className='flex justify-center items-center gap-2 hover:bg-orange-400 px-4 py-2 rounded-md'>
                       <AiOutlineUser className='text-2xl' />
-                      <span>{userInfo.username}</span>
+                      <span className='sm:flex hidden'>{userInfo.username}</span>
                     </Link>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent onClick={() => setDropdownOpen(false)}>
@@ -191,17 +191,25 @@ const Header = () => {
                     </span>
                     )}
                 </div>
-                <span>Cart</span>
+                <span className='sm:flex hidden'>Cart</span>
               </Link>
             </li>
             <li>
               <Link to="/wishlist" className='flex items-center gap-2'>
                 <FaRegHeart className='text-xl' />
-                <span>Wishlist</span>
+                <span className='sm:flex hidden'>Wishlist</span>
               </Link>
             </li>
           </ul>
+
         </nav>
+
+        <div className='flex items-center justify-center mx-2'>
+        <div className='sm:hidden flex items-center pb-4 relative w-full max-w-xs'>
+            <Input value={searching} onChange={e=>setSearching(e.target.value)} onKeyDown={handleSearchProduct} className="rounded-sm w-full" placeholder="Search for anything..." />
+            <FaSearch onClick={handleSearchProduct} className='absolute text-gray-500 right-2 hover:cursor-pointer hover:text-orange-400' />
+          </div>
+        </div>
 
         <nav className='bg-white flex items-center justify-between border-b-2 py-2 px-2 md:px-5 hidden md:flex'>
           <ul className='flex items-center gap-3'>
