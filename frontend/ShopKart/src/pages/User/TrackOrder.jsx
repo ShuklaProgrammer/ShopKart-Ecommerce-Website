@@ -61,7 +61,7 @@ const TrackOrder = () => {
       <form onSubmit={formik.handleSubmit} className='w-[90%] space-y-4'>
         <h1 className='text-2xl font-semibold'>Track Order</h1>
         <p className='text-gray-500'>To track your order please enter your order ID in the input field below and press the “Track Order” button. this was given to you on your receipt and in the confirmation email you should have received.</p>
-        <div className='sm:flex items-center gap-10'>
+        <div className='sm:flex items-center gap-10 space-y-4 sm:space-y-0'>
         <div className='space-y-2'>
           <span>Order ID</span>
           <Input id="orderId" value={formik.values.orderId} onChange={formik.handleChange} className="border-2 sm:w-[30vw]" placeholder="ID..."/>
