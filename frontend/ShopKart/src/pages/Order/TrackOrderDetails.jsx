@@ -49,13 +49,13 @@ const TrackOrderDetails = () => {
     }
 
     return (
-        <section className='flex justify-center'>
-            <main className='my-10 w-[70%] border border-1 border-gray-300'>
+        <section className='sm:flex justify-center'>
+            <main className='my-10 sm:w-[70%] border border-1 border-gray-300'>
                 <section className='my-5'>
-                    <div className='flex items-center justify-between bg-yellow-100 p-4 m-5'>
+                    <div className='sm:flex items-center justify-between bg-yellow-100 sm:p-4 p-2 m-2 sm:m-5'>
                         <div>
                             <h2 className='text-lg'>#{orderID}</h2>
-                            <div className='flex items-center gap-2'>
+                            <div className='sm:flex items-center gap-2'>
                                 <p>{orderItems.length} Products</p>
                                 <p>Order Placed in {new Date(orderData?.createdAt).toLocaleDateString()} at {new Date(orderData?.createdAt).toLocaleTimeString()}</p>
                             </div>
@@ -64,7 +64,7 @@ const TrackOrderDetails = () => {
                     </div>
 
                     <p className='mt-4 px-5'>Order expected arrival 23 Jan, 2021</p>
-                    <div className='p-10 px-24 border-b border-gray-300'>
+                    <div className='sm:p-10 p-2 sm:px-24 border-b border-gray-300'>
                         <div className='relative flex items-center w-full'>
                             <Progress value={progressValue} className="absolute w-full" />
                             <div className="relative flex justify-between w-full">
@@ -83,10 +83,10 @@ const TrackOrderDetails = () => {
                             </div>
                         </div>
                         <div className='flex items-center justify-between mt-4'>
-                            <p className='flex flex-col items-center'><PiNotebookBold className={`text-2xl ${progressValue >= 0 ? "text-green-600" : "text-green-300"}`} /><span className={progressValue >= 0 ? "font-semibold" : ""}>Order Placed</span></p>
-                            <p className='flex flex-col items-center'><PiPackageDuotone className={`text-2xl ${progressValue >= 33 ? "text-orange-600" : "text-orange-300"}`} /><span className={progressValue >= 33 ? "font-semibold" : ""}>Packaging</span></p>
-                            <p className='flex flex-col items-center'><PiTruckDuotone className={`text-2xl ${progressValue >= 66 ? "text-orange-600" : "text-orange-300"}`} /><span className={progressValue >= 66 ? "font-semibold" : ""}>On The Road</span></p>
-                            <p className='flex flex-col items-center'><PiHandshake className={`text-2xl ${progressValue >= 100 ? "text-orange-600" : "text-orange-300"}`} /><span className={progressValue >= 100 ? "font-semibold" : ""}>Delivered</span></p>
+                            <p className='flex flex-col items-center'><PiNotebookBold className={`text-2xl ${progressValue >= 0 ? "text-green-600" : "text-green-300"}`} /><span className={progressValue >= 0 ? "font-semibold sm:text-base text-sm" : "sm:text-base text-sm"}>Order Placed</span></p>
+                            <p className='flex flex-col items-center'><PiPackageDuotone className={`text-2xl ${progressValue >= 33 ? "text-orange-600" : "text-orange-300"}`} /><span className={progressValue >= 33 ? "font-semibold sm:text-base text-sm" : "sm:text-base text-sm"}>Packaging</span></p>
+                            <p className='flex flex-col items-center'><PiTruckDuotone className={`text-2xl ${progressValue >= 66 ? "text-orange-600" : "text-orange-300"}`} /><span className={progressValue >= 66 ? "font-semibold sm:text-base text-sm" : "sm:text-base text-sm"}>On The Road</span></p>
+                            <p className='flex flex-col items-center'><PiHandshake className={`text-2xl ${progressValue >= 100 ? "text-orange-600" : "text-orange-300"}`} /><span className={progressValue >= 100 ? "font-semibold sm:text-base text-sm" : "sm:text-base text-sm"}>Delivered</span></p>
                         </div>
                     </div>
 

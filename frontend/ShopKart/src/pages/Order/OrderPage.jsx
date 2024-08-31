@@ -162,7 +162,7 @@ const OrderPage = () => {
                 const rzp1 = new window.Razorpay(options)
                 rzp1.open()
             } else {
-                navigate("/order-successful")
+                navigate("/order-successful", {state: {orderId}})
             }
         } catch (error) {
             console.log("The checkout failed", error)
