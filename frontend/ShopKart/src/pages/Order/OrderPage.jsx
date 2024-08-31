@@ -218,13 +218,13 @@ const OrderPage = () => {
     }
 
     return (
-        <section className='flex justify-center mt-10'>
-            <form onSubmit={formik.handleSubmit} className='flex gap-5'>
+        <section className='flex justify-center my-10'>
+            <form onSubmit={formik.handleSubmit} className='sm:flex justify-center gap-5 px-2 sm:px-0'>
                 <section>
                     <div className='border border-1 border-gray-300'>
                         <h1 className='text-lg font-semibold p-4 border-b border-gray-300'>Delivery Address</h1>
                         {orderDataAddress.map((addressData, index) => (
-                            <div key={index} className='flex items-baseline gap-2 border-1 border border-gray-300 m-5 p-5'>
+                            <div key={index} className='flex items-baseline gap-2 border-1 border border-gray-300 sm:m-5 m-2 sm:p-5 p-2'>
                                 <RadioGroup value={formik.values.deliveryAddress} onValueChange={(value) => formik.setFieldValue("deliveryAddress", value)}>
                                     <div onClick={() => formik.setFieldValue("deliveryAddress", addressData._id)} className="flex items-center space-x-2">
                                         <RadioGroupItem value={addressData._id} id={addressData._id} />
@@ -362,7 +362,7 @@ const OrderPage = () => {
 
                     <div className='border border-1 border-gray-300 space-y-4 mt-10 mb-10'>
                         <h1 className='font-semibold text-lg pt-5 pl-5'>Payment Option</h1>
-                        <RadioGroup value={formik.values.paymentOption} onValueChange={(value) => formik.setFieldValue("paymentOption", value)} className='flex items-center gap-10 border-t border-gray-300 p-4'>
+                        <RadioGroup value={formik.values.paymentOption} onValueChange={(value) => formik.setFieldValue("paymentOption", value)} className='flex items-center justify-between gap-10 border-t border-gray-300 p-4'>
                             <div onClick={() => formik.setFieldValue("paymentOption", "Cash On Delivery")} className='flex flex-col items-center justify-center hover:cursor-pointer'>
                                 <RiMoneyDollarCircleLine className='text-4xl text-orange-400' />
                                 <h2>Cash on Delivery</h2>
@@ -415,7 +415,7 @@ const OrderPage = () => {
                             <div key={index} className='flex items-center gap-4'>
                                 <img src={item.productImage} alt="" className='w-10 h-10' />
                                 <div>
-                                    <h3 className='overflow-ellipsis overflow-hidden whitespace-nowrap w-80'>{item.productName}</h3>
+                                    <h3 className='line-clamp-1 sm:w-80'>{item.productName}</h3>
                                     {/* <span>1 x %70</span> */}
                                 </div>
                             </div>
