@@ -129,7 +129,7 @@ const ShoppingCart = () => {
 
     return (
         <section className='flex justify-center'>
-            <main className='sm:w-[90%] mx-2 sm:flex gap-4 my-10'>
+            <main className='sm:w-[90%] w-full mx-2 sm:flex gap-4 my-10'>
                 {(cart?.cartItems?.length === 0 || !userInfo?._id || !cart?.cartItems || !cart) && (
                     <div className='flex items-center justify-center w-full py-24 bg-gray-100 border-2'>
                         <div className='flex flex-col items-center gap-2'>
