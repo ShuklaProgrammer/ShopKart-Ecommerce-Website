@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button'
 import React, { useEffect, useState } from 'react'
 
 // all the icons are imported here
-import { FaRegEye, FaRegHeart } from 'react-icons/fa'
-import { FiShoppingCart } from 'react-icons/fi'
+import { FaRegEye, FaRegHeart, FaShoppingBag } from 'react-icons/fa'
+import { FiShoppingCart, FiMenu } from 'react-icons/fi'
 
 // from shadcn
 import {
@@ -15,6 +15,16 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet"
+
 
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
@@ -147,7 +157,7 @@ const ShopPage = () => {
     }
 
     const handlePageChange = (newPage) => {
-        if(newPage > 0 && totalPages <= totalPages){
+        if (newPage > 0 && totalPages <= totalPages) {
             setPage(newPage)
         }
     }
@@ -155,11 +165,104 @@ const ShopPage = () => {
     return (
         <section className='shop-section flex justify-center my-10'>
             <main className='w-[90%]'>
+                <Sheet>
+                    <SheetTrigger className='sm:hidden flex items-center gap-2'><FiMenu className='text-xl' />Filter and Sort</SheetTrigger>
+                    <SheetContent side="left">
+                        <ScrollArea className="h-full rounded-md">
+                            <SheetHeader>
+                                <SheetTitle>
+                                    <h1 className='text-2xl font-extrabold text-black flex gap-2 select-none'>
+                                        <FaShoppingBag className='text-3xl' />
+                                        ShopKart
+                                    </h1>
+                                    Browse
+                                </SheetTitle>
+                                <SheetDescription>
+                                    <div className='filteration-section mt-4'>
+                                        <div className='space-y-2 border-b-2 pb-10'>
+                                            <h3 className='uppercase text-lg font-semibold'>Category</h3>
+                                            {categories.map((category, index) => (
+                                                <span key={index} className='flex items-center gap-2'>
+                                                    <Checkbox onCheckedChange={() => handleCategoryChange(category.categoryName)}
+                                                        id={category._id}
+                                                        checked={selectCategory.includes(category.categoryName)} />
+                                                    <label className='hover:cursor-pointer' htmlFor={category._id}>{category.categoryName}</label>
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        <div className='space-y-2 border-b-2 mt-8 pb-10'>
+                                            <h3 className='uppercase text-lg font-semibold'>Price Range</h3>
+                                            <Slider defaultValue={minMaxPrice} onValueChange={handleSliderChange} min={0} max={10000} step={10} />
+                                            <div className='flex items-center gap-4'>
+                                                <h4 className='border-2 rounded px-2 py-1 pr-5'>Min price: {minMaxPrice[0]}</h4>
+                                                <h4 className='border-2 rounded px-2 py-1 pr-5'>Max price: {minMaxPrice[1]}</h4>
+                                            </div>
+                                            <span className='flex items-center gap-2'>
+                                                <Checkbox id="under_$20" onCheckedChange={() => handlePriceRangeChange("0-20")} checked={selectedPriceRanges.includes("0-20")} />
+                                                <label htmlFor="under_$20">Under $20</label>
+                                            </span>
+                                            <span className='flex items-center gap-2'>
+                                                <Checkbox id="$25_to_$100" onCheckedChange={() => handlePriceRangeChange("25-100")} checked={selectedPriceRanges.includes("25-100")} />
+                                                <label htmlFor="$25_to_$100">$25 to $100</label>
+                                            </span>
+                                            <span className='flex items-center gap-2'>
+                                                <Checkbox id="$100_to_$300" onCheckedChange={() => handlePriceRangeChange("100-300")} checked={selectedPriceRanges.includes("100-300")} />
+                                                <label htmlFor="$100_to_$300">$100 to $300</label>
+                                            </span>
+                                            <span className='flex items-center gap-2'>
+                                                <Checkbox id="$300_to_$500" onCheckedChange={() => handlePriceRangeChange("300-500")} checked={selectedPriceRanges.includes("300-500")} />
+                                                <label htmlFor="$300_to_$500">$300 to $500</label>
+                                            </span>
+                                            <span className='flex items-center gap-2'>
+                                                <Checkbox id="$500_to_$1000" onCheckedChange={() => handlePriceRangeChange("500-1000")} checked={selectedPriceRanges.includes("500-1000")} />
+                                                <label htmlFor="$500_to_$1000">$500 to $1,000</label>
+                                            </span>
+                                            <span className='flex items-center gap-2'>
+                                                <Checkbox id="$1000_to_10000" onCheckedChange={() => handlePriceRangeChange("1000-100000")} checked={selectedPriceRanges.includes("1000-100000")} />
+                                                <label htmlFor="$1000_to_10000">$1,000 to $10,000</label>
+                                            </span>
+                                        </div>
+
+                                        <div className='mt-8 border-b-2 pb-10'>
+                                            <h3 className='uppercase text-lg font-semibold'>Popular Brands</h3>
+                                            <div className='grid grid-cols-2 space-y-2'>
+                                                {brands.map((brand, index) => (
+                                                    <span key={index} className='flex items-center gap-2'>
+                                                        <Checkbox id={brand._id} onCheckedChange={() => handleBrandChange(brand.brandName)} checked={selectBrand.includes(brand.brandName)} />
+                                                        <label htmlFor={brand._id} className='hover:cursor-pointer'>{brand.brandName}</label>
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className='text-black text-sm mt-8'>
+                                            <h2 className='text-black w-full text-lg font-semibold'>Popular Tag</h2>
+                                            <div className='grid grid-cols-3 gap-2'>
+                                                {['phone', 'laptop', 'dell', 'Asus Laptops', 'Macbook', 'SSD', 'Power Bank', 'Smart TV', 'Speaker', 'Tablet', 'Microwave', 'Samsung'].map(tag => (
+                                                    <span
+                                                        key={tag}
+                                                        onClick={() => handleTagChange(tag)}
+                                                        className={`border border-2 px-2 py-1 hover:bg-orange-100 hover:border-orange-400 hover:cursor-pointer ${tags.includes(tag) ? 'bg-orange-100 border-orange-400' : 'border-gray-300'}`}
+                                                    >
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </SheetDescription>
+                            </SheetHeader>
+                        </ScrollArea>
+                    </SheetContent>
+
+                </Sheet>
+
                 <div className=' mt-5'>
 
-                    <div className='flex gap-10'>
+                    <div className='sm:flex gap-10'>
 
-                        <div className='filteration-section w-[50%]'>
+                        <div className='filteration-section sm:block hidden'>
                             <div className='space-y-2 border-b-2 pb-10'>
                                 <h3 className='uppercase text-lg font-semibold'>Category</h3>
                                 {categories.map((category, index) => (
@@ -233,36 +336,38 @@ const ShopPage = () => {
                             </div>
                         </div>
 
-                        <section className='grid grid-cols-4 border-2 border border-solid border-gray-200 border'>
-                            {products.map((product, index) => (
-                                <Link key={index} to={`/product-details/${product._id}`}>
-                                    <div className='col-span-1 border-r-2 border-b-2 pb-4'>
-                                        <div className='flex justify-center'>
-                                            <img src={product.productImage} alt="" className='w-[15vw] h-[15vw] mt-5 mb-3' />
+                        <section className='border-2 border border-solid border-gray-200'>
+                            <div className='grid grid-cols-1 sm:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200'>
+                                {products.map((product, index) => (
+                                    <Link key={index} to={`/product-details/${product._id}`}>
+                                        <div className='col-span-1'>
+                                            <div className='flex justify-center'>
+                                                <img src={product.productImage} alt="" className='w-56 h-56 mt-5 mb-3' />
+                                            </div>
+                                            <p className='line-clamp-2 w-22 text-sm px-4 mb-2'>{product.title}</p>
+                                            <span className='px-4'>${product.price}</span>
                                         </div>
-                                        <p className='line-clamp-2 leading-tight text-sm px-4 mb-2'>{product.title}</p>
-                                        <span className='pl-4'>${product.price}</span>
-                                    </div>
-                                </Link>
-                            ))}
+                                    </Link>
+                                ))}
+                            </div>
                         </section>
 
                     </div>
                 </div>
-                <Pagination>
+                <Pagination className="mt-5">
                     <PaginationContent>
                         <PaginationItem>
-                            <PaginationPrevious href="#" onClick={() => handlePageChange(page - 1)} className={page === 1 ? "opacity-50 pointer-events-none" : ""}/>
+                            <PaginationPrevious href="#" onClick={() => handlePageChange(page - 1)} className={page === 1 ? "opacity-50 pointer-events-none" : ""} />
                         </PaginationItem>
                         {[...Array(totalPages)].map((_, index) => (
-                        <PaginationItem key={index}>
-                            <PaginationLink href="#" onClick={() => handlePageChange(index + 1)}>
-                                {index + 1}
-                            </PaginationLink>
-                        </PaginationItem>
+                            <PaginationItem key={index}>
+                                <PaginationLink href="#" onClick={() => handlePageChange(index + 1)}>
+                                    {index + 1}
+                                </PaginationLink>
+                            </PaginationItem>
                         ))}
                         <PaginationItem>
-                            <PaginationNext href="#" onClick={() => handlePageChange(page + 1)} className={page === totalPages ? "opacity-50 pointer-events-none" : ""}/>
+                            <PaginationNext href="#" onClick={() => handlePageChange(page + 1)} className={page === totalPages ? "opacity-50 pointer-events-none" : ""} />
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>

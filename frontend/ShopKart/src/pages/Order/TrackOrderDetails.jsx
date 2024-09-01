@@ -17,7 +17,7 @@ const TrackOrderDetails = () => {
 
     const { orderID } = location.state || {}
 
-    const { data: getOrderById } = useGetOrderByIdQuery(orderID)
+    const { data: getOrderById, isLoading } = useGetOrderByIdQuery(orderID)
 
     const orderData = getOrderById?.data
     const orderItems = orderData?.orderItems || []
@@ -46,6 +46,10 @@ const TrackOrderDetails = () => {
         } else {
             return 'w-7 h-7 rounded-full bg-white border-orange-400 border-2'
         }
+    }
+
+    if(isLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em' /></div>
     }
 
     return (
