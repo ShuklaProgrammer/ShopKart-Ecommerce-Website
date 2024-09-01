@@ -162,7 +162,7 @@ const ProfileAddress = () => {
     }
 
     return (
-        <section className='w-[80%] border-1 border border-gray-300 p-6 my-10'>
+        <section className='sm:w-[80%] border-1 border border-gray-300 sm:p-6 p-2 my-10'>
             {profileAddressData.length === 0 && !addAddress && (
                 <div className='flex justify-center items-center my-20'>
                     <div className='flex flex-col items-center gap-3'>
@@ -173,12 +173,12 @@ const ProfileAddress = () => {
                 </div>
             )}
             {profileAddressData.length > 0 && (
-                <div onClick={handleAddAddress} className='border-1 border border-gray-300 p-4 hover:cursor-pointer'>
+                <div onClick={handleAddAddress} className='border-1 border border-gray-300 sm:p-4 p-2 hover:cursor-pointer'>
                     <h1 className='flex items-center gap-3 text-blue-500 font-semibold'><GrAdd />Add More Addresses</h1>
                 </div>
             )}
             {profileAddressData.map((addressData, index) => (
-                <div key={index} className='border-1 border border-gray-300 p-5 mt-5'>
+                <div key={index} className='border-1 border border-gray-300 sm:p-5 p-3 mt-5'>
                     <h1 className='text-lg font-semibold'>{addressData.fullName}</h1>
                     <p>{addressData.address}, {addressData.city}, {addressData.state}, {addressData.country} - {addressData.postalCode}</p>
                     <h4>Phone Number: <span>{addressData.phoneNumber}</span></h4>

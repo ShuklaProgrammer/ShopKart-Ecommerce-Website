@@ -73,7 +73,7 @@ const Wishlist = () => {
 
   return (
     <section className='flex justify-center my-5'>
-      <main className='w-[80%] border-2 my-10'>
+      <main className='sm:w-[80%] border-2 my-10 mx-2 sm:mx-0'>
         {(wishlist?.wishlistItems?.length === 0 || !userInfo?._id || !wishlist) && (
           <div className='flex items-center justify-center py-20 bg-gray-100'>
             <div className='flex flex-col items-center justify-center gap-3'>

@@ -44,9 +44,25 @@ const ProfileDashboard = () => {
 
     const userOrders = getAllUserOrdersData?.data.userAllOrders || []
 
+    // console.log(userOrders)
 
     const handleViewOrderDetails = (orderId) => {
         navigate("/profile/order-details", {state: {orderId}})
+    }
+
+    const getOrderStatusColor = (status) => {
+        switch (status) {
+            case "pending":
+                return "text-yellow-500";
+            case "processing":
+                return "text-blue-500";
+            case "completed":
+                return "text-green-500";
+            case "cancelled":
+                return "text-red-500";
+            default:
+                return "";
+        }
     }
 
     const isLoading = isProfileLoading || isOrderStatistics || isUserOrderLoading
@@ -57,15 +73,14 @@ const ProfileDashboard = () => {
     
     return (
         <section>
-            <main className='w-[80%] my-10'>
+            <main className='sm:w-[80%] my-10 mx-2'>
                 <h1 className='text-lg font-semibold'>Hello, {userProfile?.firstName ? userProfile?.firstName : userInfo.username}</h1>
-                {console.log(userInfo.username)}
-                <p className='w-[50%]'>From your account dashboard. you can easily check & view your <span className='text-blue-400 font-semibold'>Recent Orders</span>, manage your <span className='text-blue-400 font-semibold'>Delivery Addresses</span> and edit your <span className='text-blue-400 font-semibold'>Password</span> and <span className='text-blue-400 font-semibold'>Account Details</span>.</p>
-                <div className='flex gap-4 mt-10'>
+                <p className='sm:w-[50%]'>From your account dashboard. you can easily check & view your <span className='text-blue-400 font-semibold'>Recent Orders</span>, manage your <span className='text-blue-400 font-semibold'>Delivery Addresses</span> and edit your <span className='text-blue-400 font-semibold'>Password</span> and <span className='text-blue-400 font-semibold'>Account Details</span>.</p>
+                <div className='sm:flex space-y-4 sm:space-y-0 gap-4 sm:mt-10 mt-4'>
                     {userProfile?.firstName && userProfile?.lastName && userProfile?.contactNumber && (
                     <section className='border border-1 border-gray-300 w-full'>
                         <h1 className='p-4 border-b-2 font-semibold uppercase'>Account Info</h1>
-                        <div className='p-4'>
+                        <div className='sm:p-4 p-2'>
                         <div className='flex items-center gap-4'>
                             <div className='bg-green-400 w-16 h-16 rounded-full'>
                                 <img src="" alt="" />
@@ -85,7 +100,7 @@ const ProfileDashboard = () => {
                     {userProfile?.firstName && userProfile?.lastName && userProfile?.contactNumber && userProfile?.deliveryAddress && userProfile?.deliveryAddress?.length > 0 && (
                     <section className='border border-1 border-gray-300 w-full'>
                         <h1 className='p-4 border-b-2 font-semibold uppercase'>Delivery address</h1>
-                        <div className='p-4'>
+                        <div className='sm:p-4 p-2'>
                         <h3 className='font-semibold'>{userProfile?.deliveryAddress[0]?.fullName}</h3>
                         <p>{userProfile?.deliveryAddress[0]?.address}, {userProfile?.deliveryAddress[0]?.city} - {userProfile?.deliveryAddress[0]?.postalCode}, {userProfile?.deliveryAddress[0]?.country}</p>
                         <h4>Phone Number: <span>{userProfile?.deliveryAddress[0]?.phoneNumber}</span></h4>
@@ -128,7 +143,7 @@ const ProfileDashboard = () => {
                     )}
 
                     {!userProfile?.firstName && !userProfile?.lastName && !userProfile?.contactNumber && (userProfile?.deliveryAddress || !userProfile?.deliveryAddress || userProfile?.deliveryAddress?.length === 0) && (
-                    <section className='flex items-center justify-center w-full bg-sky-100 py-16 border border-1 border-gray-300'>
+                    <section className='flex items-center justify-center w-full bg-sky-100 sm:py-16 py-4 border border-1 border-gray-300'>
                         <h2 className='text-lg'>Please complete your profile setup like <span onClick={() => navigate("/profile/address")} className='text-red-500 font-semibold cursor-pointer'>Add Addresses</span> and <span onClick={() => navigate("/profile/setting")} className='text-green-500 font-semibold cursor-pointer'>Edit Profile Details</span> in order to view your <span className='text-orange-500 font-semibold'>Dashboard</span>.</h2>
                     </section>
                     )}
@@ -173,8 +188,10 @@ const ProfileDashboard = () => {
                     </div>
                 </section> */}
 
-                <section className='border border-1 border-gray-300 mt-10'>
-                    <h1 className='p-4 border-b'>Recent Order</h1>
+                {userOrders && (
+                <section className='border border-1 border-gray-300 sm:mt-10 mt-5'>
+                    <h1 className='p-4 sm:border-b'>Recent Order</h1>
+                    <div className='sm:block hidden'>
                     <Table>
                         <TableCaption>A list of your recent orders.</TableCaption>
                         <TableHeader>
@@ -210,7 +227,25 @@ const ProfileDashboard = () => {
                             </TableBody>
                         )}
                     </Table>
+                    </div>
+
+                    {userOrders?.slice(0, 5)?.map((order, index) => (
+                    <div key={index} onClick={()=>handleViewOrderDetails(order._id)} className='sm:hidden block p-2 border-t border-solid border-gray-300 cursor-pointer'>
+                         <div>
+                            <h2 className='text-lg'>#{order._id}</h2>
+                            <div className='sm:flex items-center gap-2'>
+                                <p>{order.orderItems.length} Products</p>
+                                <p className='text-sm'>Order Placed in {new Date(order?.createdAt).toLocaleDateString()} at {new Date(order?.createdAt).toLocaleTimeString()}</p>
+                            </div>
+                        </div>
+                        <div className='flex items-center justify-between'>
+                        <span className='text-xl font-semibold text-blue-400'>${order?.totalPrice}</span>
+                        <p>Order Status: <span className={`${getOrderStatusColor(order.orderStatus)} uppercase font-semibold`}>{order.orderStatus}</span></p>
+                        </div>
+                    </div>
+                    ))}
                 </section>
+                )}
             </main>
         </section>
     )

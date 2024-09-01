@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 
 //shadcn
 import { Progress } from "@/components/ui/progress"
+import Loader from '@/components/mycomponents/Loader';
 
 
 const TrackOrderDetails = () => {

@@ -77,17 +77,17 @@ const ProfileSetting = () => {
     
   return (
     <section>
-      <main className='flex'>
-        <section className='w-[80%] my-10'>
+      <main className='sm:flex mx-2 sm:mx-0'>
+        <section className='sm:w-[80%] my-10'>
         <h1 className='p-5 border-t border-l border-r border-gray-300 font-semibold uppercase'>Account Settings</h1>
-        <form action='' className='flex justify-center gap-6 border border-1 border-gray-300 p-6 mb-10'>
-          <div>
-            <div className='bg-blue-300 w-36 h-36 rounded-full'>
+        <form action='' className='sm:flex justify-center gap-6 border border-1 border-gray-300 p-6 mb-10'>
+          <div className='flex flex-col items-center'>
+            <div className='bg-blue-300 sm:w-36 sm:h-36 w-20 h-20 rounded-full'>
             <img src="" alt=""/>
             </div>
           </div>
           <div className='flex flex-col w-full space-y-4'>
-          <div className='flex items-center gap-5'>
+          <div className='sm:flex items-center space-y-4 sm:space-y-0 gap-5'>
           <div className='space-y-2 w-full'>
             <label htmlFor="">First name</label>
             <Input type="text" value={firstName} onChange={e=>setFirstName(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
@@ -97,7 +97,7 @@ const ProfileSetting = () => {
             <Input type="text" value={lastName} onChange={e=>setLastName(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
           </div>
           </div>
-          <div className='flex items-center gap-5'>
+          <div className='sm:flex items-center gap-5 space-y-4 sm:space-y-0'>
           <div className='space-y-2 w-full'>
             <label htmlFor="">Secondary Email(Optional)</label>
             <Input type="text" value={secondaryEmail} onChange={e=>setSecondaryEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
@@ -107,7 +107,7 @@ const ProfileSetting = () => {
             <Input type="text" value={username} onChange={e=>setUsername(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
           </div>
           </div>
-          <div className='flex items-center gap-5'>
+          <div className='sm:flex items-center gap-5 space-y-4 sm:space-y-0'>
           <div className='space-y-2 w-full'>
             <label htmlFor="">Email</label>
             <Input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>

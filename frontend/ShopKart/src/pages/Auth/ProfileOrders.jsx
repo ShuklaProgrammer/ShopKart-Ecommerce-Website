@@ -72,8 +72,9 @@ const ProfileOrders = () => {
     }
 
     return (
-        <section className='border border-1 border-gray-300 mt-10 w-[80%]'>
+        <section className='border border-1 border-gray-300 mt-10 sm:w-[80%] mx-2'>
             <h1 className='p-4 border-b'>Order History</h1>
+            <div className='sm:block hidden'>
             <Table>
                 <TableCaption>A list of your all orders.</TableCaption>
                 <TableHeader>
@@ -109,6 +110,23 @@ const ProfileOrders = () => {
                 </TableBody>
                 )}
             </Table>
+            </div>
+
+            {userOrders.map((order, index) => (
+            <div key={index} onClick={()=>handleViewOrderDetails(order._id)} className='sm:hidden block p-2 border-t border-solid border-gray-300 cursor-pointer'>
+                         <div>
+                            <h2 className='text-lg'>#{order._id}</h2>
+                            <div className='sm:flex items-center gap-2'>
+                                <p>{order.orderItems.length} Products</p>
+                                <p className='text-sm'>Order Placed in {new Date(order?.createdAt).toLocaleDateString()} at {new Date(order?.createdAt).toLocaleTimeString()}</p>
+                            </div>
+                        </div>
+                        <div className='flex items-center justify-between'>
+                        <span className='text-xl font-semibold text-blue-400'>${order?.totalPrice}</span>
+                        <p>Order Status: <span className={`${getOrderStatusColor(order.orderStatus)} uppercase font-semibold`}>{order.orderStatus}</span></p>
+                        </div>
+            </div>
+            ))}
 
             <Pagination>
                 <PaginationContent>
