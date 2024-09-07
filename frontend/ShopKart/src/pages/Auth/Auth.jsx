@@ -163,24 +163,13 @@ const SignIn = () => {
 
     const { userInfo } = useSelector((state) => state.auth)
 
-    const { data: getUserProfile, isSuccess } = useGetUserProfileQuery({ userId: userInfo?._id }, { skip: !userInfo })
+    const { data: getUserProfile, refetch } = useGetUserProfileQuery({ userId: userInfo?._id }, { skip: !userInfo })
     const verifiedPhoneNumber = getUserProfile?.data?.contactNumber
 
     const [showPassword, setShowPassword] = useState(false)
 
     const [loginUser] = useLoginUserMutation()
 
-    useEffect(() => {
-        if (isSuccess && userInfo) {
-            if(!userInfo?.isEmailVerified){
-                navigate("/verify-email")
-            }else if(!verifiedPhoneNumber) {
-                navigate("/verify-phone")
-            } else {
-                navigate("/")
-            }
-        }
-    }, [isSuccess, verifiedPhoneNumber, navigate])
 
     // const handleSignIn = async(e) => {
     //     e.preventDefault()
@@ -223,6 +212,16 @@ const SignIn = () => {
                 const login = await loginUser(signInData)
                 const userData = login.data.data.user
                 dispatch(setCredentials(userData))
+                await refetch()
+                setSubmitting(false)
+
+                if(!userInfo?.isEmailVerified){
+                    navigate("/verify-email")
+                }else if(!verifiedPhoneNumber) {
+                    navigate("/verify-phone")
+                } else {
+                    navigate("/")
+                }
             } catch (error) {
                 console.log("Cannot login user")
                 setSubmitting(false)
