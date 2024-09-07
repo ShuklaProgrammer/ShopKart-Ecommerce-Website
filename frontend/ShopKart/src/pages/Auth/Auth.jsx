@@ -210,11 +210,11 @@ const SignIn = () => {
                 }
                 const login = await loginUser(signInData)
                 const userData = login.data.data.user
-                dispatch(setCredentials(userData))
+                await dispatch(setCredentials(userData))
                 await refetch()
 
-                if (userInfo) {
-                    if(!userInfo?.isEmailVerified){
+                if (userData) {
+                    if(!userData?.isEmailVerified){
                         navigate("/verify-email")
                     }else if(!verifiedPhoneNumber) {
                         navigate("/verify-phone")
@@ -230,6 +230,7 @@ const SignIn = () => {
             }
         }
     })
+    
 
     return (
         <>
