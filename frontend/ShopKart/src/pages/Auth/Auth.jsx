@@ -163,7 +163,7 @@ const SignIn = () => {
 
     const { userInfo } = useSelector((state) => state.auth)
 
-    const { data: getUserProfile, isSuccess } = useGetUserProfileQuery({ userId: userInfo?._id }, { skip: !userInfo })
+    const { data: getUserProfile, isSuccess, isError} = useGetUserProfileQuery({ userId: userInfo?._id }, { skip: !userInfo })
     const verifiedPhoneNumber = getUserProfile?.data?.contactNumber
 
     const [showPassword, setShowPassword] = useState(false)
@@ -172,6 +172,15 @@ const SignIn = () => {
 
     useEffect(() => {
         if (isSuccess && userInfo) {
+            if(!userInfo?.isEmailVerified){
+                navigate("/verify-email")
+            }else if(!verifiedPhoneNumber) {
+                navigate("/verify-phone")
+            } else {
+                navigate("/")
+            }
+        }
+        if(isError && userInfo){
             if(!userInfo?.isEmailVerified){
                 navigate("/verify-email")
             }else if(!verifiedPhoneNumber) {
