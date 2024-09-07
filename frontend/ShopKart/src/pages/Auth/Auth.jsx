@@ -170,7 +170,6 @@ const SignIn = () => {
 
     const [loginUser] = useLoginUserMutation()
 
-
     // const handleSignIn = async(e) => {
     //     e.preventDefault()
     //     try {
@@ -213,21 +212,26 @@ const SignIn = () => {
                 const userData = login.data.data.user
                 dispatch(setCredentials(userData))
                 await refetch()
-                setSubmitting(false)
 
-                if(!userInfo?.isEmailVerified){
-                    navigate("/verify-email")
-                }else if(!verifiedPhoneNumber) {
-                    navigate("/verify-phone")
-                } else {
-                    navigate("/")
-                }
+                setSubmitting(false)
             } catch (error) {
                 console.log("Cannot login user")
                 setSubmitting(false)
             }
         }
     })
+
+    useEffect(() => {
+        if (userInfo) {
+            if(!userInfo?.isEmailVerified){
+                navigate("/verify-email")
+            }else if(!verifiedPhoneNumber) {
+                navigate("/verify-phone")
+            } else {
+                navigate("/")
+            }
+        }
+    }, [userInfo, verifiedPhoneNumber, navigate])
 
     return (
         <>
