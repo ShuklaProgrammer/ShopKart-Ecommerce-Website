@@ -213,6 +213,16 @@ const SignIn = () => {
                 dispatch(setCredentials(userData))
                 await refetch()
 
+                if (userInfo) {
+                    if(!userInfo?.isEmailVerified){
+                        navigate("/verify-email")
+                    }else if(!verifiedPhoneNumber) {
+                        navigate("/verify-phone")
+                    } else {
+                        navigate("/")
+                    }
+                }
+
                 setSubmitting(false)
             } catch (error) {
                 console.log("Cannot login user")
@@ -220,18 +230,6 @@ const SignIn = () => {
             }
         }
     })
-
-    useEffect(() => {
-        if (userInfo) {
-            if(!userInfo?.isEmailVerified){
-                navigate("/verify-email")
-            }else if(!verifiedPhoneNumber) {
-                navigate("/verify-phone")
-            } else {
-                navigate("/")
-            }
-        }
-    }, [userInfo, verifiedPhoneNumber, navigate])
 
     return (
         <>
