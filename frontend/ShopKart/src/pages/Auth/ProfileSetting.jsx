@@ -29,7 +29,7 @@ const ProfileSetting = () => {
   const [updateProfile] = useUpdateProfileMutation()
 
   useEffect(()=>{
-    if(profileData && profileData.data._id){
+    if(profileData && profileData?.data?._id){
       setFirstName(profileData.data.firstName)
       setLastName(profileData.data.lastName)
       setSecondaryEmail(profileData.data.secondaryEmail)
@@ -114,7 +114,7 @@ const ProfileSetting = () => {
           </div>
           <div className='space-y-2 w-full'>
             <label htmlFor="">Phone Number</label>
-            <Input type="text" value={contactNumber} onChange={e=>setContactNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
+            <Input type="text" value={contactNumber} onChange={(e)=>setContactNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
           </div>
           </div>
           <Button variant="shop" disabled={isLoading === "addProfile"} onClick={(e)=>{handleCreateProfile(e, userInfo._id)}}>{isLoading === "addProfile" ? <span>Saving...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "SAVE CHANGES"}</Button>

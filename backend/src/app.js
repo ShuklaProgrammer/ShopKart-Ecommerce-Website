@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 app.use(cors({
-    origin: "https://shopkart-ecommerce.vercel.app", //http://localhost:5173
+    origin: "https://shopkart-ecommerce.vercel.app", // http://localhost:5173
     credentials: true,
 }))
 app.use(cookieParser())
@@ -27,6 +27,8 @@ import wishlistRoutes from "./routes/wishlist.route.js"
 import reviewRoutes from "./routes/review.routes.js"
 import orderRoutes from "./routes/order.routes.js"
 import paymentRoutes from "./routes/payment.routes.js"
+import mobileVerifyRoutes from "./routes/mobile.verify.routes.js"
+import emailRoutes from "./routes/email.routes.js"
 
 // all the main routes are here
 app.use("/api/v1/users", userRoutes)
@@ -41,5 +43,7 @@ app.use("/api/v1/discounts", discountRoutes)
 app.use("/api/v1/coupons", couponRoutes)
 app.use("/api/v1/orders", orderRoutes)
 app.use("/api/v1/payments", paymentRoutes)
+app.use("/api/v1/phone", mobileVerifyRoutes)
+app.use("/api/v1/emails", emailRoutes)
 
 export default app

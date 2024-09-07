@@ -2,6 +2,7 @@ import {Router} from "express"
 import { addOrder, deleteOrderById, getAllOrder, getAllUserOrders, getOrderById, getUserOrder, getUserOrderStatistics, orderStatistics, topProducts, topStatesBySales, trackOrder, updateOrderById } from "../controllers/order.controller.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js"
 import { validateMongoId } from "../middlewares/validate.id.js"
+import { sendOrderSuccessfulEmail } from "../utils/orderSuccessfulEmail.js"
 
 
 const router = Router()
@@ -20,5 +21,8 @@ router.route("/get-order-statistics").get(orderStatistics)
 router.route("/get-top-states-sales").get(topStatesBySales)
 router.route("/top-products-sales").get(topProducts)
 router.route("/track-order").post(trackOrder)
+
+//order sucessful email
+router.route("/order-successful-email").post(sendOrderSuccessfulEmail)
 
 export default router

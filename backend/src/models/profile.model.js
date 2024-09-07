@@ -68,7 +68,7 @@ const profileSchema = new mongoose.Schema({
         type: String //optional
     },
     contactNumber:{
-        type: Number,
+        type: String,
     },
     deliveryAddress: [addressSchema],
 })

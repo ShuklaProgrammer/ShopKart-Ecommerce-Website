@@ -6,6 +6,8 @@ import { Order, OrderStatus } from "../models/order.model.js";
 import CryptoJS from "crypto-js"
 import { Cart } from "../models/cart.model.js";
 
+import { sendOrderSuccessfulEmail } from "../utils/orderSuccessfulEmail.js";
+
 
 const razorpay = new RazorPay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -14,7 +16,7 @@ const razorpay = new RazorPay({
 
 const createPaymentOrder = asyncHandler(async (req, res) => {
 
-    const { orderId, paymentMethod, deliveryAddress } = req.body
+    const { orderId, paymentMethod, deliveryAddress, email } = req.body
 
     if(!orderId){
         throw new ApiError(400, "OrderId is required")
@@ -43,6 +45,8 @@ const createPaymentOrder = asyncHandler(async (req, res) => {
         order.orderStatus = OrderStatus.COMPLETED
 
         await order.save()
+
+        sendOrderSuccessfulEmail(email, orderId)
 
         res.status(201).json(
             new ApiResponse(200, order, "Cash On Delivery Payment order created successfully")
@@ -74,7 +78,7 @@ const createPaymentOrder = asyncHandler(async (req, res) => {
 
 
 const verifyPayment = asyncHandler(async (req, res) => {
-    const { orderId, paymentId, signature } = req.body
+    const { orderId, paymentId, signature, email } = req.body
 
     const order = await Order.findOne({ "paymentInfo.razorpayOrderId": orderId })
 
@@ -104,6 +108,8 @@ const verifyPayment = asyncHandler(async (req, res) => {
 
     if (orderCompleted) {
         order.orderStatus = OrderStatus.COMPLETED
+
+        sendOrderSuccessfulEmail(email, orderId)
 
         // let cart = await Cart.findOne({ userId: order.orderedBy })
 

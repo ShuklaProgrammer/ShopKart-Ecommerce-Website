@@ -38,6 +38,10 @@ import TrackOrderDetails from './pages/Order/TrackOrderDetails'
 import AllOrder from './pages/Admin/AllOrder'
 import OrderDetails from './pages/Admin/OrderDetails'
 import ErrorPage from './pages/ErrorPage'
+import ForgetPassword from './pages/Auth/ForgetPassword'
+import ResetPassword from './pages/Auth/ResetPassword'
+import EmailVerification from './pages/Auth/EmailVerification'
+import MobileVerification from './pages/Auth/MobileVerification'
 
 const App = () => {
   return (
@@ -53,6 +57,8 @@ const App = () => {
           <Route path='/wishlist' element={<Wishlist />} />
           <Route path='/cart' element={<ShoppingCart />} />
 
+          <Route path='/forget-password' element={<ForgetPassword/>}/>
+
 
           {/* For Resgistered user */}
           <Route path='/' element={<PrivateRoute />}>
@@ -67,6 +73,9 @@ const App = () => {
             <Route path='order-successful' element={<OrderSuccessful />} />
             <Route path='track-order' element={<TrackOrder />} />
             <Route path='track-order-details' element={<TrackOrderDetails />} />
+            <Route path='reset-password' element={<ResetPassword/>} />
+            <Route path='verify-email' element={<EmailVerification/>} />
+            <Route path='verify-phone' element={<MobileVerification/>} />
             <Route />
           </Route>
 

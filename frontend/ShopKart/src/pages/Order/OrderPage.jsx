@@ -132,7 +132,8 @@ const OrderPage = () => {
             const paymentData = {
                 orderId: orderId,
                 paymentMethod: paymentMethod,
-                deliveryAddress: deliveryAddress
+                deliveryAddress: deliveryAddress,
+                email: userInfo.email
             }
             const response = await addPayment(paymentData)
             const paymentOrder = response.data.data
@@ -175,7 +176,8 @@ const OrderPage = () => {
             await verifyPayment({
                 orderId: razorpay_order_id,
                 paymentId: razorpay_payment_id,
-                signature: razorpay_signature
+                signature: razorpay_signature,
+                email: userInfo.email
             })
             navigate("/order-successful")
         } catch (error) {
