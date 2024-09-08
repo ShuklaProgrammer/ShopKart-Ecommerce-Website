@@ -73,8 +73,6 @@ const VerifyEmail = ({userInfo}) => {
   const navigate = useNavigate()
 
   const [verifyEmailOtp] = useVerifyEmailCodeMutation()
-  const { data: getUserProfile, isSuccess, refetch } = useGetUserProfileQuery({ userId: userInfo?._id }, { skip: !userInfo })
-  const verifiedPhoneNumber = getUserProfile?.data?.contactNumber
 
   const validationSchema = Yup.object().shape({
     enteredOtp: Yup.string().required("OTP is required"),
@@ -89,10 +87,9 @@ const VerifyEmail = ({userInfo}) => {
     onSubmit: async (values, {setSubmitting}) => {
       try {
         await verifyEmailOtp({email: userInfo.email, enteredOtp: values.enteredOtp})
-        await refetch()
         setSubmitting(false)
 
-        if(!verifiedPhoneNumber){
+        if(!userInfo.isMobileVerified){
           navigate("/verify-phone")
         }else{
           navigate("/")

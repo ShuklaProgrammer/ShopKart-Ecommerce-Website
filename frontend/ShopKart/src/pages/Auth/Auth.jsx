@@ -163,9 +163,6 @@ const SignIn = () => {
 
     const { userInfo } = useSelector((state) => state.auth)
 
-    const { data: getUserProfile, refetch } = useGetUserProfileQuery({ userId: userInfo?._id }, { skip: !userInfo })
-    const verifiedPhoneNumber = getUserProfile?.data?.contactNumber
-
     const [showPassword, setShowPassword] = useState(false)
 
     const [loginUser] = useLoginUserMutation()
@@ -211,12 +208,11 @@ const SignIn = () => {
                 const login = await loginUser(signInData)
                 const userData = login.data.data.user
                 await dispatch(setCredentials(userData))
-                await refetch()
 
                 if (userData) {
                     if(!userData?.isEmailVerified){
                         navigate("/verify-email")
-                    }else if(!verifiedPhoneNumber) {
+                    }else if(!userInfo.isMobileVerified) {
                         navigate("/verify-phone")
                     } else {
                         navigate("/")
