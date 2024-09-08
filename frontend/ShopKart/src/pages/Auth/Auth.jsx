@@ -212,7 +212,7 @@ const SignIn = () => {
                 if (userData) {
                     if(!userData?.isEmailVerified){
                         navigate("/verify-email")
-                    }else if(!userInfo.isMobileVerified) {
+                    }else if(!userData?.isMobileVerified) {
                         navigate("/verify-phone")
                     } else {
                         navigate("/")
