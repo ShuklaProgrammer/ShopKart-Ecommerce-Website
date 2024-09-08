@@ -25,6 +25,14 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    mobileNumber: {
+        type: String,
+        required: true,
+    },
+    isMobileVerified: {
+        type: Boolean,
+        default: false,
+    },
     refreshToken: {
         type: String
     }

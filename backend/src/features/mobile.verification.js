@@ -3,7 +3,7 @@ import asyncHandler from "../utils/asyncHandler.js"
 import ApiError from "../utils/apiError.js"
 import ApiResponse from "../utils/apiResponse.js"
 
-import { Profile } from "../models/profile.model.js"
+import { User } from "../models/user.model.js"
 
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID
@@ -35,6 +35,11 @@ const verifyCode = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Please provide the phone number and code amd userId")
     }
 
+    const user = await User.findById(userId)
+
+    if(!user){
+        throw new ApiError(404, "Cannot found the user")
+    }
 
     const verify = await client.verify.v2.services(process.env.TWILIO_SERVICE_SID).verificationChecks.create({to: `+${phoneNumber}`, code})
 
@@ -42,15 +47,7 @@ const verifyCode = asyncHandler(async(req, res) => {
         throw new ApiError(400, "Invalid verification code")
     }
 
-    const profile = await Profile.findOne({userId})
-
-    if(!profile){
-        throw new ApiError(404, "Cannot find the user profile")
-    }
-
-    profile.contactNumber = verify.to
-
-    await profile.save()
+    user.mobileNumber = verify.to
 
     res.status(201).json(
         new ApiResponse(200, verify, "Code verified successfully")
