@@ -48,6 +48,9 @@ const verifyCode = asyncHandler(async(req, res) => {
     }
 
     user.mobileNumber = verify.to
+    user.isMobileVerified = true
+
+    await user.save()
 
     res.status(201).json(
         new ApiResponse(200, verify, "Code verified successfully")

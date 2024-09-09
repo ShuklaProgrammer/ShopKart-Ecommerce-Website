@@ -7,7 +7,12 @@ import { useSelector } from 'react-redux';
 import { useCreateProfileMutation, useGetUserProfileQuery, useUpdateProfileMutation } from '@/redux/api/profileApiSlice';
 import Loader from '@/components/mycomponents/Loader';
 
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+
 const ProfileSetting = () => {
+
+  const navigate = useNavigate()
 
   const [isLoading, setIsloading] = useState(null)
 
@@ -33,9 +38,11 @@ const ProfileSetting = () => {
       setFirstName(profileData.data.firstName)
       setLastName(profileData.data.lastName)
       setSecondaryEmail(profileData.data.secondaryEmail)
-      setContactNumber(profileData.data.contactNumber)
+    }
+    if(userInfo){
       setUsername(userInfo.username)
       setEmail(userInfo.email)
+      setContactNumber(userInfo.mobileNumber)
     }
   }, [profileData])
 
@@ -109,12 +116,38 @@ const ProfileSetting = () => {
           </div>
           <div className='sm:flex items-center gap-5 space-y-4 sm:space-y-0'>
           <div className='space-y-2 w-full'>
-            <label htmlFor="">Email</label>
-            <Input type="text" value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
+            <label htmlFor="" className='flex items-center justify-between'>Email
+            {userInfo?.isEmailVerified ? (
+                <span className='flex items-center gap-1 font-semibold text-green-700 bg-green-100 border-1 border border-solid border-green-400 rounded-md text-sm p-1'>
+                  <FaCheckCircle /> Verified
+                </span>
+              ) : (
+                <span className='flex items-center gap-1 font-semibold text-red-700 bg-red-100 border-1 border border-solid border-red-400 rounded-md text-sm p-1'>
+                  <FaTimesCircle /> Not Verified
+                </span>
+              )}
+              </label>
+              <div className='relative'>
+            <Input type="text" disabled={userInfo?.isEmailVerified} value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 font-semibold cursor-pointer" onClick={()=>navigate("/verify-email")}>Edit</span>
+            </div>
           </div>
           <div className='space-y-2 w-full'>
-            <label htmlFor="">Phone Number</label>
-            <Input type="text" value={contactNumber} onChange={(e)=>setContactNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
+            <label htmlFor="" className='flex items-center justify-between'>Phone Number
+            {userInfo?.isMobileVerified ? (
+                <span className='flex items-center gap-1 font-semibold text-green-700 bg-green-100 border-1 border border-solid border-green-400 rounded-md text-sm p-1'>
+                  <FaCheckCircle /> Verified
+                </span>
+              ) : (
+                <span className='flex items-center gap-1 font-semibold text-red-700 bg-red-100 border-1 border border-solid border-red-400 rounded-md text-sm p-1'>
+                  <FaTimesCircle /> Not Verified
+                </span>
+              )}
+            </label>
+            <div className='relative'>
+            <Input type="text" disabled={userInfo?.isMobileVerified} value={contactNumber} onChange={(e)=>setContactNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
+            <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 font-semibold cursor-pointer" onClick={() => navigate("/verify-phone")}>Edit</span>
+            </div>
           </div>
           </div>
           <Button variant="shop" disabled={isLoading === "addProfile"} onClick={(e)=>{handleCreateProfile(e, userInfo._id)}}>{isLoading === "addProfile" ? <span>Saving...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "SAVE CHANGES"}</Button>

@@ -141,6 +141,25 @@ const logoutUser = asyncHandler(async(req, res) => {
     .json(new ApiResponse(200, {}, "User logged Out"))
 })
 
+const getUserById = asyncHandler(async(req, res) => {
+
+    const {_id: userId} = req.user
+
+    if(!userId){
+        new ApiError(400, "Please provide the user id")
+    }
+
+    const user = await User.findById(userId).select("-password")
+
+    if(!user){
+        new ApiError(404, "Cannot find the user")
+    }
+
+    res.status(201).json(
+        new ApiResponse(200, user, "You got the user successfully")
+    )
+})
+
 
 const getAllUsers = asyncHandler(async(req, res) => {
     const users = await User.find({})
@@ -181,4 +200,4 @@ const changeTheUserRole = asyncHandler(async(req, res) => {
 })
 
 
-export {registerUser, loginUser, logoutUser, getAllUsers, changeTheUserRole}
+export {registerUser, loginUser, logoutUser, getUserById, getAllUsers, changeTheUserRole}

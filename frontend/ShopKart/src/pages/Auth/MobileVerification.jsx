@@ -1,11 +1,13 @@
 import Loader from '@/components/mycomponents/Loader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useGetUserByIdQuery } from '@/redux/api/authApiSlice'
 import { useSendMobileCodeMutation, useVerifyMobileCodeMutation } from '@/redux/api/verificationApiSlice'
+import { setCredentials } from '@/redux/features/auth/authSlice'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { IoMdArrowForward } from 'react-icons/io'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import * as Yup from "yup"
 
@@ -90,9 +92,12 @@ const VERIFYCODE = ({ phoneNumber }) => {
     const {userInfo} = useSelector((state) => state.auth)
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [verifyMobileCode] = useVerifyMobileCodeMutation()
     const [sendVerifyCodeToMobile] = useSendMobileCodeMutation()
+    const {data: getUserById, refetch} = useGetUserByIdQuery(userInfo._id)
+    
 
     const [isSendingCodeLoading, setIsSendingCodeLoading] = useState(false)
 
@@ -110,6 +115,10 @@ const VERIFYCODE = ({ phoneNumber }) => {
         onSubmit: async (values, { setSubmitting }) => {
             try {
                 await verifyMobileCode({ phoneNumber: values.phoneNumber, code: values.code, userId: userInfo._id })
+                const refetchedData = await refetch();
+                const updatedUserInfo = refetchedData?.data?.data;
+                await dispatch(setCredentials(updatedUserInfo));
+              
                 setSubmitting(false)
                 navigate("/")
             } catch (error) {
