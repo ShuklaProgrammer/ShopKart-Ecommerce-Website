@@ -248,11 +248,11 @@ const ShopPage = () => {
 
                 </Sheet>
 
-                <div className=' mt-5'>
+                <div className='mt-5'>
 
                     <div className='sm:flex gap-10'>
 
-                        <div className='filteration-section sm:block hidden'>
+                        <div className='filteration-section sm:block hidden w-full'>
                             <div className='space-y-2 border-b-2 pb-10'>
                                 <h3 className='uppercase text-lg font-semibold'>Category</h3>
                                 {categories.map((category, index) => (
@@ -328,7 +328,7 @@ const ShopPage = () => {
                                     <Link key={index} to={`/product-details/${product._id}`}>
                                         <div className='col-span-1'>
                                             <div className='flex justify-center'>
-                                                <img src={product.productImage} alt="" className='w-56 h-56 mt-5 mb-3' />
+                                                <img src={product.productImage} alt="" className='w-48 h-48 mt-5 mb-3' />
                                             </div>
                                             <p className='line-clamp-2 w-22 text-sm px-4 mb-2'>{product.title}</p>
                                             <span className='px-4'>${product.price}</span>
