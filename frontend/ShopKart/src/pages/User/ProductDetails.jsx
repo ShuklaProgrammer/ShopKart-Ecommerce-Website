@@ -112,8 +112,7 @@ const ProductDetails = () => {
             } else {
                 toast({
                     title: "Login required",
-                    description: "You need to log in to add products to the cart.",
-                    status: "info"
+                    description: "You need to log in to add products to the cart."
                 });
                 navigate("/auth")
                 setIsLoading(null)
@@ -143,7 +142,6 @@ const ProductDetails = () => {
                 toast({
                     title: "Login required",
                     description: "You need to log in to add products to the wishlist.",
-                    status: "info"
                 });
                 navigate("/auth")
             }
@@ -208,6 +206,10 @@ const ProductDetails = () => {
             } else {
                 navigate("/auth")
                 setIsLoading(null)
+                toast({
+                    title: "Login required",
+                    description: "You need to log in order to buy product.",
+                });
             }
         } catch (error) {
             console.log("The order cannot be created", error)
