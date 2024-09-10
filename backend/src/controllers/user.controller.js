@@ -86,20 +86,27 @@ const loginUser = asyncHandler(async(req, res) => {
         throw new ApiError(400, "The user not found")
     }
 
+    const isPasswordValid = await user.isPasswordCorrect(password)
+
+    if (!isPasswordValid) {
+     throw new ApiError(401, "Invalid user credentials")
+     }
+
     const {accessToken, refreshToken} = await generateAccessAndRefreshToken(user._id)
+
+
+    //when the user loggedIn then send the response
+    const loggedUser = await User.findById(user._id).select("-password -refreshToken")
+
+    //if cannot able to loggedIn then
+    if(!loggedUser){
+        throw new ApiError(400, "Cannot able to logged in")
+    }
 
     const options = {
         httpOnly: true,
         secure: true,
         sameSite: "None"
-    }
-
-    //when the user loggedIn then send the response
-    const loggedUser = await User.findById(user._id).select("-password")
-
-    //if cannot able to loggedIn then
-    if(!loggedUser){
-        throw new ApiError(400, "Cannot able to logged in")
     }
 
     res.status(201)
@@ -200,4 +207,27 @@ const changeTheUserRole = asyncHandler(async(req, res) => {
 })
 
 
-export {registerUser, loginUser, logoutUser, getUserById, getAllUsers, changeTheUserRole}
+const resetPassword = asyncHandler(async(req, res) => {
+    const {oldPassword, newPassword} = req.body
+    const {_id: userId} = req.user
+
+    console.log(oldPassword, newPassword)
+
+
+    const user = await User.findById(userId)
+    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
+
+    if(!isPasswordCorrect){
+        throw new ApiError(400, "Invalid old password")
+    }
+
+    user.password = newPassword
+    await user.save()
+
+    return res.status(201).json(
+        new ApiResponse(200, {}, "Password changed successfully")
+    )
+})
+
+
+export {registerUser, loginUser, logoutUser, getUserById, getAllUsers, changeTheUserRole, resetPassword}

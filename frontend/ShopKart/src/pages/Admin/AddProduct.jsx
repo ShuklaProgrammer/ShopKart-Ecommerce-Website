@@ -40,6 +40,7 @@ import Loader from '@/components/mycomponents/Loader';
 
 import { useFormik } from 'formik';
 import * as Yup from "yup"
+import { useToast } from '@/hooks/use-toast';
 
 
 const AddProduct = () => {
@@ -47,6 +48,8 @@ const AddProduct = () => {
   const navigate = useNavigate()
   const imageInputRef = useRef(null)
   const videoInputRef = useRef(null)
+
+  const {toast} = useToast()
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(null)
 
@@ -333,8 +336,16 @@ const handleVideoUploadChange = (e) => {
         })
 
         await createProduct(formData)
-        console.log(formData)
+        toast({
+          title: "Product added!",
+          description: "The product was added successfully.",
+        })
+        
       } catch (error) {
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request."
+        })
         console.log("Product submmision failed", error)
         setSubmitting(false)
       }

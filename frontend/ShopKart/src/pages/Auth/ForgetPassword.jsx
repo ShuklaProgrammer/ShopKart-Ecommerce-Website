@@ -2,11 +2,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import React from 'react'
 import { IoMdArrowForward } from 'react-icons/io'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const ForgetPassword = () => {
 
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const {text} = location.state || {}
 
   const handleSignUpClick = () => {
     navigate("/auth?form=signup")
@@ -21,7 +24,7 @@ const ForgetPassword = () => {
     <section className='flex justify-center my-10'>
         <main className='bg-white shadow-2xl w-full mx-4 sm:mx-0 sm:w-[30%]'>
         <div className='flex items-center text-2xl justify-evenly'>
-        <h1 className='p-3'>Forget Password</h1>
+        <h1 className='p-3'>{text ? `${text} Password` : "Forget Password"}</h1>
             </div>
             <div className='flex flex-col justify-center w-full sm:px-10 px-4'>  
             <p className='text-center'>Enter the email address or mobile phone number associated with your ShopKart account.</p>

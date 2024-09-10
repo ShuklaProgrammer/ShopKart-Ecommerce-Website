@@ -43,10 +43,12 @@ import { useCreateCategoryMutation, useGetAllCategoryQuery, useDeleteCategoryMut
 import { useFormik } from 'formik'
 import * as Yup from "yup"
 import Loader from '@/components/mycomponents/Loader'
+import { useToast } from '@/hooks/use-toast'
 
 
 const AddCategory = () => {
 
+    const {toast} = useToast()
 
     const [addCategory] = useCreateCategoryMutation()
     const [deleteCategory] = useDeleteCategoryMutation()
@@ -65,8 +67,19 @@ const AddCategory = () => {
     // }
 
     const handleUpdateCategory = async (categoryId, updatedName) => {
-        console.log("Updating category with ID:", categoryId, "and name:", updatedName);
-        await updateCategory({ categoryId, categoryName: updatedName })
+        try {
+            await updateCategory({ categoryId, categoryName: updatedName })
+            toast({
+                title: "Category added!",
+                description: "The category was added successfully.",
+            })
+        } catch (error) {
+            toast({
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request."
+              })
+            console.log("cannot update the category", error)
+        }
     }
 
     const handleDeleteCategory = async (categoryId) => {
@@ -85,7 +98,15 @@ const AddCategory = () => {
         onSubmit: async(values, {setSubmitting}) => {
             try {
                 await addCategory({categoryName: values.categoryName}).unwrap()
+                toast({
+                    title: "Category added!",
+                    description: "The category was added successfully.",
+                })
             } catch (error) {
+                toast({
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request."
+                  })
                 console.log("Cannot add the category", error)
                 setSubmitting(false)
             }

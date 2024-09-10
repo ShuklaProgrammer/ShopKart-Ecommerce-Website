@@ -225,7 +225,8 @@ const OrderPage = () => {
                 <section>
                     <div className='border border-1 border-gray-300'>
                         <h1 className='text-lg font-semibold p-4 border-b border-gray-300'>Delivery Address</h1>
-                        {orderDataAddress.map((addressData, index) => (
+                        {orderDataAddress && orderDataAddress.length > 0 ? (
+                        orderDataAddress.map((addressData, index) => (
                             <div key={index} className='flex items-baseline gap-2 border-1 border border-gray-300 sm:m-5 m-2 sm:p-5 p-2'>
                                 <RadioGroup value={formik.values.deliveryAddress} onValueChange={(value) => formik.setFieldValue("deliveryAddress", value)}>
                                     <div onClick={() => formik.setFieldValue("deliveryAddress", addressData._id)} className="flex items-center space-x-2">
@@ -293,8 +294,13 @@ const OrderPage = () => {
                                     )}
                                 </div>
                             </div>
-                        ))}
-
+                        ))
+                    ):(
+                        <div className='flex flex-col items-center justify-center my-4 mx-10 gap-2'>
+                        <h2>Please add the address in your profile</h2>
+                        <Button variant="blueBorder" className="w-full uppercase" onClick={() => navigate("/profile/address")}>Add Address</Button>
+                        </div>
+                    )}
                         {formik.errors.deliveryAddress && formik.touched.deliveryAddress ? (
                             <div className='text-red-500 text-sm font-semibold px-5 pb-4'>{formik.errors.deliveryAddress}</div>
                         ) : (

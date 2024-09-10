@@ -48,12 +48,15 @@ import { useAddWishlistMutation } from '@/redux/api/wishlistApiSlice';
 import { setWishlist } from '@/redux/features/wishlist/wishlistSlice';
 import { useCreateOrderMutation } from '@/redux/api/orderApiSlice';
 import Loader from '@/components/mycomponents/Loader';
+import { useToast } from '@/hooks/use-toast';
 
 const ProductDetails = () => {
 
     const { productId } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const {toast} = useToast()
 
     const [isLoading, setIsLoading] = useState(null)
 
@@ -93,33 +96,75 @@ const ProductDetails = () => {
     const [deleteReview] = useDeleteUserReviewMutation()
 
 
-    const handleAddToCart = async () => {
-        if (userInfo) {
-            setIsLoading("addToCart")
-            const response = await addToCartApi({ userId: userInfo._id, productId })
-            const cartData = response.data.data
-            // console.log(cartData)
-            dispatch(setCart(cartData))
-            setIsLoading(null)
-        } else {
-            navigate("/auth")
+    const handleAddToCart = async (productName) => {
+        try {
+            if (userInfo) {
+                setIsLoading("addToCart")
+                const response = await addToCartApi({ userId: userInfo._id, productId })
+                const cartData = response.data.data
+                // console.log(cartData)
+                dispatch(setCart(cartData))
+                toast({
+                    title: "Product added to cart",
+                    description: `${productName} has been added to your cart.`,
+                })
+                setIsLoading(null)
+            } else {
+                toast({
+                    title: "Login required",
+                    description: "You need to log in to add products to the cart.",
+                    status: "info"
+                });
+                navigate("/auth")
+                setIsLoading(null)
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+              });
+            console.log("Cannot add the product to wishlist", error)
             setIsLoading(null)
         }
     }
 
-    const handleAddToWishlist = async (productId) => {
-        if (userInfo) {
-            const response = await addToWishlist({ userId: userInfo._id, productId })
-            const wishlistData = response.data.data
-            dispatch(setWishlist(wishlistData))
-        } else {
-            navigate("/auth")
+    const handleAddToWishlist = async (productId, productName) => {
+        try {
+            if (userInfo) {
+                const response = await addToWishlist({ userId: userInfo._id, productId })
+                const wishlistData = response.data.data
+                dispatch(setWishlist(wishlistData))
+                toast({
+                    title: "Product added to wishlist",
+                    description: `${productName} has been added to your wishlist.`,
+                  });
+            } else {
+                toast({
+                    title: "Login required",
+                    description: "You need to log in to add products to the wishlist.",
+                    status: "info"
+                });
+                navigate("/auth")
+            }
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Product added to cart",
+                description: "There was a problem with your request.",
+            })
+            console.log("Cannot add the product to the wishlist", error)
         }
     }
 
-    const copyUrlToClipBoard = () => {
+    const copyUrlToClipBoard = (productName) => {
         const url = window.location.href
         navigator.clipboard.writeText(url)
+        toast({
+            title: "Copied to clipboard!",
+            description: `${productName} have been copied.`,
+            position: "top-left"
+        });
     }
 
     const shareOnFacebook = () => {
@@ -170,15 +215,30 @@ const ProductDetails = () => {
     }
 
     const handleAddReview = async () => {
-        const reviewData = {
-            userId: userInfo._id,
-            productId,
-            rating,
-            comment
+        try {
+            const reviewData = {
+                userId: userInfo._id,
+                productId,
+                rating,
+                comment
+            }
+            await addReview({ reviewData })
+            setComment("")
+            setRating(0)
+            toast({
+                title: "Review Submitted!",
+                description: "Thank you for your feedback.",
+            })    
+        } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request.",
+            });
+            console.log("Cannot add the review to the product", error)
+            setComment("")
+            setRating(0)
         }
-        await addReview({ reviewData })
-        setComment("")
-        setRating(0)
     }
 
     const deleteUserReview = async (reviewId) => {
@@ -281,7 +341,7 @@ const ProductDetails = () => {
                                 </div>
                             </div>
                             <div className='flex gap-2 items-center'>
-                                <span className='text-lg text-blue-400 font-semibold'>${product.discountedPrice ? product.discountedPrice : product.price}</span>
+                                <span className='text-lg text-blue-400 font-semibold'>${product.discountedPrice > 0 ? product.discountedPrice : product.price}</span>
                                 {product.discountedPrice > 0 && (
                                     <>
                                         <p className='line-through text-lg'>${product.price}</p>
@@ -291,7 +351,7 @@ const ProductDetails = () => {
                             </div>
 
                             <div className='flex justify-between pt-5 items-center gap-4 sm:gap-10'>
-                                <Button onClick={handleAddToCart} disabled={isLoading === "addToCart"} variant="shop" className="w-full py-6">{isLoading === "addToCart" ? <span className='flex items-center gap-2'>Adding To Cart...<FiShoppingCart className='text-xl ml-2' /><Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center'>Add TO Cart<FiShoppingCart className='text-xl ml-2' /></span>}</Button>
+                                <Button onClick={() => handleAddToCart(product.title)} disabled={isLoading === "addToCart"} variant="shop" className="w-full py-6">{isLoading === "addToCart" ? <span className='flex items-center gap-2'>Adding To Cart...<FiShoppingCart className='text-xl ml-2' /><Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : <span className='flex items-center'>Add TO Cart<FiShoppingCart className='text-xl ml-2' /></span>}</Button>
                                 <Button onClick={handleBuyNow} disabled={isLoading === "buyNow"} variant="shop" className="w-full py-6">{isLoading === "buyNow" ? <span className='flex items-center gap-2'> Buy Now<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "Buy Now"}</Button>
                             </div>
 
@@ -303,7 +363,7 @@ const ProductDetails = () => {
                                         <p>Added to Wishlist</p>
                                         </div>
                                     ) : (
-                                        <div onClick={() => handleAddToWishlist(product._id)} className='flex items-center sm:gap-2 gap-1 hover:text-orange-500'>
+                                        <div onClick={() => handleAddToWishlist(product._id, product.title)} className='flex items-center sm:gap-2 gap-1 hover:text-orange-500'>
                                         <FaRegHeart />
                                         <p>Add to Wishlist</p>
                                         </div>
@@ -316,7 +376,7 @@ const ProductDetails = () => {
                                 <div className='flex items-center sm:gap-2 gap-1'>
                                     <p className='hidden sm:block'>Share product:</p>
                                     <p className='block sm:hidden'>Share:</p>
-                                    <FaRegCopy onClick={copyUrlToClipBoard} className='hover:text-orange-400 hover:cursor-pointer text-lg' />
+                                    <FaRegCopy onClick={() => copyUrlToClipBoard(product.title)} className='hover:text-orange-400 hover:cursor-pointer text-lg' />
                                     <FaFacebook onClick={shareOnFacebook} className='hover:text-orange-400 hover:cursor-pointer text-lg' />
                                     <FaTwitter onClick={shareOnTwitter} className='hover:text-orange-400 hover:cursor-pointer text-lg' />
                                     <FaEnvelope onClick={shareViaEmail} className='hover:text-orange-400 hover:cursor-pointer text-lg' />

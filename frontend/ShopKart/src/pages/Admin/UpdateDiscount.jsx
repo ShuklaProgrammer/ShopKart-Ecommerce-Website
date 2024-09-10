@@ -47,9 +47,16 @@ const UpdateDiscount = () => {
                 discountExpiry
             }
             await updateDiscount(discountData)
+            toast({
+                title: "Discount updated!",
+                description: "The brand was updated successfully.",
+            })
             navigate("/admin/discounts")
-            console.log("discopunt updartion successfull")
         } catch (error) {
+            toast({
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request."
+            })
             console.log("Failed to update", error)
         }
     }

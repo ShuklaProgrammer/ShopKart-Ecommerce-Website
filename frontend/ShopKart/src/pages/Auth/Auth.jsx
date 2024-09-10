@@ -17,9 +17,12 @@ import { useFormik } from 'formik';
 import * as Yup from "yup"
 import Loader from '@/components/mycomponents/Loader';
 import { useGetUserProfileQuery } from '@/redux/api/profileApiSlice';
+import { useToast } from '@/hooks/use-toast';
 
 
 const SignUp = ({ onSignUpSuccess }) => {
+
+    const {toast} = useToast()
 
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -74,8 +77,17 @@ const SignUp = ({ onSignUpSuccess }) => {
                     password: values.password
                 }
                 await registerUser(signUpData)
+                toast({
+                    title: "Sign-Up successful! Welcome!",
+                    description: "Please sign in with your new account.",
+                })
                 onSignUpSuccess()
             } catch (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Sign-Up failed!",
+                    description: "There was a problem creating your account."
+                })
                 console.log("Cannot register user")
                 setSubmitting(false)
             }
@@ -157,7 +169,7 @@ const SignUp = ({ onSignUpSuccess }) => {
 const SignIn = () => {
 
     const navigate = useNavigate()
-
+    const {toast} = useToast()
 
     const dispatch = useDispatch()
 
@@ -210,6 +222,10 @@ const SignIn = () => {
                 await dispatch(setCredentials(userData))
 
                 if (userData) {
+                    toast({
+                        title: "Login successful! Welcome back!",
+                        description: "You have successfully logged in.",
+                    })
                     if(!userData?.isEmailVerified){
                         navigate("/verify-email")
                     }else if(!userData?.isMobileVerified) {
@@ -221,6 +237,11 @@ const SignIn = () => {
 
                 setSubmitting(false)
             } catch (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                })
                 console.log("Cannot login user")
                 setSubmitting(false)
             }

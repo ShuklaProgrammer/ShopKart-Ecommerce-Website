@@ -294,7 +294,16 @@ const UpdateProduct = () => {
                 })
 
                 await updateProduct({productId, formData})
+                toast({
+                    title: "Product updated!",
+                    description: "The product was updated successfully.",
+                })
             } catch (error) {
+                toast({
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                  })
                 console.log("Product submmision failed", error)
                 setSubmitting(false)
             }

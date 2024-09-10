@@ -106,10 +106,22 @@ const AddDiscount = () => {
                 }
                 if(actionType === "addDiscountToProduct"){
                     await addDiscountToProduct({ productId, discountData })
+                    toast({
+                        title: "Discount added!",
+                        description: "The discount was added to product successfully.",
+                    })
                 }else if(actionType === "createDiscount"){
                     await createDiscount(discountData)
+                    toast({
+                        title: "Discount added!",
+                        description: "The discount was added successfully.",
+                    })
                 }
             } catch (error) {
+                toast({
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request.",
+                  })
                 console.log("Cannot add the discount", error)
                 setSubmitting(false)
             }

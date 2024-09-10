@@ -20,17 +20,18 @@ import {
 
 
 import { useChangeUserRoleMutation, useGetAllUsersQuery } from '@/redux/api/userApiSlice'
-import { useGetUserProfileQuery } from '@/redux/api/profileApiSlice'
 import { useSelector } from 'react-redux'
 import Loader from '@/components/mycomponents/Loader'
+import { useToast } from '@/hooks/use-toast'
 
 
 const Users = () => {
 
+    const {toast} = useToast()
+
     const { userInfo } = useSelector((state) => state.auth)
     const { data: usersResponse, isLoading } = useGetAllUsersQuery()
     const [changeUserRole] = useChangeUserRoleMutation()
-    const { data: profileData } = useGetUserProfileQuery()
 
     const [roles, setRoles] = useState({})
     const users = usersResponse?.data || []
@@ -53,7 +54,15 @@ const Users = () => {
                 ...prevRoles,
                 [userId]: newRole
             }))
+            toast({
+                title: "User Role Updated!",
+                description: "The User Role was updated successfully."
+            })
         } catch (error) {
+            toast({
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request."
+            })
             console.log("Cannot change the user role", error)
         }
     }

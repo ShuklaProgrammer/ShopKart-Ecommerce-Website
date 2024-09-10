@@ -43,8 +43,11 @@ import { useCreateBrandMutation, useDeleteBrandMutation, useGetAllBrandsQuery, u
 import { useFormik } from 'formik'
 import * as Yup from "yup"
 import Loader from '@/components/mycomponents/Loader'
+import { useToast } from '@/hooks/use-toast'
 
 const Brand = () => {
+
+    const {toast} = useToast()
 
     const [brandName, setBrandName] = useState("")
     const [updatedBrandName, setUpdatedBrandName] = useState("")
@@ -68,8 +71,19 @@ const Brand = () => {
     }
 
     const handleUpdateBrand = async (brandId, updatedBrand) => {
-        console.log(brandId, updatedBrand)
-        await updateBrand({ brandId, brandName: updatedBrand })
+        try {
+            await updateBrand({ brandId, brandName: updatedBrand })
+            toast({
+                title: "Brand updated!",
+                description: "The brand was updated successfully.",
+            })
+        } catch (error) {
+            toast({
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request."
+            })
+            console.log("Cannot update the brand", error)
+        }
     }
 
     const handleDeleteBrand = async (brandId) => {
@@ -89,7 +103,15 @@ const Brand = () => {
         onSubmit: async(values, {setSubmitting}) => {
             try {
                 await createBrand({brandName: values.brandName}).unwrap()
+                toast({
+                    title: "Brand added!",
+                    description: "The brand was added successfully.",
+                })
             } catch (error) {
+                toast({
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request."
+                  })
                 console.log("Cannot create the brand", error)
                 setSubmitting(false)
             }

@@ -62,11 +62,13 @@ import { Input } from '@/components/ui/input';
 import { FaSearch } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import Loader from '@/components/mycomponents/Loader';
+import { useToast } from '@/hooks/use-toast';
 
 
 const AllOrder = () => {
 
     const navigate = useNavigate()
+    const {toast} = useToast()
 
     const [searching, setSearching] = useState("")
     const [searchQuery, setSearchQuery] = useState("")
@@ -130,8 +132,20 @@ const AllOrder = () => {
     }
 
     const handleUpdateOrderStatus = async() => {
-        if(selectOrderId && selectOrderStatus){
-            await updateOrder({orderId: selectOrderId, orderStatus: selectOrderStatus})
+        try {
+            if(selectOrderId && selectOrderStatus){
+                await updateOrder({orderId: selectOrderId, orderStatus: selectOrderStatus})
+                toast({
+                    title: "Order status updated!",
+                    description: "The Order status was added successfully.",
+                })
+            }
+        } catch (error) {
+            toast({
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request."
+              })
+            console.log("Cannot update the order status")
         }
     }
 

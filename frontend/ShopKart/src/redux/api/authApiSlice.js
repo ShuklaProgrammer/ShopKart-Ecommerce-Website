@@ -31,9 +31,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 url: `${USER_URL}/get-user/${userId}`,
                 method: "GET"
             })
+        }),
+
+        resetUserPassword: builder.mutation({
+            query: ({oldPassword, newPassword}) => ({
+                url: `${USER_URL}/reset-password`,
+                method: "POST",
+                body: {oldPassword, newPassword}
+            })
         })
     })
 })
 
 
-export const {useLoginUserMutation, useLogoutUserMutation, useRegisterUserMutation, useGetUserByIdQuery} = authApiSlice
+export const {useLoginUserMutation, useLogoutUserMutation, useRegisterUserMutation, useGetUserByIdQuery, useResetUserPasswordMutation} = authApiSlice

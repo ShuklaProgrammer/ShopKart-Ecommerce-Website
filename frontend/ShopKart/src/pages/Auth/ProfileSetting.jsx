@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ProfileSidebar from '@/components/mycomponents/ProfileSidebar';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 const ProfileSetting = () => {
 
   const navigate = useNavigate()
+  const imgRef = useRef(null)
 
   const [isLoading, setIsloading] = useState(null)
 
@@ -41,8 +42,8 @@ const ProfileSetting = () => {
     }
     if(userInfo){
       setUsername(userInfo.username)
-      setEmail(userInfo.email)
-      setContactNumber(userInfo.mobileNumber)
+      setEmail(userInfo.email || "Not Added")
+      setContactNumber(userInfo.mobileNumber || "Not Added")
     }
   }, [profileData])
 
@@ -76,6 +77,20 @@ const ProfileSetting = () => {
     }
   }
 
+  const handleImageUploadChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const imageUrl = URL.createObjectURL(file)
+        setProfileImage(imageUrl)
+    }
+  };
+
+  const handleImgUpload = () => {
+    if(imgRef.current){
+      imgRef.current.click()
+    }
+  }
+
 
   if(isProfileLoading){
     return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
@@ -89,8 +104,9 @@ const ProfileSetting = () => {
         <h1 className='p-5 border-t border-l border-r border-gray-300 font-semibold uppercase'>Account Settings</h1>
         <form action='' className='sm:flex justify-center gap-6 border border-1 border-gray-300 p-6 mb-10'>
           <div className='flex flex-col items-center'>
-            <div className='bg-blue-300 sm:w-36 sm:h-36 w-20 h-20 rounded-full'>
-            <img src="" alt=""/>
+              <input type="file" ref={imgRef} onChange={handleImageUploadChange} className='hidden' name="" id="" />
+            <div onClick={handleImgUpload} className='flex items-center justify-center bg-blue-300 sm:w-36 sm:h-36 w-20 h-20 rounded-full'>
+            <img src={profileImage} alt="" className='w-36 h-36 rounded-full' />
             </div>
           </div>
           <div className='flex flex-col w-full space-y-4'>
@@ -128,7 +144,7 @@ const ProfileSetting = () => {
               )}
               </label>
               <div className='relative'>
-            <Input type="text" disabled={userInfo?.isEmailVerified} value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
+            <Input type="text" disabled value={email} onChange={e=>setEmail(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
             <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 font-semibold cursor-pointer" onClick={()=>navigate("/verify-email")}>Edit</span>
             </div>
           </div>
@@ -145,7 +161,7 @@ const ProfileSetting = () => {
               )}
             </label>
             <div className='relative'>
-            <Input type="text" disabled={userInfo?.isMobileVerified} value={contactNumber} onChange={(e)=>setContactNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
+            <Input type="text" disabled value={contactNumber} onChange={(e)=>setContactNumber(e.target.value)} placeholder="" className="outline outline-1 outline-gray-300"/>
             <span className="absolute right-2 top-1/2 transform -translate-y-1/2 text-blue-500 font-semibold cursor-pointer" onClick={() => navigate("/verify-phone")}>Edit</span>
             </div>
           </div>
@@ -157,18 +173,10 @@ const ProfileSetting = () => {
           <form action="" className='space-y-4 border border-1 border-gray-300 p-6 mt-10'>
             <h1 className='font-semibold uppercase'>Change Password</h1>
           <div className='space-y-2'>
-              <label htmlFor="">Current Password</label>
-              <Input type="text" placeholder="" className="outline outline-1 outline-gray-300"/>
+              <label htmlFor="">Password</label>
+              <Input type="text" value="XXXXXXXXXX" disabled placeholder="" className="outline outline-1 outline-gray-300"/>
             </div>
-            <div className='space-y-2'>
-              <label htmlFor="">New Password</label>
-              <Input type="text" placeholder="8+ characters" className="outline outline-1 outline-gray-300"/>
-            </div>
-            <div className='space-y-2'>
-              <label htmlFor="">Confirm Password</label>
-              <Input type="text" placeholder="" className="outline outline-1 outline-gray-300"/>
-            </div>
-          <Button variant="shop">Change Passowrd</Button>
+          <Button variant="shop" onClick={() => navigate("/forget-password", {state: {text: "Change"}})}>Change Passowrd</Button>
           </form>
 
         </section>
