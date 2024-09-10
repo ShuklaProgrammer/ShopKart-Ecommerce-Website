@@ -65,7 +65,6 @@ const ShopPage = () => {
     const [selectCategory, setSelectCategory] = useState(query.get("category")?.split(",") || [])
     const [selectBrand, setSelectBrand] = useState(query.get("brand")?.split(",") || [])
     const [tags, setTags] = useState(query.get("tags")?.split(",") || [])
-    const [minMaxPrice, setMinMaxPrice] = useState(query.get("price")?.split("-").map(Number) || [0, 10000])
     const [selectedPriceRanges, setSelectedPriceRanges] = useState(query.get("priceRanges")?.split(",") || [])
     const [searching, setSearching] = useState(searchTerm)
     const [page, setPage] = useState(1)
@@ -80,7 +79,7 @@ const ShopPage = () => {
         page,
         limit,
         filterTags: tags.join(","),
-        filterPrice: selectedPriceRanges.length > 0 ? selectedPriceRanges.join(",") : minMaxPrice.join("-")
+        filterPrice: selectedPriceRanges.length > 0 ? selectedPriceRanges.join(",") : ""
     })
     const { data: categoryData } = useGetAllCategoryQuery()
     const { data: brandData } = useGetAllBrandsQuery()
@@ -99,8 +98,6 @@ const ShopPage = () => {
         if (tags.length > 0) params.set("tags", tags.join(","))
         if (selectedPriceRanges.length > 0) {
             params.set("priceRanges", selectedPriceRanges.join(","))
-        } else if (minMaxPrice[0] !== 0 || minMaxPrice[1] !== 10000) {
-            params.set("price", minMaxPrice.join("-"))
         }
         navigate({ search: params.toString() })
     }, 500)
@@ -112,7 +109,6 @@ const ShopPage = () => {
         setSelectCategory(params.get("category")?.split(",") || [])
         setSelectBrand(params.get("brand")?.split(",") || [])
         setTags(params.get("tags")?.split(",") || [])
-        setMinMaxPrice(params.get("price")?.split("-").map(Number) || [0, 10000])
         setSelectedPriceRanges(params.get("priceRanges")?.split(",") || [])
         setSearching(params.get("search") || "")
 
@@ -125,7 +121,7 @@ const ShopPage = () => {
 
     useEffect(() => {
         updateURL()
-    }, [selectCategory, selectBrand, tags, selectedPriceRanges, minMaxPrice, searching])
+    }, [selectCategory, selectBrand, tags, selectedPriceRanges, searching])
 
     const handleCategoryChange = (categoryName) => {
         setSelectCategory(prevCategory => (
@@ -152,7 +148,6 @@ const ShopPage = () => {
     }
 
     const handleSliderChange = (newValue) => {
-        setMinMaxPrice(newValue)
         setSelectedPriceRanges([])
     }
 
@@ -193,11 +188,6 @@ const ShopPage = () => {
 
                                         <div className='space-y-2 border-b-2 mt-8 pb-10'>
                                             <h3 className='uppercase text-lg font-semibold'>Price Range</h3>
-                                            <Slider defaultValue={minMaxPrice} onValueChange={handleSliderChange} min={0} max={10000} step={10} />
-                                            <div className='flex items-center gap-4'>
-                                                <h4 className='border-2 rounded px-2 py-1 pr-5'>Min price: {minMaxPrice[0]}</h4>
-                                                <h4 className='border-2 rounded px-2 py-1 pr-5'>Max price: {minMaxPrice[1]}</h4>
-                                            </div>
                                             <span className='flex items-center gap-2'>
                                                 <Checkbox id="under_$20" onCheckedChange={() => handlePriceRangeChange("0-20")} checked={selectedPriceRanges.includes("0-20")} />
                                                 <label htmlFor="under_$20">Under $20</label>
@@ -277,11 +267,7 @@ const ShopPage = () => {
 
                             <div className='space-y-2 border-b-2 mt-8 pb-10'>
                                 <h3 className='uppercase text-lg font-semibold'>Price Range</h3>
-                                <Slider defaultValue={minMaxPrice} onValueChange={handleSliderChange} min={0} max={10000} step={10} />
-                                <div className='flex items-center gap-4'>
-                                    <h4 className='border-2 rounded px-2 py-1 pr-5'>Min price: {minMaxPrice[0]}</h4>
-                                    <h4 className='border-2 rounded px-2 py-1 pr-5'>Max price: {minMaxPrice[1]}</h4>
-                                </div>
+
                                 <span className='flex items-center gap-2'>
                                     <Checkbox id="under_$20" onCheckedChange={() => handlePriceRangeChange("0-20")} checked={selectedPriceRanges.includes("0-20")} />
                                     <label htmlFor="under_$20">Under $20</label>
