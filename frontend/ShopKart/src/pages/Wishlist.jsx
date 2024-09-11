@@ -66,10 +66,6 @@ const Wishlist = () => {
     return <div className='h-96'><Loader size='3em' topBorderSize='0.3em' /></div>
   }
 
-  if (isError) {
-    return <span>No wishlist</span>
-  }
-
 
   return (
     <section className='flex justify-center my-5'>

@@ -1,6 +1,7 @@
 import Loader from '@/components/mycomponents/Loader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/hooks/use-toast'
 import { useResetUserPasswordMutation } from '@/redux/api/authApiSlice'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
@@ -10,6 +11,8 @@ import { PiEye, PiEyeSlash } from 'react-icons/pi'
 import * as Yup from "yup"
 
 const ResetPassword = () => {
+
+    const {toast} = useToast()
 
     const [showCurrentPassword, setShowCurrentPassword] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
@@ -45,8 +48,17 @@ const ResetPassword = () => {
         onSubmit: async (values, { setSubmitting }) => {
             try {
                 await resetPassword({oldPassword: values.oldPassword, newPassword: values.newPassword})
+                toast({
+                    title: "Password Changed!",
+                    description: "Your password has been changed successfully."
+                })    
                 setSubmitting(false)
             } catch (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request."
+                })    
                 console.log("Cannot reset the password", error)
                 setSubmitting(false)
             }

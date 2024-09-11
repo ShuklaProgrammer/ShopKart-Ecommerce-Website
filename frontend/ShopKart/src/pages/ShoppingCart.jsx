@@ -123,10 +123,6 @@ const ShoppingCart = () => {
         return <div className='h-96'><Loader size='3em' topBorderSize='0.3em' /></div>
     }
 
-    if (isError) {
-        return <span>No cart</span>
-    }
-
     return (
         <section className='flex justify-center'>
             <main className='sm:w-[90%] w-full mx-2 sm:flex gap-4 my-10'>

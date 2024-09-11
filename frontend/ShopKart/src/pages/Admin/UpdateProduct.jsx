@@ -68,10 +68,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from "yup"
 import Loader from '@/components/mycomponents/Loader'
+import { useToast } from '@/hooks/use-toast'
 
 
 const UpdateProduct = () => {
     const { productId } = useParams()
+
+    const {toast} = useToast()
 
     const navigate = useNavigate()
     const imageInputRef = useRef(null)
