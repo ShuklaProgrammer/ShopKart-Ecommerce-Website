@@ -176,7 +176,7 @@ const ProfileSetting = () => {
               <label htmlFor="">Password</label>
               <Input type="text" value="XXXXXXXXXX" disabled placeholder="" className="outline outline-1 outline-gray-300"/>
             </div>
-          <Button variant="shop" onClick={() => navigate("/forget-password", {state: {text: "Change"}})}>Change Passowrd</Button>
+          <Button variant="shop" onClick={() => navigate("/reset-password", {state: {text: "Change"}})}>Change Passowrd</Button>
           </form>
 
         </section>

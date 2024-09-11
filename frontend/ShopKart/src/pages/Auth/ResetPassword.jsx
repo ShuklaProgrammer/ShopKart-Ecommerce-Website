@@ -3,16 +3,21 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import { useResetUserPasswordMutation } from '@/redux/api/authApiSlice'
+import { useSendEmailCodeMutation } from '@/redux/api/verificationApiSlice'
 import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import { IoMdArrowForward } from 'react-icons/io'
 import { PiEye, PiEyeSlash } from 'react-icons/pi'
+import { useNavigate } from 'react-router-dom'
 
 import * as Yup from "yup"
 
 const ResetPassword = () => {
 
     const {toast} = useToast()
+    const navigate = useNavigate()
+
+
 
     const [showCurrentPassword, setShowCurrentPassword] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
@@ -47,12 +52,23 @@ const ResetPassword = () => {
         validationSchema,
         onSubmit: async (values, { setSubmitting }) => {
             try {
-                await resetPassword({oldPassword: values.oldPassword, newPassword: values.newPassword})
-                toast({
-                    title: "Password Changed!",
-                    description: "Your password has been changed successfully."
-                })    
-                setSubmitting(false)
+                const response = await resetPassword({oldPassword: values.oldPassword, newPassword: values.newPassword})
+                if(response.error){
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request."
+                    }) 
+                    setSubmitting(false)  
+                    return
+                }else{
+                    toast({
+                        title: "Password Changed!",
+                        description: "Your password has been changed successfully."
+                    })    
+                    setSubmitting(false)
+                    navigate("/profile/setting")
+                }
             } catch (error) {
                 toast({
                     variant: "destructive",
