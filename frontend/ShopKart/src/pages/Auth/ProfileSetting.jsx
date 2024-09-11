@@ -106,7 +106,7 @@ const ProfileSetting = () => {
           <div className='flex flex-col items-center'>
               <input type="file" ref={imgRef} onChange={handleImageUploadChange} className='hidden' name="" id="" />
             <div onClick={handleImgUpload} className='flex items-center justify-center bg-blue-300 sm:w-36 sm:h-36 w-20 h-20 rounded-full'>
-            <img src={profileImage} alt="" className='w-36 h-36 rounded-full' />
+            <img src={profileImage} alt="" className='sm:w-36 sm:h-36 rounded-full' />
             </div>
           </div>
           <div className='flex flex-col w-full space-y-4'>
