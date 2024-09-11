@@ -1,6 +1,7 @@
 import Loader from '@/components/mycomponents/Loader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/hooks/use-toast'
 import { useGetUserByIdQuery } from '@/redux/api/authApiSlice'
 import { useGetUserProfileQuery } from '@/redux/api/profileApiSlice'
 import { useSendEmailCodeMutation, useVerifyEmailCodeMutation, useVerifyMobileCodeMutation } from '@/redux/api/verificationApiSlice'
@@ -16,6 +17,8 @@ import * as Yup from "yup"
 
 const SendCode = ({sendCodeClick, userInfo}) => {
 
+  const {toast} = useToast()
+
   const [sendEmailCode] = useSendEmailCodeMutation()
 
   const validationSchema = Yup.object().shape({
@@ -30,10 +33,30 @@ const SendCode = ({sendCodeClick, userInfo}) => {
     validationSchema,
     onSubmit: async(values, {setSubmitting}) => {
       try {
-        await sendEmailCode(values.email)
-        setSubmitting(false)
-        sendCodeClick()
+        const response = await sendEmailCode(values.email)
+        
+        if(response.error){
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "There was a problem with your request."
+          })
+          setSubmitting(false)
+          return
+        }else{
+          toast({
+            title: "OTP sent!",
+            description: "OTP sent, check your email."
+          });
+          setSubmitting(false)
+          sendCodeClick(values.email)
+        }
       } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request."
+        })
         console.log("Cannot send the verification code to your email", error)
         setSubmitting(false)
       }
@@ -70,12 +93,17 @@ const SendCode = ({sendCodeClick, userInfo}) => {
   )
 }
 
-const VerifyEmail = ({userInfo}) => {
+const VerifyEmail = ({userInfo, email}) => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const {toast} = useToast()
+
+  const [isSendingCodeLoading, setIsSendingCodeLoading] = useState(false)
+
   const [verifyEmailOtp] = useVerifyEmailCodeMutation()
+  const [sendEmailCode] = useSendEmailCodeMutation()
   const {data: getUserById, refetch} = useGetUserByIdQuery(userInfo._id)
 
   const validationSchema = Yup.object().shape({
@@ -90,10 +118,23 @@ const VerifyEmail = ({userInfo}) => {
     validationSchema,
     onSubmit: async (values, {setSubmitting}) => {
       try {
-        await verifyEmailOtp({email: userInfo.email, enteredOtp: values.enteredOtp})
+        const response = await verifyEmailOtp({email, enteredOtp: values.enteredOtp})
+        if(response.error){
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "There was a problem with your request."
+        })
+        setSubmitting(false)
+        return
+        }
         const refetchedData = await refetch();
         const updatedUserInfo = refetchedData?.data?.data;
         await dispatch(setCredentials(updatedUserInfo));
+        toast({
+          title: "Email verified!",
+          description: "Your email has been successfully verified."
+        })   
         setSubmitting(false)
 
         if(!userInfo.isMobileVerified){
@@ -108,6 +149,37 @@ const VerifyEmail = ({userInfo}) => {
     },
   })
 
+  const handleResendEmailOtp = async() => {
+    setIsSendingCodeLoading(true)
+    try {
+      const response = await sendEmailCode(email)
+      
+      if(response.error){
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request."
+        })
+        setIsSendingCodeLoading(false)
+        return
+      }else{
+        toast({
+          title: "OTP resent!",
+          description: "OTP resent, check your email."
+        });
+        setIsSendingCodeLoading(false)
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request."
+      })
+      console.log("Cannot send the verification code to your email", error)
+      setIsSendingCodeLoading(false)
+    }
+  }
+ 
   return (
     <section className='flex justify-center my-10'>
       <main className='bg-white shadow-2xl w-full mx-4 sm:mx-0 sm:w-[30%] pb-6'>
@@ -117,7 +189,7 @@ const VerifyEmail = ({userInfo}) => {
         <form onSubmit={formik.handleSubmit} className='flex flex-col justify-center w-full sm:px-10 px-4'>
           <p className='text-center'>To verify your email address, please enter the verification code sent to your inbox.</p>
           <div className='w-full my-4 space-y-2'>
-            <label htmlFor="otp" className='font-semibold flex justify-between'>Verification Code <span className='text-blue-500 cursor-pointer'>Resend Code</span></label>
+            <label htmlFor="otp" className='font-semibold flex justify-between'>Verification  Code <span className='text-blue-500 cursor-pointer' onClick={handleResendEmailOtp}>{isSendingCodeLoading ? "Resending..." : "Resend Code"}</span></label>
             <Input id="otp" name="enteredOtp" type="number" value={formik.values.enteredOtp} onChange={formik.handleChange} onBlur={formik.handleBlur} placeholder="Code" className="outline-gray-400 outline outline-1" />
             {formik.touched.enteredOtp && formik.errors.enteredOtp ? (
               <div className='text-red-500 text-sm'>{formik.errors.enteredOtp}</div>
@@ -135,17 +207,19 @@ const VerifyEmail = ({userInfo}) => {
 
 const EmailVerification = () => {
   const {userInfo} = useSelector((state) => state.auth)
+  const [email, setEmail] = useState("")
 
   const [isClickedOnSendCodeButton, setIsClickedOnSendCodeButton] = useState(false)
 
-  const handleSendCodeClick = () => {
+  const handleSendCodeClick = (email) => {
+    setEmail(email)
     setIsClickedOnSendCodeButton(true)
   }
 
 
   return(
     <section>
-    {isClickedOnSendCodeButton ? <VerifyEmail userInfo={userInfo}/> : <SendCode sendCodeClick={handleSendCodeClick} userInfo={userInfo}/>}
+    {isClickedOnSendCodeButton ? <VerifyEmail userInfo={userInfo} email={email}/> : <SendCode sendCodeClick={handleSendCodeClick} userInfo={userInfo}/>}
     </section>
   )
 }

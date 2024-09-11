@@ -1,6 +1,7 @@
 import Loader from '@/components/mycomponents/Loader'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { useToast } from '@/hooks/use-toast'
 import { useGetUserByIdQuery } from '@/redux/api/authApiSlice'
 import { useSendMobileCodeMutation, useVerifyMobileCodeMutation } from '@/redux/api/verificationApiSlice'
 import { setCredentials } from '@/redux/features/auth/authSlice'
@@ -15,6 +16,8 @@ const SENDCODE = ({ sendCodeClick }) => {
 
     const [sendVerifyCodeToMobile] = useSendMobileCodeMutation()
 
+    const {toast} = useToast()
+
     const validationSchema = Yup.object().shape({
         phoneNumber: Yup.number().required("Please provide the number").min(10, "Min 10 digit number is required")
     })
@@ -26,10 +29,30 @@ const SENDCODE = ({ sendCodeClick }) => {
         validationSchema,
         onSubmit: async (values, { setSubmitting }) => {
             try {
-                await sendVerifyCodeToMobile(values.phoneNumber)
-                setSubmitting(false)
-                sendCodeClick(values.phoneNumber)
+                const response = await sendVerifyCodeToMobile(values.phoneNumber)
+
+                if(response.error){
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request."
+                    })
+                    setSubmitting(false)
+                    return
+                }else{
+                    toast({
+                        title: "OTP sent!",
+                        description: "OTP sent to your mobile number. Please check your SMS."
+                    });
+                    sendCodeClick(values.phoneNumber)
+                    setSubmitting(false)
+                }
             } catch (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request."
+                })
                 console.log("Cannot send the verification code", error)
                 setSubmitting(false)
             }
@@ -91,6 +114,8 @@ const VERIFYCODE = ({ phoneNumber }) => {
 
     const {userInfo} = useSelector((state) => state.auth)
 
+    const {toast} = useToast()
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -114,15 +139,34 @@ const VERIFYCODE = ({ phoneNumber }) => {
         validationSchema,
         onSubmit: async (values, { setSubmitting }) => {
             try {
-                await verifyMobileCode({ phoneNumber: values.phoneNumber, code: values.code, userId: userInfo._id })
+                const response = await verifyMobileCode({ phoneNumber: values.phoneNumber, code: values.code, userId: userInfo._id })
+                if(response.error){
+                    toast({
+                        variant: "destructive",
+                        title: "Uh oh! Something went wrong.",
+                        description: "There was a problem with your request."
+                    })
+                    setSubmitting(false)
+                    return
+                }
                 const refetchedData = await refetch();
                 const updatedUserInfo = refetchedData?.data?.data;
                 await dispatch(setCredentials(updatedUserInfo));
-              
+
+                toast({
+                    title: "Mobile verified!",
+                    description: "Your mobile number has been successfully verified."
+                })                  
                 setSubmitting(false)
                 navigate("/")
             } catch (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request."
+                })    
                 console.log("Cannot verify code", error)
+                setSubmitting(false)
             }
         }
     })
@@ -130,11 +174,32 @@ const VERIFYCODE = ({ phoneNumber }) => {
     const handleResendCode = async () => {
         setIsSendingCodeLoading(true)
         try {
-            await sendVerifyCodeToMobile(phoneNumber)
-            setIsSendingCodeLoading(false)
+            const response = await sendVerifyCodeToMobile(values.phoneNumber)
+
+            if(response.error){
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "There was a problem with your request."
+                })
+                setIsSendingCodeLoading(false)
+                return
+            }else{
+                toast({
+                    title: "OTP sent!",
+                    description: "OTP sent to your mobile number. Please check your SMS."
+                });
+                sendCodeClick(values.phoneNumber)
+                setIsSendingCodeLoading(false)
+            }
         } catch (error) {
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                description: "There was a problem with your request."
+            })
             console.log("Cannot send the verification code", error)
-            setIsSendingCodeLoading(false)
+            setSubmitting(false)
         }
     }
 

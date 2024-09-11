@@ -22,10 +22,16 @@ const sendEmailOtp = asyncHandler(async (req, res) => {
         
         const generateOtp = crypto.randomInt(100000, 999999).toString();
 
-        // Save OTP to the database
-        const newOtp = new EmailOtp({ email, otp: generateOtp });
+        const existingOtp = await EmailOtp.findOne({email})
 
-        await newOtp.save();
+        if(existingOtp){
+            existingOtp.otp = generateOtp
+            await existingOtp.save()
+        }else{
+            const newOtp = new EmailOtp({ email, otp: generateOtp });
+            await newOtp.save();
+        }
+       
 
         const data = {
             from: `ShopKart <mailgun@${process.env.MAILGUN_DOMAIN}>`,
