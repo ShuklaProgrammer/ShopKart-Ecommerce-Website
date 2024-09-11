@@ -122,8 +122,8 @@ const ProfileOrders = () => {
                             </div>
                         </div>
                         <div className='flex items-center justify-between'>
-                        <span className='text-xl font-semibold text-blue-400'>${order?.totalPrice}</span>
-                        <p>Order Status: <span className={`${getOrderStatusColor(order.orderStatus)} uppercase font-semibold`}>{order.orderStatus}</span></p>
+                        <span className='sm:text-xl text-base font-semibold text-blue-400'>${order?.totalPrice}</span>
+                        <p className='sm:text-base text-sm'>Order Status: <span className={`${getOrderStatusColor(order.orderStatus)} uppercase font-semibold`}>{order.orderStatus}</span></p>
                         </div>
             </div>
             ))}
