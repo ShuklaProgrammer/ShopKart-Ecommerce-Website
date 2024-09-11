@@ -14,6 +14,7 @@ import { FaRegEye } from "react-icons/fa";
 import { useGetAllProductQuery } from '@/redux/api/productApiSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetAllCategoryQuery } from '@/redux/api/categoryApiSlice';
+import Loader from '@/components/mycomponents/Loader';
 
 
 
@@ -22,8 +23,8 @@ const Home = () => {
 
   const navigate = useNavigate()
 
-  const {data: productData} = useGetAllProductQuery({})
-  const {data: categoryData} = useGetAllCategoryQuery({})
+  const {data: productData, isLoading: isProductsLoading} = useGetAllProductQuery({})
+  const {data: categoryData, isLoading: isCategoryLoading} = useGetAllCategoryQuery({})
 
   const products = productData?.data?.products || []
   const categories = categoryData?.data || []
@@ -32,6 +33,12 @@ const Home = () => {
 
   const handleCategoryClick = (categoryName) => {
     navigate(`/shop?category=${categoryName}`)
+  }
+
+  const isLoading = isProductsLoading || isCategoryLoading
+
+  if(isLoading){
+    return <div className='h-96'><Loader size='4em' topBorderSize='0.3em'/></div>
   }
 
   return (
