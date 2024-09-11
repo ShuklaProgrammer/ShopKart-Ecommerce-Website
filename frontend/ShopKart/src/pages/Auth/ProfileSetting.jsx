@@ -48,8 +48,8 @@ const ProfileSetting = () => {
   }, [profileData])
 
   const handleCreateProfile = async(e, userId) => {
-    setIsloading("addAddress")
     e.preventDefault()
+    setIsloading("addAddress")
     try {
       const profileData = new FormData()
       profileData.append("userId", userId)
@@ -166,7 +166,7 @@ const ProfileSetting = () => {
             </div>
           </div>
           </div>
-          <Button variant="shop" disabled={isLoading === "addProfile"} onClick={(e)=>{handleCreateProfile(e, userInfo._id)}}>{isLoading === "addProfile" ? <span>Saving...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "SAVE CHANGES"}</Button>
+          <Button variant="shop" disabled={isLoading} onClick={(e)=>{handleCreateProfile(e, userInfo._id)}}>{isLoading ? <span className='flex items-center gap-2'>Saving...<Loader size='2em' topBorderSize='0.2em' center={false} fullScreen={false}/></span> : "SAVE CHANGES"}</Button>
           </div>
         </form>
 
