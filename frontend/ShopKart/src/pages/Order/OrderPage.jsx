@@ -417,7 +417,7 @@ const OrderPage = () => {
                         <h1 className='font-semibold'>Order Summery</h1>
                         {orderItems.map((item, index) => (
                             <div key={index} className='flex items-center gap-4'>
-                                <img src={item.productImage} alt="" className='w-10 h-10' />
+                                <img src={item.productImage[0]} alt="" className='w-10 h-10' />
                                 <div>
                                     <h3 className='line-clamp-1 sm:w-80'>{item.productName}</h3>
                                     {/* <span>1 x %70</span> */}
