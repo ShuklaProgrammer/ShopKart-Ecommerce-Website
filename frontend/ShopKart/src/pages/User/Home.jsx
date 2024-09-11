@@ -184,71 +184,7 @@ const Home = () => {
                 <span className='pl-4'>${product.price}</span>
               </div>
               </Link>
-              ))}
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1 border-r-2'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
+              ))}       
 
             </div>
           </div>
