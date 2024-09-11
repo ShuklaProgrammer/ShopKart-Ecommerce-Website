@@ -328,7 +328,7 @@ const ShopPage = () => {
                                     <Link key={index} to={`/product-details/${product._id}`}>
                                         <div className='col-span-1'>
                                             <div className='flex justify-center'>
-                                                <img src={product.productImage} alt="" className='w-48 h-48 mt-5 mb-3' />
+                                                <img src={product.productImage[0]} alt="" className='w-48 h-48 mt-5 mb-3' />
                                             </div>
                                             <p className='line-clamp-2 w-22 text-sm px-4 mb-2'>{product.title}</p>
                                             <span className='px-4'>${product.price}</span>
