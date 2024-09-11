@@ -44,7 +44,7 @@ const Home = () => {
           <div key={index} className='container1 flex justify-center items-center py-4 sm:py-0 px-4 sm:px-0 w-full gap-10 bg-gray-100 rounded-md'> 
             <div className='w-[20rem] space-y-4'>
               <span className='uppercase font-medium text-blue-400'>――The Real World Experience</span>
-              <h1 className='text-2xl font-bold'>{product.title}</h1>
+              {/* <h1 className='text-2xl font-bold'>{product.title}</h1> */}
               <div className='w-56 bg-red-300 block sm:hidden'>
               <img src={product.productImage[0]} alt="" className='' />
             </div>
@@ -64,7 +64,7 @@ const Home = () => {
               <div className='space-y-3'>
                 <span className='uppercase text-yellow-400'>Summer Sales</span>
                 <div className='w-56 sm:hidden block'>
-                <img src={product.productImage[0]} alt="" />
+                <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
                 <h2 className='text-xl font-semibold text-white'>{product.title}</h2>
               <Link key={index} to={`/product-details/${product._id}`}>
@@ -72,14 +72,14 @@ const Home = () => {
                 </Link>
               </div>
               <div className='w-56 hidden sm:block'>
-                <img src={product.productImage[0]} alt="" />
+                <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
             </div>
           ))}
             {products?.slice(2, 3).map((product, index) => (  
-            <div key={index} className='sm:flex items-center justify-between sm:px-8 px-4 py-4 sm:py-0 bg-yellow-200 rounded-md'>
+            <div key={index} className='sm:flex items-center justify-between gap-2 sm:px-8 px-4 py-4 sm:py-0 bg-yellow-200 rounded-md'>
               <div className='w-56'>
-                <img src={product.productImage[0]} alt="" />
+                <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
               <div className='sm:flex flex flex-col items-start justify-start space-y-3'>
                 <h2 className='text-xl font-semibold'>{product.title}</h2>
