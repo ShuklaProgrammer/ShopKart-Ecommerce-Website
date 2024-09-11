@@ -169,7 +169,7 @@ const AllProduct = () => {
                                 <TableRow key={index} className="hover:cursor-pointer">
                                     <TableCell className="">
                                         <div className='flex items-center gap-2 '>
-                                            <img src={product.productImage} alt="" className='w-12 h-12' />
+                                            <img src={product.productImage[0]} alt="" className='w-12 h-12' />
                                             <p className='w-60 whitespace-nowrap overflow-hidden overflow-ellipsis'>{product.title}</p>
                                         </div>
                                     </TableCell>
