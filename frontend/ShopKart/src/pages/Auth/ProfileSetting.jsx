@@ -29,16 +29,16 @@ const ProfileSetting = () => {
   // console.log(userInfo)
   
   const {data: profileData, isLoading: isProfileLoading} = useGetUserProfileQuery({userId: userInfo._id})
-  console.log(profileData)
   
   const [createProfile] = useCreateProfileMutation()
-  const [updateProfile] = useUpdateProfileMutation()
 
   useEffect(()=>{
     if(profileData && profileData?.data?._id){
       setFirstName(profileData.data.firstName)
       setLastName(profileData.data.lastName)
-      setSecondaryEmail(profileData.data.secondaryEmail)
+      if(profileData.data.secondaryEmail){
+        setSecondaryEmail(profileData.data.secondaryEmail)
+      }
     }
     if(userInfo){
       setUsername(userInfo.username)
