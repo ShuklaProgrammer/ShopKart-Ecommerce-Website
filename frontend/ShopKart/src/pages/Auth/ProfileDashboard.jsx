@@ -91,7 +91,7 @@ const ProfileDashboard = () => {
                             </div>
                         </div>
                         <h4>Email: <span className='text-gray-600'>{userInfo.email}</span></h4>
-                        <h4>Sec Email: <span className='text-gray-600'>{userProfile?.secondaryEmail}</span></h4>
+                        <h4>Sec Email: <span className='text-gray-600'>{userProfile?.secondaryEmail ? userProfile?.secondaryEmail : "Not Added"}</span></h4>
                         <h4>Phone: <span className='text-gray-600'>{userProfile?.contactNumber}</span></h4>
                         <Button onClick={() => navigate("/profile/setting")} className="border-2 border-blue-200 bg-white text-blue-400 hover:bg-gray-50 font-semibold mt-2">EDIT ACCOUNT</Button>
                         </div>

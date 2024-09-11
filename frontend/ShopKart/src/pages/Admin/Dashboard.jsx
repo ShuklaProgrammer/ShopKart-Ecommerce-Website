@@ -320,7 +320,7 @@ const Dashboard = () => {
                 {topProducts.map((product, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium flex items-center gap-2">
-                    <img src={product.productImage} alt="" className='w-10 h-10' />
+                    <img src={product.productImage[0]} alt="" className='w-10 h-10' />
                     <p className='line-clamp-1'>{product.productName}</p>
                   </TableCell>
                   <TableCell>{product.productQuantitySold}</TableCell>

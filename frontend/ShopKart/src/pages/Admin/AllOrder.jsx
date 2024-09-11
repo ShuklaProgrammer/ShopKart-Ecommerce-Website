@@ -199,7 +199,7 @@ const AllOrder = () => {
                                 <TableCell className="font-medium">
                                     {order.orderItems?.slice(0, 1).map((item, index) => (
                                         <div key={index} className='flex items-center gap-2'>
-                                            <img src={item.productImage} alt="" className='w-10 h-10' />
+                                            <img src={item.productImage[0]} alt="" className='w-10 h-10' />
                                             <p className='w-72 whitespace-nowrap overflow-hidden overflow-ellipsis'>{item.productName}</p>
                                         </div>
                                     ))}
@@ -235,7 +235,7 @@ const AllOrder = () => {
                                                         {orderData.orderItems?.map((item, index) => (
                                                         <div key={index}>
                                                             <div className='flex items-center gap-2'>
-                                                            <img src={item.productImage} alt="" className='w-10 h-10'/>
+                                                            <img src={item.productImage[0]} alt="" className='w-10 h-10'/>
                                                             <span className='text-gray-600 font-semibold'>{item.productName}</span>
                                                             </div>
                                                             <p className='flex items-center text-gray-600 font-semibold'>Price:<span>{item.price}</span></p>

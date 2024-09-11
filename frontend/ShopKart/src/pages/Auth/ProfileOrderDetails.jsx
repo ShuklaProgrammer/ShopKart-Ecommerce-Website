@@ -259,7 +259,7 @@ const ProfileOrderDetails = () => {
                                 {orderItems.map((item, index) => (
                                     <TableRow className="hover:cursor-pointer" key={index} onClick={() => handleViewProduct(item.productId)}>
                                         <TableCell className="font-medium flex items-center gap-2">
-                                            <img src={item.productImage} alt="" className='w-10 h-10' />
+                                            <img src={item.productImage[0]} alt="" className='w-10 h-10' />
                                             <p>{item.productName}</p>
                                         </TableCell>
                                         <TableCell>${item.price}</TableCell>

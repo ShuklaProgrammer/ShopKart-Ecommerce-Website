@@ -46,7 +46,7 @@ const OrderDetails = () => {
                             orderData.orderItems?.map((item, index) => (
                                 <div key={index} className='flex items-center justify-between bg-gray-100 p-4 rounded-lg'>
                                     <div className='flex items-center gap-2'>
-                                        <img src={item.productImage} alt="" className='w-10 h-10' />
+                                        <img src={item.productImage[0]} alt="" className='w-10 h-10' />
                                         <div>
                                             <h4>Product Name</h4>
                                             <span className='w-60 whitespace-nowrap overflow-hidden text-ellipsis block'>{item.productName}</span>
