@@ -48,7 +48,7 @@ const Home = () => {
               <div className='w-56 bg-red-300 block sm:hidden'>
               <img src={product.productImage[0]} alt="" className='' />
             </div>
-              <p className='text-gray-500'>Save big on your next holiday on Smart TV. Get 2 months Subscription for Netflix, Prime Video, Youtube.</p>
+              <p className='text-gray-500'>Save big on your next holiday on SmartPhone. Get 2 months Subscription for Netflix, Prime Video, Youtube.</p>
               <Link key={index} to={`/product-details/${product._id}`}>
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
@@ -77,7 +77,7 @@ const Home = () => {
             </div>
           ))}
             {products?.slice(2, 3).map((product, index) => (  
-            <div key={index} className='sm:flex items-center justify-between gap-2 sm:px-8 px-4 py-4 sm:py-0 bg-yellow-200 rounded-md'>
+            <div key={index} className='sm:flex items-center justify-between gap-4 sm:px-8 px-4 py-4 sm:py-0 bg-yellow-200 rounded-md'>
               <div className='w-56'>
                 <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
