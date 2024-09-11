@@ -37,48 +37,62 @@ const Home = () => {
   return (
     <section className='home-section flex justify-center mt-5'>
       <main className='bg-white w-[90%] h-full'>
-        
+
+         
         <section className='sm:flex gap-5'>
-          <div className='container1 flex justify-center items-center py-4 sm:py-0 px-4 sm:px-0 w-full gap-10 bg-gray-100 rounded-md'>
+        {products?.slice(0, 1).map((product, index) => (  
+          <div key={index} className='container1 flex justify-center items-center py-4 sm:py-0 px-4 sm:px-0 w-full gap-10 bg-gray-100 rounded-md'> 
             <div className='w-[20rem] space-y-4'>
               <span className='uppercase font-medium text-blue-400'>――The Real World Experience</span>
-              <h1 className='text-2xl font-bold'>LG Smart TV UHD</h1>
+              <h1 className='text-2xl font-bold'>{product.title}</h1>
               <div className='w-56 bg-red-300 block sm:hidden'>
-              <img src="https://m.media-amazon.com/images/I/8195aYGDl9L._SL1500_.jpg" alt="" className='' />
+              <img src={product.productImage} alt="" className='' />
             </div>
               <p className='text-gray-500'>Save big on your next holiday on Smart TV. Get 2 months Subscription for Netflix, Prime Video, Youtube.</p>
+              <Link key={index} to={`/product-details/${product._id}`}>
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
+              </Link>
             </div>
             <div className='w-56 bg-red-300 hidden sm:block'>
-              <img src="https://m.media-amazon.com/images/I/8195aYGDl9L._SL1500_.jpg" alt="" className='' />
-            </div>
+              <img src={product.productImage} alt="" className='' />
+            </div>  
           </div>
+        ))} 
           <div className='container2 flex flex-col sm:w-[60%] sm:mt-0 mt-4 gap-5'>
-            <div className='flex items-center justify-between sm:px-8 px-4 py-4 sm:py-0 bg-gray-800 rounded-md'>
+          {products?.slice(1, 2).map((product, index) => (  
+            <div key={index} className='flex items-center justify-between sm:px-8 px-4 py-4 sm:py-0 bg-gray-800 rounded-md'>
               <div className='space-y-3'>
                 <span className='uppercase text-yellow-400'>Summer Sales</span>
                 <div className='w-56 sm:hidden block'>
-                <img src="https://m.media-amazon.com/images/I/71657TiFeHL._SL1500_.jpg" alt="" />
+                <img src={product.productImage} alt="" />
               </div>
-                <h2 className='text-xl font-semibold text-white'>Apple iPhone 15 (128 GB) - Black</h2>
+                <h2 className='text-xl font-semibold text-white'>{product.title}</h2>
+              <Link key={index} to={`/product-details/${product._id}`}>
                 <Button variant="shop">Shop Now<IoMdArrowForward className='text-xl ml-2' /></Button>
+                </Link>
               </div>
               <div className='w-56 hidden sm:block'>
-                <img src="https://m.media-amazon.com/images/I/71657TiFeHL._SL1500_.jpg" alt="" />
+                <img src={product.productImage} alt="" />
               </div>
             </div>
-            <div className='sm:flex items-center justify-between sm:px-8 px-4 py-4 sm:py-0 bg-yellow-200 rounded-md'>
+          ))}
+            {products?.slice(2, 3).map((product, index) => (  
+            <div key={index} className='sm:flex items-center justify-between sm:px-8 px-4 py-4 sm:py-0 bg-yellow-200 rounded-md'>
               <div className='w-56'>
-                <img src="https://m.media-amazon.com/images/I/61-ZYvldY+L._SL1500_.jpg" alt="" />
+                <img src={product.productImage} alt="" />
               </div>
               <div className='sm:flex flex flex-col items-start justify-start space-y-3'>
-                <h2 className='text-xl font-semibold'>OnePlus Nord Buds 2</h2>
-                <span className='uppercase font-semibold'>$299</span>
+                <h2 className='text-xl font-semibold'>{product.title}</h2>
+                <span className='uppercase font-semibold'>${product.price}</span>
+                <Link key={index} to={`/product-details/${product._id}`}>
                 <Button variant="shop">Shop Now<IoMdArrowForward className='text-xl ml-2' /></Button>
+                </Link>
               </div>
             </div>
+               ))}
           </div>
         </section>
+
 
         <section className='grid grid-rows-1 sm:flex sm:justify-between sm:px-10 sm:py-5 border-2 border-solid border-gray-200 mt-5'>
           <div className='p-2 sm:p-0 sm:flex items-center gap-3 flex'>
@@ -153,7 +167,7 @@ const Home = () => {
                 </div>
               </div> */}
 
-              {products.map((product, index) => (
+              {products.slice(3, 50).map((product, index) => (
                 <Link key={index} to={`/product-details/${product._id}`}>
               <div className='col-span-1 border-r-2'>
                 <div className='flex justify-center'>
