@@ -52,8 +52,8 @@ const Home = () => {
             <div className='w-[20rem] space-y-4'>
               <span className='uppercase font-medium text-blue-400'>――The Real World Experience</span>
               {/* <h1 className='text-2xl font-bold'>{product.title}</h1> */}
-              <div className='w-56 bg-red-300 block sm:hidden'>
-              <img src={product.productImage[0]} alt="" className='' />
+              <div className='w-80 bg-red-300 block sm:hidden'>
+              <img src={product.productImage[0]} alt="" className='rounded-md' />
             </div>
               <p className='text-gray-500'>Save big on your next holiday on SmartPhone. Get 2 months Subscription for Netflix, Prime Video, Youtube.</p>
               <Link key={index} to={`/product-details/${product._id}`}>
