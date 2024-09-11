@@ -208,7 +208,7 @@ const ProductDetails = () => {
                 setIsLoading(null)
                 toast({
                     title: "Login required",
-                    description: "You need to log in order to buy product.",
+                    description: "You need to log in order to buy product."
                 });
             }
         } catch (error) {
