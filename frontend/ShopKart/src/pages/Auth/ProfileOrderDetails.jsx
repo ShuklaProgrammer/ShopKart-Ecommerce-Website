@@ -273,7 +273,7 @@ const ProfileOrderDetails = () => {
                     {orderItems.map((item, index) => (
                         <div key={index} className='sm:hidden block'>
                             <div className='flex items-start gap-2 p-2 cursor-pointer' onClick={() => handleViewProduct(item.productId)}>
-                                <img src={item.productImage} alt="" className='w-10 h-10 mt-1' />
+                                <img src={item.productImage[0]} alt="" className='w-10 h-10 mt-1' />
                                 <div>
                                     <p className='line-clamp-2'>{item.productName}</p>
                                     <div className='flex items-center justify-between'>
