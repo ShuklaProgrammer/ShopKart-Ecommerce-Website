@@ -215,10 +215,6 @@ const OrderPage = () => {
         return <div className='h-96'><Loader size='3em' topBorderSize='0.3em' /></div>
     }
 
-    if (isError) {
-        return <span>No Order Data Available</span>
-    }
-
     return (
         <section className='flex justify-center my-10'>
             <form onSubmit={formik.handleSubmit} className='sm:flex justify-center gap-5 px-2 sm:px-0'>
