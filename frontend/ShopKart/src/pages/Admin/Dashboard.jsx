@@ -33,12 +33,12 @@ const Dashboard = () => {
 
 
   const { data: getOrderStatistics, isLoading: orderStatisticsLoading } = useGetOrderStatisticsQuery({})
-  const {data: getAllOrders, isLoading: ordersLoading} = useGetAllOrdersQuery({})
+  // const {data: getAllOrders, isLoading: ordersLoading} = useGetAllOrdersQuery({})
   const {data: getTopStatesSales, isLoading: topSalesLoading} = useTopStatesBySalesQuery()
   const {data: getTopProductBySales, isLoading: topSalesProductLoading} = useTopProductBySalesQuery()
   const {data: getTopReviews, isLoading: reviewsLoading} = useTopReviewsQuery({})
 
-  const orders = getAllOrders?.data?.orders || []
+  // const orders = getAllOrders?.data?.orders || []
   const orderStatistics = getOrderStatistics?.data || []
 
   const totalOrders = orderStatistics?.totalOrders || 0
@@ -50,7 +50,7 @@ const Dashboard = () => {
   const topProducts = getTopProductBySales?.data || []
   const topReviews = getTopReviews?.data || []
 
-  console.log(topReviews)
+  console.log(topStateSales)
   
 
   const [salesData, setSalesData] = useState({
@@ -221,7 +221,7 @@ const Dashboard = () => {
    const userTrend = determineTrend(userPercentageChange);
 
 
-   const isLoading = orderStatisticsLoading || ordersLoading || topSalesLoading || topSalesProductLoading || reviewsLoading
+   const isLoading = orderStatisticsLoading || topSalesLoading || topSalesProductLoading || reviewsLoading
 
    if(isLoading){
     return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
@@ -345,7 +345,7 @@ const Dashboard = () => {
             <Table className="mt-4">
               <TableCaption>A list of your recent states.</TableCaption>
               <TableBody>
-                {topStateSales.states?.map((state, index) => (
+                {topStateSales?.states?.map((state, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{state.state}</TableCell>
                   <TableCell><FiTrendingUp /></TableCell>
@@ -356,7 +356,7 @@ const Dashboard = () => {
             </Table>
           </div>
 
-          <div className='w-full p-4 border border-1 border-gray-300'>
+          {/* <div className='w-full p-4 border border-1 border-gray-300'>
             <div className='flex items-center justify-between'>
               <h2 className='text-xl font-semibold'>Orders</h2>
               <PiDotsThreeOutlineFill className='text-2xl'/>
@@ -386,7 +386,7 @@ const Dashboard = () => {
                     </TableBody>
             </Table>
 
-          </div>
+          </div> */}
         </section>
 
         <section className='flex justify-between gap-6'>
