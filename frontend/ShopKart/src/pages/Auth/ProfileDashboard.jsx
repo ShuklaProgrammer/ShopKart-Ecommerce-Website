@@ -210,7 +210,7 @@ const ProfileDashboard = () => {
                             {userOrders?.slice(0, 5)?.map((order, index) => (
                             <TableRow key={index}>
                                 <TableCell className="font-medium">#{order._id}</TableCell>
-                                <TableCell className="uppercase">{order.orderStatus}</TableCell>
+                                <TableCell className={`${getOrderStatusColor(order.orderStatus)} uppercase font-semibold`}>{order.orderStatus}</TableCell>
                                 <TableCell>{new Date(order.createdAt).toLocaleString()}</TableCell>
                                 <TableCell>${order.totalPrice} ({order.orderItems.reduce((total, item) => {
                                     return total + item.quantity
@@ -229,6 +229,8 @@ const ProfileDashboard = () => {
                     </Table>
                     </div>
 
+                    {userOrders && Object.keys(userOrders).length > 0 ? (
+                        <>
                     {userOrders?.slice(0, 5)?.map((order, index) => (
                     <div key={index} onClick={()=>handleViewOrderDetails(order._id)} className='sm:hidden block p-2 border-t border-solid border-gray-300 cursor-pointer'>
                          <div>
@@ -244,6 +246,12 @@ const ProfileDashboard = () => {
                         </div>
                     </div>
                     ))}
+                    </>
+                ) : (
+                    <div className='sm:hidden flex items-center justify-center p-2 border-t border border-gray-300'>
+                    <p>You haven't ordered any item</p>
+                    </div>
+                )}
                 </section>
                 )}
             </main>
