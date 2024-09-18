@@ -136,7 +136,7 @@ const OrderPage = () => {
                 email: userInfo.email
             }
             const response = await addPayment(paymentData)
-            const paymentOrder = response?.data
+            const paymentOrder = response?.data?.data
             console.log(paymentOrder)
 
 
