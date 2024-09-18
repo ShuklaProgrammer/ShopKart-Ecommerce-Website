@@ -18,6 +18,8 @@ const createPaymentOrder = asyncHandler(async (req, res) => {
 
     const { orderId, paymentMethod, deliveryAddress, email } = req.body
 
+    console.log(orderId, paymentMethod, deliveryAddress, email)
+
     if(!orderId){
         throw new ApiError(400, "OrderId is required")
     }
