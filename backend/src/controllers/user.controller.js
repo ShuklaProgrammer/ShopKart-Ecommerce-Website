@@ -211,8 +211,6 @@ const resetPassword = asyncHandler(async(req, res) => {
     const {oldPassword, newPassword} = req.body
     const {_id: userId} = req.user
 
-    console.log(oldPassword, newPassword)
-
 
     const user = await User.findById(userId)
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
