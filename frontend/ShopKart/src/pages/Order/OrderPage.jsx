@@ -137,6 +137,7 @@ const OrderPage = () => {
             }
             const response = await addPayment(paymentData)
             const paymentOrder = response?.data?.data
+            console.log(response)
             console.log(paymentOrder)
 
 
