@@ -202,7 +202,7 @@ const OrderPage = () => {
         validationSchema,
         onSubmit: async (values, { setSubmitting }) => {
             try {
-                await handleAddPayment({paymentOption: values.paymentOption, deliveryAddress: values.deliveryAddress})
+                await handleAddPayment(values.paymentOption, values.deliveryAddress)
             } catch (error) {
                 console.log("Cannot add the payment", error)
                 setSubmitting(false)
