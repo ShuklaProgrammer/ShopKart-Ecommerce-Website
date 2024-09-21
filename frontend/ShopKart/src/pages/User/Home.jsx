@@ -47,10 +47,10 @@ const Home = () => {
     return () => clearTimeout(timer); 
   }, [])
 
-  if(!isLoading){
+  if(isLoading){
     return <div className='h-96 flex items-center justify-center'>
       <Loader size='4em' topBorderSize='0.3em'/>
-      {showMessage && (<p className='font-bold text-center'>Please wait... Retrieving data from the Render backend.</p>)}
+      {showMessage && (<p className='font-bold text-center mx-4'>Please wait... Retrieving data from the Render backend.</p>)}
       </div>
   }
 
