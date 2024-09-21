@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 // all the icons are imported here
 import { IoMdArrowForward } from "react-icons/io";
@@ -23,6 +23,8 @@ const Home = () => {
 
   const navigate = useNavigate()
 
+  const [showMessage, setShowMessage] = useState(false)
+
   const {data: productData, isLoading: isProductsLoading} = useGetAllProductQuery({})
   const {data: categoryData, isLoading: isCategoryLoading} = useGetAllCategoryQuery({})
 
@@ -37,8 +39,19 @@ const Home = () => {
 
   const isLoading = isProductsLoading || isCategoryLoading
 
-  if(isLoading){
-    return <div className='h-96'><Loader size='4em' topBorderSize='0.3em'/></div>
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMessage(true)
+    }, 3000)
+
+    return () => clearTimeout(timer); 
+  }, [])
+
+  if(!isLoading){
+    return <div className='h-96 flex items-center justify-center'>
+      <Loader size='4em' topBorderSize='0.3em'/>
+      {showMessage && (<p className='font-bold text-center'>Please wait... Retrieving data from the Render backend.</p>)}
+      </div>
   }
 
   return (
