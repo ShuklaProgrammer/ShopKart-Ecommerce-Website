@@ -141,12 +141,12 @@ const OrderPage = () => {
 
             if (paymentMethod === "Online") {
                 const options = {
-                    key: "rzp_test_JuTTt4Oj6NmmWP",
+                    key: "rzp_test_31TIWiwRaCfax8",
                     amount: paymentOrder.amount,
                     currency: paymentOrder.currency,
                     order_id: paymentOrder.id,
-                    name: "Your Company Name",
-                    description: "Payment for order #123",
+                    name: "ShopKart",
+                    description: `Payment for order #${orderId}`,
                     handler: function (response) {
                         handleVerifyPayment(response)
                     },
