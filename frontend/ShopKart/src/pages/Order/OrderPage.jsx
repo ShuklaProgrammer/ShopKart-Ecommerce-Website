@@ -136,9 +136,7 @@ const OrderPage = () => {
                 email: userInfo.email
             }
             const response = await addPayment(paymentData)
-            const paymentOrder = response?.data?.data
-            console.log(response)
-            console.log(paymentOrder)
+            const paymentOrder = response.data.data
 
 
             if (paymentMethod === "Online") {
