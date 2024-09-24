@@ -158,7 +158,7 @@ const AllProduct = () => {
                             <TableHead className="w-[400px]">Products</TableHead>
                             <TableHead>Price</TableHead>
                             <TableHead>Quantity</TableHead>
-                            <TableHead>Sale</TableHead>
+                            {/* <TableHead>Sale</TableHead> */}
                             <TableHead>Status</TableHead>
                             <TableHead>Action</TableHead>
                         </TableRow>
@@ -175,8 +175,8 @@ const AllProduct = () => {
                                     </TableCell>
                                     <TableCell>{product.price}</TableCell>
                                     <TableCell>{product.stockQuantity}</TableCell>
-                                    <TableCell>Sale</TableCell>
-                                    <TableCell>out of Stock</TableCell>
+                                    {/* <TableCell>Sale</TableCell> */}
+                                    <TableCell>{product.stockQuantity > 0 ? <span className='font-semibold text-green-500'>In Stock</span> : <span className='font-semibold text-red-500'>Out Of Stock</span>}</TableCell>
                                     <TableCell>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger><PiDotsThreeOutline className='text-xl' /></DropdownMenuTrigger>
