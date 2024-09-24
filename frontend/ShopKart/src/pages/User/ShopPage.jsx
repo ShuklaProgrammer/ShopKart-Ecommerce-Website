@@ -316,7 +316,7 @@ const ShopPage = () => {
                             <div className='text-black text-sm mt-8'>
                                 <h2 className='text-black w-full text-lg font-semibold'>Popular Tag</h2>
                                 <div className='grid grid-cols-3 gap-2'>
-                                    {['phone', 'laptop', 'dell', 'Asus Laptops', 'Macbook', 'SSD', 'Power Bank', 'Smart TV', 'Speaker', 'Tablet', 'Microwave', 'Samsung'].map(tag => (
+                                    {['SmartPhone', 'iPhone', 'TV', 'Macbook', 'SSD', 'Graphics Card', 'Power Bank', 'Smart TV', 'Speaker', 'Tablet', 'Microwave', 'Samsung'].map(tag => (
                                         <span
                                             key={tag}
                                             onClick={() => handleTagChange(tag)}
