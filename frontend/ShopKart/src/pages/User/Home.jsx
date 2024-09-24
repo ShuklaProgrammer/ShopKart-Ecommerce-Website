@@ -69,7 +69,7 @@ const Home = () => {
               <img src={product.productImage[0]} alt="" className='rounded-md' />
             </div>
               <p className='text-gray-500'>Save big on your next holiday on SmartPhone. Get 2 months Subscription for Netflix, Prime Video, Youtube.</p>
-              <Link key={index} to={`/product-details/${product._id}`}>
+              <Link to={`/product-details/${product._id}`}>
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
             </div>
@@ -87,7 +87,7 @@ const Home = () => {
                 <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
                 <h2 className='text-xl font-semibold text-white'>{product.title}</h2>
-              <Link key={index} to={`/product-details/${product._id}`}>
+              <Link to={`/product-details/${product._id}`}>
                 <Button variant="shop">Shop Now<IoMdArrowForward className='text-xl ml-2' /></Button>
                 </Link>
               </div>
@@ -104,7 +104,7 @@ const Home = () => {
               <div className='sm:flex flex flex-col items-start justify-start space-y-3'>
                 <h2 className='text-xl font-semibold'>{product.title}</h2>
                 <span className='uppercase font-semibold'>${product.price}</span>
-                <Link key={index} to={`/product-details/${product._id}`}>
+                <Link to={`/product-details/${product._id}`}>
                 <Button variant="shop">Shop Now<IoMdArrowForward className='text-xl ml-2' /></Button>
                 </Link>
               </div>
@@ -187,7 +187,7 @@ const Home = () => {
                 </div>
               </div> */}
 
-              {products.slice(3, 50).map((product, index) => (
+              {products.slice(3, 13).map((product, index) => (
                 <Link key={index} to={`/product-details/${product._id}`}>
               <div className='col-span-1 border-r-2'>
                 <div className='flex justify-center'>
@@ -204,28 +204,38 @@ const Home = () => {
         </section>
 
          {/* banner section */}
+    
          <section className='sm:flex space-y-4 sm:space-y-0 justify-between gap-5 sm:mt-20 mt-4'>
-          <div className='flex bg-gray-300 p-5 items-center gap-5'>
+         {products.slice(13, 14).map((product, index) => (
+          <div key={index} className='flex bg-gray-300 p-5 items-center gap-5'>
             <div className='space-y-2'>
               <span className='uppercase bg-sky-400 text-white px-2 py-1 rounded'>Introducing</span>
-              <h2 className='text-2xl font-semibold'>New Apple Homepod Mini</h2>
-            <img src="https://m.media-amazon.com/images/I/6182GmVZGLL._SL1080_.jpg" alt="" className='w-56 h-56 block sm:hidden' />
+              <h2 className='text-2xl font-semibold line-clamp-1 w-96'>{product.title}</h2>
+            <img src={product.productImage[0]} alt="" className='w-56 h-56 block sm:hidden' />
               <p>Jam-packed with innovation, HomePod mini delivers unexpectedly.</p>
+              <Link to={`/product-details/${product._id}`}>
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
+              </Link>
             </div>
-            <img src="https://m.media-amazon.com/images/I/6182GmVZGLL._SL1080_.jpg" alt="" className='w-56 h-56 hidden sm:block' />
+            <img src={product.productImage[0]} alt="" className='w-56 h-56 hidden sm:block' />
           </div>
-          <div className='flex bg-gray-800 p-5 items-center gap-5'>
+            ))}
+            {products.slice(14, 15).map((product, index) => (
+          <div key={index} className='flex bg-gray-800 p-5 items-center gap-5'>
             <div className='space-y-2'>
               <span className='uppercase bg-yellow-300 py-1 px-2 rounded'>Introducing New</span>
-              <h2 className='text-2xl font-semibold text-white'>Xiaomi Mi 11 Ultra 12GB+256GB</h2>
-            <img src="https://m.media-amazon.com/images/I/819sWoSDFRL._SL1500_.jpg" alt="" className='w-56 h-56 block sm:hidden' />
+              <h2 className='text-2xl font-semibold text-white line-clamp-1 w-96'>{product.title}</h2>
+            <img src={product.productImage[0]} alt="" className='w-56 h-56 block sm:hidden' />
               <p className='text-gray-400'>*Data provided by internal laboratories. Industry measurment.</p>
+              <Link to={`/product-details/${product._id}`}>
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
+              </Link>
             </div>
-            <img src="https://m.media-amazon.com/images/I/819sWoSDFRL._SL1500_.jpg" alt="" className='w-56 h-56 hidden sm:block' />
+            <img src={product.productImage[0]} alt="" className='w-56 h-56 hidden sm:block' />
           </div>
+            ))}
         </section>
+  
 
         <section>
           <h1 className='flex justify-center sm:mt-12 mt-4 sm:mb-10 mb-4 text-2xl font-semibold'>Shop with Categorys</h1>
@@ -241,7 +251,7 @@ const Home = () => {
             ))}
           </div>
 
-
+{/* 
           <div className='border-2 border border-solid border-gray-200 border mt-10'>
 
             <div className='grid grid-cols-1 sm:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200'>
@@ -327,23 +337,26 @@ const Home = () => {
               </div>
 
             </div>
-          </div>
+          </div> */}
           
 
         </section>
 
-
-        <section className='flex justify-between items-center sm:px-20 px-4 py-4 sm:py-0 bg-orange-200 mt-10 rounded-sm mb-10'>
+        {products.slice(15, 16).map((product, index) => (
+        <section key={index} className='flex justify-between items-center sm:px-20 px-4 py-4 sm:py-0 bg-orange-200 mt-10 rounded-sm mb-10'>
           <div className='space-y-3'>
             <span className='bg-blue-400 rounded-sm px-2 py-1 text-white'>SAVE UP TO $200.00</span>
             <h1 className='text-3xl font-semibold'>Macbook Pro</h1>
           <img src="https://m.media-amazon.com/images/I/71an9eiBxpL._SL1500_.jpg" alt="" className='w-56 h-56 sm:hidden block' />
-            <p className='w-[15rem]'>Apple M1 Max Chip. 32GB Unified Memory, 1TB SSD Storage</p>
+            <p className='line-clamp-2 w-96'>{product.title}</p>
+            <Link to={`/product-details/${product._id}`}>
             <Button variant="shop">Shop Now<IoMdArrowForward/></Button>
+            </Link>
           </div>
 
           <img src="https://m.media-amazon.com/images/I/71an9eiBxpL._SL1500_.jpg" alt="" className='w-[22vw] h-[22vw] hidden sm:block' />
         </section>
+        ))}
       </main>
     </section>
   )
