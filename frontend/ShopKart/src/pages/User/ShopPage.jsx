@@ -49,6 +49,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { debounce, split } from 'lodash'
+import Loader from '@/components/mycomponents/Loader'
 
 
 const useQuery = () => {
@@ -72,7 +73,7 @@ const ShopPage = () => {
 
     const { filterCategory, filterBrand, search, filterTags, filterPrice } = useSelector((state) => state.product)
 
-    const { data: productData } = useGetAllProductQuery({
+    const { data: productData, isLoading: isLoadingProducts } = useGetAllProductQuery({
         filterCategory: selectCategory.join(","),
         filterBrand: selectBrand.join(","),
         search,
@@ -81,8 +82,8 @@ const ShopPage = () => {
         filterTags: tags.join(","),
         filterPrice: selectedPriceRanges.length > 0 ? selectedPriceRanges.join(",") : ""
     })
-    const { data: categoryData } = useGetAllCategoryQuery()
-    const { data: brandData } = useGetAllBrandsQuery()
+    const { data: categoryData, isLoading: isLoadingCategories } = useGetAllCategoryQuery()
+    const { data: brandData, isLoading: isLoadingBrands } = useGetAllBrandsQuery()
     const products = productData?.data?.products || []
     const totalPages = productData?.data?.totalPages || 1
     const categories = categoryData?.data || []
@@ -155,6 +156,12 @@ const ShopPage = () => {
         if (newPage > 0 && totalPages <= totalPages) {
             setPage(newPage)
         }
+    }
+
+    const isLoading = isLoadingProducts || isLoadingCategories || isLoadingBrands
+
+    if(isLoading){
+        return <div className='h-96'><Loader size='3em' topBorderSize='0.3em'/></div>
     }
 
     return (

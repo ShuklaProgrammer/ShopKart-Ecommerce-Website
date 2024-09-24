@@ -71,7 +71,7 @@ const Footer = () => {
     <section className='text-white text-sm'>
       <h2 className='text-white w-full text-lg'>Popular Tag</h2>
       <div className='grid grid-cols-3 gap-2'>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=smartphone")}>Game</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=smartphone")}>SmartPhone</span>
       <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=iphone")}>iPhone</span>
       <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=tv")}>TV</span>
       <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=macbook")}>Macbook </span>
