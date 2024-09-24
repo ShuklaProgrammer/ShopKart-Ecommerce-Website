@@ -28,12 +28,12 @@ const Footer = () => {
     <section>
     <h2 className='text-white text-base uppercase'>Top Category</h2>
     <ul className='text-gray-400 text-sm mt-3 space-y-3'>
-      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=Laptop")}>Computer & Laptop</li>
+      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=Laptop")}>Laptop</li>
       <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=SmartPhone")}>SmartPhone</li>
-      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=Headphone")}>Headphone</li>
-      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=Accessories")}>Accessories</li>
-      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=Samsung")}>Camera & Photo</li>
-      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=Samsung")}>TV & Homes</li>
+      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=EarBuds")}>EarBuds</li>
+      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=SmartTV")}>SmartTV</li>
+      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=Speaker")}>Speaker</li>
+      <li className='hover:underline hover:cursor-pointer' onClick={() => navigate("/shop?category=iPhone")}>iPhone</li>
       <li className='text-yellow-400 flex items-center hover:underline hover:cursor-pointer' onClick={() => navigate("/shop")}>Browse All Product<IoMdArrowForward className='text-xl ml-2'/></li>
     </ul>
     </section>
@@ -71,17 +71,17 @@ const Footer = () => {
     <section className='text-white text-sm'>
       <h2 className='text-white w-full text-lg'>Popular Tag</h2>
       <div className='grid grid-cols-3 gap-2'>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=game")}>Game</span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>iPhone</span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>TV</span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Macbook </span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>SSD</span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Graphics Card </span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Power Bank </span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Smart TV</span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Speaker</span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Tablet</span>
-      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Microwave</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=smartphone")}>Game</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=iphone")}>iPhone</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=tv")}>TV</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=macbook")}>Macbook </span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=ssd")}>SSD</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=graphicscard")}>Graphics Card </span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=powerbank")}>Power Bank </span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=smarttv")}>Smart TV</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=speaker")}>Speaker</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=tablet")}>Tablet</span>
+      <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=microwave")}>Microwave</span>
       <span className='border border-2 border-gray-600 px-2 py-1 hover:bg-gray-600 hover:cursor-pointer' onClick={() => navigate("/shop?tags=samsung")}>Samsung</span>
       </div>
     </section>
