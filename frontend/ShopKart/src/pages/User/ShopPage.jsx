@@ -319,7 +319,7 @@ const ShopPage = () => {
                                     {['SmartPhone', 'iPhone', 'TV', 'Macbook', 'SSD', 'Graphics Card', 'Power Bank', 'Smart TV', 'Speaker', 'Tablet', 'Microwave', 'Samsung'].map(tag => (
                                         <span
                                             key={tag}
-                                            onClick={() => handleTagChange(tag)}
+                                            onClick={() => handleTagChange(tag.toLowerCase())}
                                             className={`border border-2 px-2 py-1 hover:bg-orange-100 hover:border-orange-400 hover:cursor-pointer ${tags.includes(tag) ? 'bg-orange-100 border-orange-400' : 'border-gray-300'}`}
                                         >
                                             {tag}
