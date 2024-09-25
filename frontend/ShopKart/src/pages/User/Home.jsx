@@ -210,9 +210,9 @@ const Home = () => {
           <div key={index} className='flex bg-gray-300 p-5 items-center gap-5'>
             <div className='space-y-2'>
               <span className='uppercase bg-sky-400 text-white px-2 py-1 rounded'>Introducing</span>
-              <h2 className='text-2xl font-semibold line-clamp-1 w-96'>{product.title}</h2>
+              <h2 className='text-2xl font-semibold line-clamp-1 sm:w-96'>{product.title}</h2>
             <img src={product.productImage[0]} alt="" className='w-56 h-56 block sm:hidden' />
-              <p>Jam-packed with innovation, HomePod mini delivers unexpectedly.</p>
+              <p className='line-clamp-2'>Jam-packed with innovation, HomePod mini delivers unexpectedly.</p>
               <Link to={`/product-details/${product._id}`}>
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
@@ -224,9 +224,9 @@ const Home = () => {
           <div key={index} className='flex bg-gray-800 p-5 items-center gap-5'>
             <div className='space-y-2'>
               <span className='uppercase bg-yellow-300 py-1 px-2 rounded'>Introducing New</span>
-              <h2 className='text-2xl font-semibold text-white line-clamp-1 w-96'>{product.title}</h2>
+              <h2 className='text-2xl font-semibold text-white line-clamp-1 sm:w-96'>{product.title}</h2>
             <img src={product.productImage[0]} alt="" className='w-56 h-56 block sm:hidden' />
-              <p className='text-gray-400'>*Data provided by internal laboratories. Industry measurment.</p>
+              <p className='text-gray-400 line-clamp-2'>*Data provided by internal laboratories. Industry measurment.</p>
               <Link to={`/product-details/${product._id}`}>
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
@@ -348,7 +348,7 @@ const Home = () => {
             <span className='bg-blue-400 rounded-sm px-2 py-1 text-white'>SAVE UP TO $200.00</span>
             <h1 className='text-3xl font-semibold'>Macbook Pro</h1>
           <img src="https://m.media-amazon.com/images/I/71an9eiBxpL._SL1500_.jpg" alt="" className='w-56 h-56 sm:hidden block' />
-            <p className='line-clamp-2 w-96'>{product.title}</p>
+            <p className='line-clamp-2 sm:w-96'>{product.title}</p>
             <Link to={`/product-details/${product._id}`}>
             <Button variant="shop">Shop Now<IoMdArrowForward/></Button>
             </Link>
