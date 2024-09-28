@@ -95,7 +95,7 @@ const Header = () => {
   return (
     <>
       <header className='bg-blue-600'>
-        <nav className='flex flex-col gap-2 sm:flex-row mx-2 sm:mx-20 justify-between items-center'>
+        <nav className='flex flex-col gap-2 sm:flex-row mx-5 md:mx-10 lg:mx-20 justify-between items-center'>
 
           {/* Welcome message */}
           <p className='text-sm text-white py-2'>Welcome to ShopKart online ecommerce store</p>
@@ -114,7 +114,7 @@ const Header = () => {
             </ul>
 
             {/* Language and currency */}
-            <ul className='flex gap-5'>
+            <ul className='flex gap-5 sm:hidden md:flex'>
               <li className='text-white text-sm'>
                 <NavigationMenu>
                   <NavigationMenuList>
@@ -143,15 +143,15 @@ const Header = () => {
           </div>
         </nav>
         <hr />
-        <nav className='flex items-center justify-between py-3 mx-2 sm:mx-20'>
+        <nav className='flex items-center justify-between py-3 mx-2 lg:mx-20'>
           <Link to="/">
-            <h1 className='text-2xl font-extrabold text-white flex gap-2 select-none'>
+            <h1 className='lg:text-2xl text-xl font-extrabold text-white flex gap-2 select-none'>
               <FaShoppingBag className='text-3xl' />
               ShopKart
             </h1>
           </Link>
 
-          <div className='sm:flex items-center relative w-[40%] hidden'>
+          <div className='md:flex items-center relative w-[40%] hidden'>
             <Input value={searching} onChange={e=>setSearching(e.target.value)} onKeyDown={handleSearchProduct} className="rounded-sm w-full" placeholder="Search for anything..." />
             <FaSearch onClick={handleSearchProduct} className='absolute text-gray-500 right-2 hover:cursor-pointer hover:text-orange-400' />
           </div>
@@ -163,7 +163,7 @@ const Header = () => {
                   <DropdownMenuTrigger className='flex items-center gap-2'>
                     <Link to="/auth" className='flex justify-center items-center gap-2 hover:bg-orange-400 px-4 py-2 rounded-md'>
                       <AiOutlineUser className='text-2xl' />
-                      <span className='sm:flex hidden'>{userInfo.username}</span>
+                      <span className='sm:flex hidden text-sm lg:text-base'>{userInfo.username}</span>
                     </Link>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent onClick={() => setDropdownOpen(false)}>
@@ -177,7 +177,7 @@ const Header = () => {
               ) : (
                 <Link to="/auth" className='flex items-center gap-2 hover:bg-orange-400 py-2 px-4 rounded-md'>
                   <AiOutlineUser className='text-2xl' />
-                  <span>Login</span>
+                  <span className='text-sm lg:text-base'>Login</span>
                 </Link>
               )}
             </li>
@@ -191,13 +191,13 @@ const Header = () => {
                     </span>
                     )}
                 </div>
-                <span className='sm:flex hidden'>Cart</span>
+                <span className='sm:flex hidden text-sm lg:text-base'>Cart</span>
               </Link>
             </li>
             <li>
               <Link to="/wishlist" className='flex items-center gap-2'>
                 <FaRegHeart className='text-xl' />
-                <span className='sm:flex hidden'>Wishlist</span>
+                <span className='sm:flex hidden text-sm lg:text-base'>Wishlist</span>
               </Link>
             </li>
           </ul>
@@ -205,7 +205,7 @@ const Header = () => {
         </nav>
 
         <div className='flex items-center justify-center mx-2'>
-        <div className='sm:hidden flex items-center pb-4 relative w-full max-w-xs'>
+        <div className='md:hidden flex items-center pb-4 relative w-full'>
             <Input value={searching} onChange={e=>setSearching(e.target.value)} onKeyDown={handleSearchProduct} className="rounded-sm w-full" placeholder="Search for anything..." />
             <FaSearch onClick={handleSearchProduct} className='absolute text-gray-500 right-2 hover:cursor-pointer hover:text-orange-400' />
           </div>

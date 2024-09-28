@@ -59,10 +59,10 @@ const Home = () => {
       <main className='bg-white w-[90%] h-full'>
 
          
-        <section className='sm:flex gap-5'>
+        <section className='lg:flex gap-5'>
         {products?.slice(0, 1).map((product, index) => (  
-          <div key={index} className='container1 flex justify-center items-center py-4 sm:py-0 px-4 sm:px-0 w-full gap-10 bg-gray-100 rounded-md'> 
-            <div className='w-[20rem] space-y-4'>
+          <div key={index} className='container1 flex justify-center items-center py-4 lg:py-0 px-4 lg:px-0 w-full gap-10 bg-gray-100 rounded-md'> 
+            <div className='w-full space-y-4'>
               <span className='uppercase font-medium text-blue-400'>――The Real World Experience</span>
               {/* <h1 className='text-2xl font-bold'>{product.title}</h1> */}
               <div className='w-80 bg-red-300 block sm:hidden'>
@@ -78,9 +78,9 @@ const Home = () => {
             </div>  
           </div>
         ))} 
-          <div className='container2 flex flex-col sm:w-[60%] sm:mt-0 mt-4 gap-5'>
+          <div className='container2 flex flex-col lg:w-[60%] lg:mt-0 mt-4 gap-5'>
           {products?.slice(1, 2).map((product, index) => (  
-            <div key={index} className='flex items-center justify-between sm:px-8 px-4 py-4 sm:py-0 bg-gray-800 rounded-md'>
+            <div key={index} className='flex items-center justify-between lg:px-8 px-4 py-4 lg:py-0 bg-gray-800 rounded-md'>
               <div className='space-y-3'>
                 <span className='uppercase text-yellow-400'>Summer Sales</span>
                 <div className='w-56 sm:hidden block'>
@@ -97,7 +97,7 @@ const Home = () => {
             </div>
           ))}
             {products?.slice(2, 3).map((product, index) => (  
-            <div key={index} className='sm:flex items-center justify-between gap-4 sm:px-8 px-4 py-4 sm:py-0 bg-yellow-200 rounded-md'>
+            <div key={index} className='sm:flex items-center justify-between gap-4 sm:px-8 px-4 py-4 lg:py-0 bg-yellow-200 rounded-md'>
               <div className='w-56'>
                 <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
@@ -114,8 +114,8 @@ const Home = () => {
         </section>
 
 
-        <section className='grid grid-rows-1 sm:flex sm:justify-between sm:px-10 sm:py-5 border-2 border-solid border-gray-200 mt-5'>
-          <div className='p-2 sm:p-0 sm:flex items-center gap-3 flex'>
+        <section className='grid grid-cols-1 md:grid-cols-4 lg:flex lg:justify-between lg:px-10 lg:py-5 border-2 border-solid border-gray-200 mt-5'>
+          <div className='p-2 lg:p-0 lg:flex items-center gap-3 flex'>
             <BsBoxSeam className='text-2xl text-gray-700' />
             <div className=''>
               <h3 className='text-sm font-semibold text-gray-700'>Fasted Delievry</h3>
@@ -124,9 +124,9 @@ const Home = () => {
           </div>
 
           {/* a vertical line */}
-          <div className='sm:border border-gray-300'></div>
+          <div className='lg:border border-gray-300'></div>
 
-          <div className='p-2 sm:p-0 sm:flex items-center gap-3 flex'>
+          <div className='p-2 lg:p-0 sm:flex items-center gap-3 flex'>
             <CiTrophy className='text-3xl text-gray-700' />
             <div>
               <h3 className='text-sm font-semibold text-gray-700'>24 Hours Return</h3>
@@ -135,9 +135,9 @@ const Home = () => {
           </div>
 
           {/* a vertical line */}
-          <div className='sm:border border-gray-300'></div>
+          <div className='lg:border border-gray-300'></div>
 
-          <div className='p-2 sm:p-0 sm:flex items-center gap-3 flex'>
+          <div className='p-2 lg:p-0 sm:flex items-center gap-3 flex'>
             <GoCreditCard className='text-2xl text-gray-700' />
             <div>
               <h3 className='text-sm font-semibold text-gray-700'>Secure Payment</h3>
@@ -146,9 +146,9 @@ const Home = () => {
           </div>
 
           {/* a vertical line */}
-          <div className='sm:border border-gray-300'></div>
+          <div className='lg:border border-gray-300'></div>
 
-          <div className='p-2 sm:p-0 sm:flex items-center gap-3 flex'>
+          <div className='p-2 lg:p-0 sm:flex items-center gap-3 flex'>
             <CiHeadphones className='text-3xl text-gray-700' />
             <div>
               <h3 className='text-sm font-semibold text-gray-700'>Support 24/7</h3>
@@ -166,7 +166,7 @@ const Home = () => {
 
           <div className='border-2 border-gray-200 mt-5'>
 
-            <div className='grid grid-cols-1 sm:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200'>
 
               {/* <div className='row-span-2 border-r-2 py-12'>
                 <div className='flex justify-center'>
@@ -205,7 +205,7 @@ const Home = () => {
 
          {/* banner section */}
     
-         <section className='sm:flex space-y-4 sm:space-y-0 justify-between gap-5 sm:mt-20 mt-4'>
+         <section className='lg:flex space-y-4 lg:space-y-0 justify-between gap-5 lg:mt-20 mt-4'>
          {products.slice(13, 14).map((product, index) => (
           <div key={index} className='flex bg-gray-300 p-5 items-center gap-5'>
             <div className='space-y-2'>
@@ -251,10 +251,10 @@ const Home = () => {
             ))}
           </div>
 
-{/* 
-          <div className='border-2 border border-solid border-gray-200 border mt-10'>
 
-            <div className='grid grid-cols-1 sm:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200'>
+          {/* <div className='border-2 border border-solid border-gray-200 border mt-10'>
+
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200'>
 
               <div className='col-span-1'>
                 <div className='flex justify-center'>
