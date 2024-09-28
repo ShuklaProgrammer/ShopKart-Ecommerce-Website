@@ -61,7 +61,7 @@ const Home = () => {
          
         <section className='lg:flex gap-5'>
         {products?.slice(0, 1).map((product, index) => (  
-          <div key={index} className='container1 flex justify-center items-center py-4 lg:py-0 px-4 lg:px-0 w-full gap-10 bg-gray-100 rounded-md'> 
+          <div key={index} className='container1 flex justify-center items-center py-4 lg:py-0 px-4 w-full gap-10 bg-gray-100 rounded-md'> 
             <div className='w-full space-y-4'>
               <span className='uppercase font-medium text-blue-400'>――The Real World Experience</span>
               {/* <h1 className='text-2xl font-bold'>{product.title}</h1> */}
@@ -73,7 +73,7 @@ const Home = () => {
               <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
             </div>
-            <div className='w-56 bg-red-300 hidden sm:block'>
+            <div className='w-80 bg-red-300 hidden sm:block'>
               <img src={product.productImage[0]} alt="" className='' />
             </div>  
           </div>
