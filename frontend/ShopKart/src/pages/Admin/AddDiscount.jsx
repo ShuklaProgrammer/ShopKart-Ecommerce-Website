@@ -27,10 +27,13 @@ import {
 import { useFormik } from 'formik'
 import * as Yup from "yup"
 import Loader from '@/components/mycomponents/Loader'
+import { useToast } from '@/hooks/use-toast'
   
 
 
 const AddDiscount = () => {
+
+    const {toast} = useToast()
 
     const { productId } = useParams()
 

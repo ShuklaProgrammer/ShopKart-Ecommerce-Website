@@ -125,7 +125,7 @@ const ShoppingCart = () => {
 
     return (
         <section className='flex justify-center'>
-            <main className='sm:w-[90%] w-full mx-2 sm:flex gap-4 my-10'>
+            <main className='sm:w-[90%] w-full mx-2 sm:flex-none lg:flex gap-4 my-10'>
                 {(cart?.cartItems?.length === 0 || !userInfo?._id || !cart?.cartItems || !cart) && (
                     <div className='flex items-center justify-center w-full py-24 bg-gray-100 border-2'>
                         <div className='flex flex-col items-center gap-2'>
@@ -138,7 +138,7 @@ const ShoppingCart = () => {
                 )}
                 {cart?.cartItems?.length > 0 && (
                     <>
-                        <div className='sm:w-[70%] border-2 flex flex-col justify-between'>
+                        <div className='border-2 flex flex-col justify-between sm:w-full'>
                             <div>
                                 <h2 className='sm:p-5 p-4 font-semibold sm:border-0 border-b-2'>Shopping Card</h2>
                                 <Table className="hidden sm:block">
@@ -155,8 +155,8 @@ const ShoppingCart = () => {
                                             <TableRow key={index}>
                                                 <TableCell className="font-medium">
                                                     <div className='flex items-center gap-2'>
-                                                        <RxCrossCircled onClick={() => handleDeleteAProductFromCart(item.productId)} className='text-3xl hover:cursor-pointer hover:text-red-500' />
-                                                        <img src={item.productImage} alt="" className='w-10 h-10' />
+                                                        <RxCrossCircled onClick={() => handleDeleteAProductFromCart(item.productId)} className='text-xl hover:cursor-pointer hover:text-red-500' />
+                                                        <img src={item.productImage} alt="" className='w-16 h-16' />
                                                         <p className='line-clamp-2 text-sm'>{item.productName}</p>
                                                     </div>
                                                 </TableCell>
@@ -177,7 +177,7 @@ const ShoppingCart = () => {
                                     <div key={index} className='sm:hidden block'>
                                     <div className='flex items-start gap-2 p-2'>
                                         <img src={item.productImage} alt="" className='w-10 h-10 mt-1'/>
-                                        <div>
+                                        <div className='w-full'>
                                             <p className='line-clamp-2'>{item.productName}</p>
                                             <div className='flex items-center justify-between'>
                                                 <span className='font-semibold'>${item.price}</span>
@@ -205,8 +205,8 @@ const ShoppingCart = () => {
 
 
                         {cart && (
-                            <div className='sm:w-[30%] sm:px-4 space-y-2 mt-4 sm:mt-0'>
-                                <div className='border-2 p-5'>
+                            <div className='lg:px-4 sm:flex lg:flex-col lg:space-y-2 mt-4 sm:mt-4 lg:mt-0 sm:gap-4 lg:gap-0 sm:w-full lg:w-[40%]'>
+                                <div className='border-2 p-5 w-full'>
                                     <h2 className='pb-2 font-semibold'>Card Totals</h2>
                                     <div className='flex items-center justify-between'>
                                         <p>Sub-total</p>
@@ -230,10 +230,10 @@ const ShoppingCart = () => {
                                     </div>
                                 </div>
 
-                                <div className='border-2 p-5 space-y-5 sm:block hidden'>
+                                <div className='border-2 p-5 space-y-5 sm:block hidden w-full'>
                                     <h2 className=''>Coupon Code</h2>
                                     <Input className="border-2" placeholder="Email address" />
-                                    <Button variant="blueButton" className="px-4 py-3">Apply Coupon</Button>
+                                    <Button variant="blueBorder" className="px-4 py-3">Apply Coupon</Button>
                                 </div>
                             </div>
                         )}

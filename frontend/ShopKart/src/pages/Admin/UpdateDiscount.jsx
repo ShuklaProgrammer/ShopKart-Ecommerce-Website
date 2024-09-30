@@ -13,11 +13,14 @@ import {
 import { useGetDiscountByIdQuery, useUpdateDiscountMutation } from '@/redux/api/discountApiSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '@/components/mycomponents/Loader'
+import { useToast } from '@/hooks/use-toast'
 
 const UpdateDiscount = () => {
 
     const {discountId} = useParams()
     const navigate = useNavigate()
+
+    const {toast} = useToast()
 
     const [discountName, setDiscountName] = useState("")
     const [discountType, setDiscountType] = useState("")
