@@ -70,7 +70,7 @@ const Home = () => {
             </div>
               <p className='text-gray-500'>Save big on your next holiday on SmartPhone. Get 2 months Subscription for Netflix, Prime Video, Youtube.</p>
               <Link to={`/product-details/${product._id}`}>
-              <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
+              <Button className="mt-4" variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
             </div>
             <div className='w-80 bg-red-300 hidden sm:block'>
@@ -80,25 +80,25 @@ const Home = () => {
         ))} 
           <div className='container2 flex flex-col lg:w-[60%] lg:mt-0 mt-4 gap-5'>
           {products?.slice(1, 2).map((product, index) => (  
-            <div key={index} className='flex items-center justify-between lg:px-8 px-4 py-4 lg:py-0 bg-gray-800 rounded-md'>
+            <div key={index} className='flex items-center justify-between lg:px-8 px-4 py-4 bg-gray-800 rounded-md'>
               <div className='space-y-3'>
                 <span className='uppercase text-yellow-400'>Summer Sales</span>
-                <div className='w-56 sm:hidden block'>
+                <div className='w-40 sm:hidden block'>
                 <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
                 <h2 className='text-xl font-semibold text-white'>{product.title}</h2>
               <Link to={`/product-details/${product._id}`}>
-                <Button variant="shop">Shop Now<IoMdArrowForward className='text-xl ml-2' /></Button>
+                <Button className="mt-4" variant="shop">Shop Now<IoMdArrowForward className='text-xl ml-2' /></Button>
                 </Link>
               </div>
-              <div className='w-56 hidden sm:block'>
+              <div className='w-40 hidden sm:block'>
                 <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
             </div>
           ))}
             {products?.slice(2, 3).map((product, index) => (  
-            <div key={index} className='sm:flex items-center justify-between gap-4 sm:px-8 px-4 py-4 lg:py-0 bg-yellow-200 rounded-md'>
-              <div className='w-56'>
+            <div key={index} className='sm:flex items-center justify-between gap-4 sm:px-8 px-4 py-4 bg-yellow-200 rounded-md'>
+              <div className='w-40'>
                 <img src={product.productImage[0]} alt="" className='rounded-md'/>
               </div>
               <div className='sm:flex flex flex-col items-start justify-start space-y-3'>
@@ -210,11 +210,11 @@ const Home = () => {
           <div key={index} className='flex bg-gray-300 p-5 items-center gap-5'>
             <div className='space-y-2'>
               <span className='uppercase bg-sky-400 text-white px-2 py-1 rounded'>Introducing</span>
-              <h2 className='text-2xl font-semibold line-clamp-1 sm:w-96'>{product.title}</h2>
+              <h2 className='text-2xl font-semibold line-clamp-1'>{product.title}</h2>
             <img src={product.productImage[0]} alt="" className='w-56 h-56 block sm:hidden' />
               <p className='line-clamp-2'>Jam-packed with innovation, HomePod mini delivers unexpectedly.</p>
               <Link to={`/product-details/${product._id}`}>
-              <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
+              <Button className="mt-4" variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
             </div>
             <img src={product.productImage[0]} alt="" className='w-56 h-56 hidden sm:block' />
@@ -223,12 +223,12 @@ const Home = () => {
             {products.slice(14, 15).map((product, index) => (
           <div key={index} className='flex bg-gray-800 p-5 items-center gap-5'>
             <div className='space-y-2'>
-              <span className='uppercase bg-yellow-300 py-1 px-2 rounded'>Introducing New</span>
-              <h2 className='text-2xl font-semibold text-white line-clamp-1 sm:w-96'>{product.title}</h2>
+              <span className='uppercase bg-yellow-300 py-1 px-2 rounded text-sm md:text-base'>Introducing New</span>
+              <h2 className='text-2xl font-semibold text-white line-clamp-1'>{product.title}</h2>
             <img src={product.productImage[0]} alt="" className='w-56 h-56 block sm:hidden' />
               <p className='text-gray-400 line-clamp-2'>*Data provided by internal laboratories. Industry measurment.</p>
               <Link to={`/product-details/${product._id}`}>
-              <Button variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
+              <Button className="mt-4" variant="shop">Shop Now<IoMdArrowForward className='text-white text-xl ml-2' /></Button>
               </Link>
             </div>
             <img src={product.productImage[0]} alt="" className='w-56 h-56 hidden sm:block' />
@@ -343,14 +343,14 @@ const Home = () => {
         </section>
 
         {products.slice(15, 16).map((product, index) => (
-        <section key={index} className='flex justify-between items-center sm:px-20 px-4 py-4 sm:py-0 bg-orange-200 mt-10 rounded-sm mb-10'>
+        <section key={index} className='flex justify-between items-center lg:px-20 px-4 py-4 lg:py-0 bg-orange-200 mt-10 rounded-sm mb-10'>
           <div className='space-y-3'>
             <span className='bg-blue-400 rounded-sm px-2 py-1 text-white'>SAVE UP TO $200.00</span>
             <h1 className='text-3xl font-semibold'>Macbook Pro</h1>
           <img src="https://m.media-amazon.com/images/I/71an9eiBxpL._SL1500_.jpg" alt="" className='w-56 h-56 sm:hidden block' />
-            <p className='line-clamp-2 sm:w-96'>{product.title}</p>
+            <p className='line-clamp-2'>{product.title}</p>
             <Link to={`/product-details/${product._id}`}>
-            <Button variant="shop">Shop Now<IoMdArrowForward/></Button>
+            <Button className="mt-4" variant="shop">Shop Now<IoMdArrowForward/></Button>
             </Link>
           </div>
 
