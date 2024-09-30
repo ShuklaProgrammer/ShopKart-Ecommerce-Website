@@ -45,6 +45,7 @@ import { useLogoutUserMutation } from '@/redux/api/authApiSlice';
 import { logout } from "../../redux/features/auth/authSlice"
 import { useGetAllProductQuery } from '@/redux/api/productApiSlice';
 import { updateSearch } from '@/redux/features/product/productSlice';
+import { useGetAllCategoryQuery } from '@/redux/api/categoryApiSlice';
 
 
 const Header = () => {
@@ -62,6 +63,8 @@ const Header = () => {
   const cart = useSelector((state) => state.cart.cart)
 
   const [logoutUser] = useLogoutUserMutation()
+  const {data: getAllCategory} = useGetAllCategoryQuery()
+  const categories = getAllCategory?.data || []
 
   const [isClickedNavigationMenuTrigger, setIsClickNavigationMenuTrigger] = useState(false)
 
@@ -91,6 +94,10 @@ const Header = () => {
         navigate(`/shop?search=${encodeURIComponent(searching)}`)
     }
 }
+
+    const handleCategoryClick = (categoryName) => {
+      navigate(`/shop/?category=${categoryName}`)
+    }
 
   return (
     <>
@@ -218,9 +225,10 @@ const Header = () => {
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuTrigger onClick={clickNavigationMenuTrigger} className={`bg-gray-100 rounded-sm px-3 py-5 text-black ${isClickedNavigationMenuTrigger ? "bg-orange-400 text-white" : "hover:bg-orange-400 hover:text-white"}`}>All Category</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <NavigationMenuLink>Computer & Laptop</NavigationMenuLink>
-                      <NavigationMenuLink>Computer Accessories</NavigationMenuLink>
+                    <NavigationMenuContent className="min-w-[200px]">
+                      {categories.map((category, index) => (
+                      <NavigationMenuLink key={index} onClick={() => handleCategoryClick(category.categoryName)} className='block px-4 py-2 hover:bg-gray-200 cursor-pointer'>{category.categoryName}</NavigationMenuLink>
+                    ))}
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 </NavigationMenuList>
