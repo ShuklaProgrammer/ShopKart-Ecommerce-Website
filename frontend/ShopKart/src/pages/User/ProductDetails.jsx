@@ -482,10 +482,10 @@ const ProductDetails = () => {
                                         </div>
                                     </div>
                                 )}
-                                 {product.reviews ? (
+                                 {product.reviews && product.reviews.length > 0 ? (
                                     <h2 className='text-xl font-semibold'>All Reviews</h2>
                                 ) : (
-                                    <h2 className='text-xl font-semibold'>No Reviews</h2>
+                                    <h2 className='text-xl font-semibold'>No Reviews Added</h2>
                                 )}
                                 {product.reviews?.map((review, index) => (
                                     <div key={index} className='border-2 p-2 my-4'>
@@ -561,10 +561,10 @@ const ProductDetails = () => {
                                         </div>
                                     </div>
                                 )}
-                                 {product.reviews ? (
+                                 {product.reviews && product.length > 0 ? (
                                     <h2 className='text-xl font-semibold'>All Reviews</h2>
                                 ) : (
-                                    <h2 className='text-xl font-semibold'>No Reviews</h2>
+                                    <h2 className='text-xl font-semibold'>No Reviews Added</h2>
                                 )}
                                 {product.reviews?.map((review, index) => (
                                     <div key={index} className='border-2 p-2 my-4'>
