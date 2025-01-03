@@ -1,23 +1,27 @@
 import Mailgun from "mailgun.js";
-import formData from "form-data"
+import formData from "form-data";
 import asyncHandler from "./asyncHandler.js";
 import ApiResponse from "./apiResponse.js";
 import { Order } from "../models/order.model.js";
 
-const mailgun = new Mailgun(formData)
+const mailgun = new Mailgun(formData);
 
-const mg = mailgun.client({ username: "api", key: process.env.MAILGUN_API_KEY })
+const mg = mailgun.client({
+  username: "api",
+  key: process.env.MAILGUN_API_KEY,
+});
 
+const sendOrderSuccessfulEmail = async (email, orderId) => {
+  const order = await Order.findById(orderId).populate(
+    "orderItems.productId",
+    "title",
+  );
 
-const sendOrderSuccessfulEmail = async(email, orderId) => {
-
-    const order = await Order.findById(orderId).populate("orderItems.productId", "title")
-
-    const data = {
-        from: `ShopKart <mailgun@${process.env.MAILGUN_DOMAIN}>`,
-        to: email,
-        subject: "Order Successful",
-        html: `
+  const data = {
+    from: `ShopKart <mailgun@${process.env.MAILGUN_DOMAIN}>`,
+    to: email,
+    subject: "Order Successful",
+    html: `
     <div style="font-family: Arial, sans-serif; color: #333; text-align: center; padding: 20px;">
         <!-- Logo and Company Name, Centered -->
             <span style="font-size: 28px; font-weight: bold; margin-left: 10px;">ShopKart</span>
@@ -46,7 +50,9 @@ const sendOrderSuccessfulEmail = async(email, orderId) => {
                 </tr>
             </thead>
             <tbody>
-                ${order.orderItems.map(item => `
+                ${order.orderItems
+                  .map(
+                    (item) => `
                     <tr>
                         <td style="padding: 10px; text-align: left; word-wrap: break-word; max-width: 200px;">
                             <div style="display: flex; align-items: center;">
@@ -57,7 +63,9 @@ const sendOrderSuccessfulEmail = async(email, orderId) => {
                         <td style="padding: 10px; text-align: center;">${item.quantity}</td>
                         <td style="padding: 10px; text-align: right;">$${item.price.toFixed(2)}</td>
                     </tr>
-                `).join('')}
+                `,
+                  )
+                  .join("")}
             </tbody>
         </table>
 
@@ -81,13 +89,10 @@ const sendOrderSuccessfulEmail = async(email, orderId) => {
             <small>If you received this email in error or wish to unsubscribe, please contact us at support@shopkart.com.</small>
         </p>
     </div>
-`
-    
-    };
+`,
+  };
 
+  await mg.messages.create(process.env.MAILGUN_DOMAIN, data);
+};
 
-    await mg.messages.create(process.env.MAILGUN_DOMAIN, data)
-
-}
-
-export { sendOrderSuccessfulEmail }
+export { sendOrderSuccessfulEmail };

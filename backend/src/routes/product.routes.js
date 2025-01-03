@@ -1,38 +1,55 @@
-import {Router} from "express"
-import { createProduct, deleteProductById, getProductById, getAllProduct, updateProduct, addDiscountToAProduct, deleteADiscountFromProduct } from "../controllers/product.controller.js"
-import { upload } from "../middlewares/multer.middleware.js"
-import { validateMongoId } from "../middlewares/validate.id.js"
+import { Router } from "express";
+import {
+  createProduct,
+  deleteProductById,
+  getProductById,
+  getAllProduct,
+  updateProduct,
+  addDiscountToAProduct,
+  deleteADiscountFromProduct,
+} from "../controllers/product.controller.js";
+import { upload } from "../middlewares/multer.middleware.js";
+import { validateMongoId } from "../middlewares/validate.id.js";
 
+const router = Router();
 
-const router = Router()
+router.route("/get-products").get(getAllProduct);
 
-router.route("/get-products").get(getAllProduct)
-
-router.route("/create-product").post(upload.fields([
+router.route("/create-product").post(
+  upload.fields([
     {
-        name: "productImage",
+      name: "productImage",
     },
     {
-        name: "productVideo",
-        maxCount: 1
-    }
-]), createProduct)
+      name: "productVideo",
+      maxCount: 1,
+    },
+  ]),
+  createProduct,
+);
 
-router.route("/:productId").put(upload.fields([
+router.route("/:productId").put(
+  upload.fields([
     {
-        name: "productImage"
+      name: "productImage",
     },
     {
-        name: "productVideo",
-        maxCount: 1
-    }
-]), updateProduct)
+      name: "productVideo",
+      maxCount: 1,
+    },
+  ]),
+  updateProduct,
+);
 
-router.route("/:productId").get(validateMongoId, getProductById).delete(deleteProductById)
+router
+  .route("/:productId")
+  .get(validateMongoId, getProductById)
+  .delete(deleteProductById);
 
-router.route("/:productId/add-discount").post(addDiscountToAProduct)
+router.route("/:productId/add-discount").post(addDiscountToAProduct);
 
-router.route("/:productId/delete-discount/:discountId").delete(deleteADiscountFromProduct)
+router
+  .route("/:productId/delete-discount/:discountId")
+  .delete(deleteADiscountFromProduct);
 
-
-export default router
+export default router;

@@ -4,110 +4,128 @@ import ApiError from "../utils/apiError.js";
 import { Wishlist } from "../models/wishlist.model.js";
 import { Product } from "../models/product.model.js";
 
+const addProductToWishlist = asyncHandler(async (req, res) => {
+  const { userId, productId } = req.body;
 
-const addProductToWishlist = asyncHandler(async(req, res) => {
-    const {userId, productId} = req.body
+  if (!userId || !productId) {
+    throw new ApiError(500, "You need to send productid and userid");
+  }
 
-    if(!userId || !productId){
-        throw new ApiError(500, "You need to send productid and userid")
-    }
+  const product = await Product.findById(productId);
 
-    const product = await Product.findById(productId)
+  if (!product) {
+    throw new ApiError(400, "The product not found");
+  }
 
-    if(!product){
-        throw new ApiError(400, "The product not found")
-    }
+  let wishlist = await Wishlist.findOne({ userId });
 
-    let wishlist = await Wishlist.findOne({userId})
+  if (!wishlist) {
+    wishlist = new Wishlist({
+      userId,
+      wishlistItems: [],
+    });
+  }
 
-    if(!wishlist){
-        wishlist = new Wishlist({
-            userId,
-            wishlistItems: [],
-        })
-    }
+  const existedProductInWishlist = wishlist.wishlistItems.findIndex((item) =>
+    item.productId.equals(productId)
+  );
 
+  if (existedProductInWishlist !== -1) {
+    throw new ApiError(400, "The product already exist in the wishlist");
+  }
 
-    const existedProductInWishlist = wishlist.wishlistItems.findIndex(item => item.productId.equals(productId))
+  wishlist.wishlistItems.push({
+    productId,
+    productImage: product.productImage[0],
+    productName: product.title,
+    productPrice: product.price,
+    stockStatus: product.stockQuantity > 0 ? "In Stock" : "Out of Stock",
+  });
 
-    if(existedProductInWishlist !== -1){
-        throw new ApiError(400, "The product already exist in the wishlist")
-    }
+  await wishlist.save();
 
-    wishlist.wishlistItems.push({
-            productId,
-            productImage: product.productImage[0],
-            productName: product.title,
-            productPrice: product.price,
-            stockStatus: product.stockQuantity > 0 ? "In Stock" : "Out of Stock"
-    })
+  res
+    .status(201)
+    .json(
+      new ApiResponse(
+        200,
+        wishlist,
+        "The product is added to the wishlist successfully"
+      )
+    );
+});
 
-    await wishlist.save()
+const removeOneProductFromWishlist = asyncHandler(async (req, res) => {
+  const { userId, productId } = req.body;
 
-    res.status(201).json(
-        new ApiResponse(200, wishlist, "The product is added to the wishlist successfully")
-    )
-})
+  if (!userId || !productId) {
+    throw new ApiError(500, "Please provide the productid and userid");
+  }
 
-const removeOneProductFromWishlist = asyncHandler(async(req, res) => {
-    const {userId, productId} = req.body
+  let wishlist = await Wishlist.findOne({ userId });
 
-    if(!userId || !productId){
-        throw new ApiError(500, "Please provide the productid and userid")
-    }
+  if (!wishlist) {
+    throw new ApiError(404, "The wishlist is not exist");
+  }
 
-    let wishlist = await Wishlist.findOne({userId})
+  const findProductInWishlist = wishlist.wishlistItems.find((item) =>
+    item.productId.equals(productId)
+  );
 
-    if(!wishlist){
-        throw new ApiError(404, "The wishlist is not exist")
-    }
+  if (findProductInWishlist) {
+    wishlist.wishlistItems.splice(productId, 1);
+  } else {
+    throw new ApiError(404, "The product in the wishlist does not exist");
+  }
 
-    const findProductInWishlist = wishlist.wishlistItems.find(item => item.productId.equals(productId))
+  await wishlist.save();
 
-    if(findProductInWishlist){
-        wishlist.wishlistItems.splice(productId, 1)
-    }else{
-        throw new ApiError(404, "The product in the wishlist does not exist")
-    }
+  res
+    .status(201)
+    .json(
+      new ApiResponse(
+        200,
+        wishlist,
+        "The product remove from wishlist succcessfully"
+      )
+    );
+});
 
-    await wishlist.save()
+const getAllWishlist = asyncHandler(async (req, res) => {
+  const wishlist = await Wishlist.find({});
 
-    res.status(201).json(
-        new ApiResponse(200, wishlist, "The product remove from wishlist succcessfully")
-    )
-})
+  if (!wishlist) {
+    throw new ApiError(400, "No wishlist available");
+  }
 
-const getAllWishlist = asyncHandler(async(req, res) => {
+  res
+    .status(201)
+    .json(new ApiResponse(200, wishlist, "You got all the wishlists"));
+});
 
-    const wishlist = await Wishlist.find({})
+const getUserWishlist = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
 
-    if(!wishlist){
-        throw new ApiError(400, "No wishlist available")
-    }
+  if (!userId) {
+    throw new ApiError(500, "Please give the wishlistId");
+  }
 
-    res.status(201).json(
-        new ApiResponse(200, wishlist, "You got all the wishlists")
-    )
-})
+  const wishlist = await Wishlist.findOne({ userId });
 
-const getUserWishlist = asyncHandler(async(req, res) => {
-    
-    const {userId} = req.params
+  if (!wishlist) {
+    throw new ApiError(400, "Cannot found the wishlist by id");
+  }
 
-    if(!userId){
-        throw new ApiError(500, "Please give the wishlistId")
-    }
+  res
+    .status(201)
+    .json(
+      new ApiResponse(200, wishlist, "You got the wishlist by id successfully")
+    );
+});
 
-    const wishlist = await Wishlist.findOne({userId})
-
-    if(!wishlist){
-        throw new ApiError(400, "Cannot found the wishlist by id")
-    }
-
-    res.status(201).json(
-        new ApiResponse(200, wishlist, "You got the wishlist by id successfully")
-    )
-})
-
-
-export {addProductToWishlist, getAllWishlist, getUserWishlist, removeOneProductFromWishlist}
+export {
+  addProductToWishlist,
+  getAllWishlist,
+  getUserWishlist,
+  removeOneProductFromWishlist,
+};
