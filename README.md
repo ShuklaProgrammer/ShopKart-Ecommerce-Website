@@ -1,6 +1,6 @@
-# ShopKart Ecommerce - Fully Functional E-commerce Platform 🛒  
+# ShopKart Ecommerce - E-commerce Platform 🛒  
 
-This repository contains **ShopKart**, a modern and scalable e-commerce platform. The platform is designed to deliver a seamless shopping experience, complete with secure payments, user-friendly interfaces, and robust admin functionalities.
+This repository contains **ShopKart**, a modern and scalable e-commerce platform. The platform is designed to deliver a seamless shopping experience, complete with secure payments, user-friendly interfaces, and admin functionalities.
 
 ### Live Demo  
 The project is deployed on **Vercel**: [ShopKart E-commerce](https://shopkart-ecommerce.vercel.app/)
@@ -19,42 +19,20 @@ The project is deployed on **Vercel**: [ShopKart E-commerce](https://shopkart-ec
 ## Folder Structure 📂  
 
 ### Root Directory  
-project-root/
-├── frontend/
-└── backend/
+project-root/-> frontend/ and backend/
 
 ### Frontend Folder  
-frontend/
-└── ShopKart/
-└── src/
-    ├── assets/ # Fonts and images
-    ├── components/
-    │ ├── mycomponents/
-    │ └── ui/ # Shadcn components
-    ├── hooks/ # Custom hooks
-    ├── lib/ # Reusable utility functions
-    ├── pages/
-    │ ├── Admin/
-    │ ├── Auth/
-    │ ├── Order/
-    │ └── User/
-    └── redux/
-    ├── api/
-     └── features/ # Redux slices for auth, cart, product, wishlist
+1. Everything is added in the src folder.
+2. In src folder there are 6 new folder created by me: assets, components, hooks, lib, pages, redux.
+3. In assets folder I have fonts and images folder.
+4. In components folder I have mycomponents and the ui folder which contains the shadcn components.
+5. In pages folder I have Admin, Auth, Order, User.
+6. In redux folder I have api and features. In features folder I have auth, cart, product, and wishlist.
 
 
 ### Backend Folder  
-backend/
-├── public/
-└── src/
-├── controllers/ # Request handlers
-├── database/ # Database connection and setup
-├── features/ # Business logic modules
-├── middlewares/ # Middleware for authentication, error handling, etc.
-├── models/ # Database schemas
-├── routes/ # API route definitions
-├── tasks/ # Scheduled tasks or cron jobs
-└── utils/ # Helper functions
+1. In backend folder I have public and src folder.
+2. In src folder I have controllers, database, features, middlewares, models, routes, taska, and utils.
 
 ---
 
