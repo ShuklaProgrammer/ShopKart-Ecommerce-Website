@@ -23,16 +23,16 @@ project-root/-> frontend/ and backend/
 
 ### Frontend Folder  
 1. Everything is added in the src folder.
-2. In src folder there are 6 new folder created by me: assets, components, hooks, lib, pages, redux.
-3. In assets folder I have fonts and images folder.
-4. In components folder I have mycomponents and the ui folder which contains the shadcn components.
-5. In pages folder I have Admin, Auth, Order, User.
-6. In redux folder I have api and features. In features folder I have auth, cart, product, and wishlist.
+2. In src folder, there are 6 new folder created by me: assets, components, hooks, lib, pages, redux.
+3. In assets folder, I have fonts and images folder.
+4. In components folder, I have mycomponents and the ui folder which contains the shadcn components.
+5. In pages folder, I have Admin, Auth, Order, User.
+6. In redux folder, I have api and features. In features folder I have auth, cart, product, and wishlist.
 
 
 ### Backend Folder  
-1. In backend folder I have public and src folder.
-2. In src folder I have controllers, database, features, middlewares, models, routes, taska, and utils.
+1. In backend folder, I have public and src folder.
+2. In src folder, I have controllers, database, features, middlewares, models, routes, taska, and utils.
 
 ---
 
