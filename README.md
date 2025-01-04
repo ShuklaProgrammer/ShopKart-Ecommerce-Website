@@ -77,8 +77,8 @@ project-root/-> frontend/ and backend/
 ### Steps  
 1. Clone the repository:  
    ```bash  
-   git clone https://github.com/your-username/shopkart-ecommerce.git  
-   cd shopkart-ecommerce
+   git clone https://github.com/ShuklaProgrammer/ShopKart-Ecommerce-Website.git
+   cd ShopKart-Ecommerce-Website
    
 2. Install frontend dependencies:
    ```bash  
