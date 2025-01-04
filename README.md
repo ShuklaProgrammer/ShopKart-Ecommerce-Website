@@ -27,20 +27,20 @@ project-root/
 frontend/
 └── ShopKart/
 └── src/
-├── assets/ # Fonts and images
-├── components/
-│ ├── mycomponents/
-│ └── ui/ # Shadcn components
-├── hooks/ # Custom hooks
-├── lib/ # Reusable utility functions
-├── pages/
-│ ├── Admin/
-│ ├── Auth/
-│ ├── Order/
-│ └── User/
-└── redux/
-├── api/
-└── features/ # Redux slices for auth, cart, product, wishlist
+    ├── assets/ # Fonts and images
+    ├── components/
+    │ ├── mycomponents/
+    │ └── ui/ # Shadcn components
+    ├── hooks/ # Custom hooks
+    ├── lib/ # Reusable utility functions
+    ├── pages/
+    │ ├── Admin/
+    │ ├── Auth/
+    │ ├── Order/
+    │ └── User/
+    └── redux/
+    ├── api/
+     └── features/ # Redux slices for auth, cart, product, wishlist
 
 
 ### Backend Folder  
@@ -112,13 +112,12 @@ backend/
    cd ../../backend  
    npm install
 
-4. Start the development servers:
-   Frontend:
+4. Start the development server with frontend:
    ```bash
    cd frontend/ShopKart
    npm run dev
   
-  Backend:
+5. Start the development server with backend:
    ```bash
    cd frontend/ShopKart
    npm run dev
