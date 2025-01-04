@@ -97,17 +97,5 @@ project-root/-> frontend/ and backend/
   
 5. Start the development server with backend:
    ```bash
-   cd frontend/ShopKart
+   cd backend/ShopKart
    npm run dev
-   
-
-
-   
-
-    
-     
-
-    
-
-
-
