@@ -60,10 +60,6 @@ const AddCategory = () => {
 
   const categories = getAllCategory?.data || [];
 
-  // const createCategory = async () => {
-  //     await addCategory({ categoryName }).unwrap()
-  // }
-
   const handleUpdateCategory = async (categoryId, updatedName) => {
     try {
       await updateCategory({ categoryId, categoryName: updatedName });

@@ -1,14 +1,10 @@
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React from "react";
 
 // all the icons are imported here
 import { PiRocket } from "react-icons/pi";
 import { MdPendingActions } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
-import { PiDotsThreeOutlineFill } from "react-icons/pi";
-import { PiCopySimple } from "react-icons/pi";
-import { SiVisa } from "react-icons/si";
-import { FaCcMastercard } from "react-icons/fa";
 import { IoMdArrowForward } from "react-icons/io";
 
 // shadcn
@@ -23,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { useSelector } from "react-redux";
 import { useGetUserProfileQuery } from "@/redux/api/profileApiSlice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   useGetAllUserOrdersQuery,
   useGetUserOrderStatisticsQuery,
@@ -259,45 +255,6 @@ const ProfileDashboard = () => {
               </section>
             )}
         </div>
-
-        {/* <section>
-                    <div className='flex items-center justify-between'>
-                        <h1>Payment Option</h1>
-                        <h2 className='flex items-center gap-2'>Add Card<IoMdArrowForward className='text-xl' /></h2>
-                    </div>
-                    <div className='flex items-center'>
-                        <div className='bg-blue-400 w-full'>
-                            <div className='flex items-center'>
-                                <span>$95, 400.00 USD</span>
-                                <PiDotsThreeOutlineFill className='text-2xl' />
-                            </div>
-                            <p>Card number</p>
-                            <div className='flex items-center'>
-                                <span>****  ****  ****  3814</span>
-                                <PiCopySimple />
-                            </div>
-                            <div className='flex items-center'>
-                                <SiVisa className='text-5xl' />
-                                <h3>Den Parker</h3>
-                            </div>
-                        </div>
-                        <div className='bg-green-400 w-full'>
-                            <div className='flex items-center'>
-                                <span>$95, 400.00 USD</span>
-                                <PiDotsThreeOutlineFill className='text-2xl' />
-                            </div>
-                            <p>Card number</p>
-                            <div className='flex items-center'>
-                                <span>****  ****  ****  3814</span>
-                                <PiCopySimple />
-                            </div>
-                            <div className='flex items-center'>
-                                <FaCcMastercard className='text-5xl' />
-                                <h3>Den Parker</h3>
-                            </div>
-                        </div>
-                    </div>
-                </section> */}
 
         {userOrders && (
           <section className="border border-1 border-gray-300 sm:mt-10 mt-5">

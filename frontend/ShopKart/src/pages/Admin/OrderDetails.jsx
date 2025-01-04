@@ -1,6 +1,5 @@
 import {
   useGetOrderByIdQuery,
-  useGetUserOrderQuery,
   useUpdateOrderByIdMutation,
 } from "@/redux/api/orderApiSlice";
 import React, { useEffect, useState } from "react";

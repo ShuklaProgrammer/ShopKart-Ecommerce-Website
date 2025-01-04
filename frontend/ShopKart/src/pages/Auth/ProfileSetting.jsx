@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import ProfileSidebar from "@/components/mycomponents/ProfileSidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSelector } from "react-redux";
 import {
   useCreateProfileMutation,
   useGetUserProfileQuery,
-  useUpdateProfileMutation,
 } from "@/redux/api/profileApiSlice";
 import Loader from "@/components/mycomponents/Loader";
 
@@ -29,7 +27,6 @@ const ProfileSetting = () => {
   const [contactNumber, setContactNumber] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
-  // console.log(userInfo)
 
   const { data: profileData, isLoading: isProfileLoading } =
     useGetUserProfileQuery({ userId: userInfo._id });

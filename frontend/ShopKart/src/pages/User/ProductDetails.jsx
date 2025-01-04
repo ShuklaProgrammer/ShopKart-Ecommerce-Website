@@ -3,17 +3,10 @@ import React, { useEffect, useState } from "react";
 // all the icons are imported here
 import { FiShoppingCart } from "react-icons/fi";
 import { FaEnvelope, FaRegHeart, FaStar } from "react-icons/fa";
-import { FiRefreshCcw } from "react-icons/fi";
 import { FaRegCopy } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
-import { FaPinterestP } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import { FiAward } from "react-icons/fi";
-import { FiTruck } from "react-icons/fi";
-import { PiHandshake } from "react-icons/pi";
-import { FiHeadphones } from "react-icons/fi";
-import { GoCreditCard } from "react-icons/go";
 import { IoSendSharp } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -46,10 +39,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "@/redux/features/cart/cartSlice";
 import {
   useAddToCartApiMutation,
-  useClearCartApiMutation,
-  useRemoveFromCartApiMutation,
 } from "@/redux/api/cartApiSlice";
-import { setCredentials } from "@/redux/features/auth/authSlice";
 import { useAddWishlistMutation } from "@/redux/api/wishlistApiSlice";
 import { setWishlist } from "@/redux/features/wishlist/wishlistSlice";
 import { useCreateOrderMutation } from "@/redux/api/orderApiSlice";
@@ -74,7 +64,6 @@ const ProductDetails = () => {
   const cart = useSelector((state) => state.cart);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const { userInfo } = useSelector((state) => state.auth);
-  // console.log(wishlist)
 
   const {
     data: productDataById,

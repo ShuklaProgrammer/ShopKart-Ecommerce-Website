@@ -7,9 +7,6 @@ import { BsBoxSeam } from "react-icons/bs";
 import { CiTrophy } from "react-icons/ci";
 import { GoCreditCard } from "react-icons/go";
 import { CiHeadphones } from "react-icons/ci";
-import { FiShoppingCart } from "react-icons/fi";
-import { FaRegHeart } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa";
 
 import { useGetAllProductQuery } from "@/redux/api/productApiSlice";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,8 +25,6 @@ const Home = () => {
 
   const products = productData?.data?.products || [];
   const categories = categoryData?.data || [];
-
-  // console.log(products)
 
   const handleCategoryClick = (categoryName) => {
     navigate(`/shop?category=${categoryName}`);
@@ -71,7 +66,6 @@ const Home = () => {
                 <span className="uppercase font-medium text-blue-400">
                   ――The Real World Experience
                 </span>
-                {/* <h1 className='text-2xl font-bold'>{product.title}</h1> */}
                 <div className="w-80 bg-red-300 block sm:hidden">
                   <img
                     src={product.productImage[0]}
@@ -214,33 +208,10 @@ const Home = () => {
         <section className="mt-10">
           <div className="sm:flex sm:items-center sm:gap-5">
             <h1 className="text-2xl font-semibold">Best Deals</h1>
-            <p>Deals ends in:</p>
-            <span className="font-medium text-black bg-yellow-400 rounded px-2 py-1">
-              16d:21h:57m:23s
-            </span>
           </div>
 
           <div className="border-2 border-gray-200 mt-5">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200">
-              {/* <div className='row-span-2 border-r-2 py-12'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-[15vw] h-[15vw] mt-5 mb-3' />
-                </div>
-                <span className='px-4'>stars</span>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-                <p className='w-22 text-xs px-4 mb-2'>DISPLAY - 16.39 Centimeters (6.5"Inch) Super AMOLED Display with 19.5:9 Aspect Ratio, FHD+ Resolution with 1080 x 2340 Pixels , 399 PPI with 16M Colors and 90Hz Refresh Rate</p>
-                <div className='flex items-center gap-2 mt-5'>
-                  <div className='bg-orange-200 p-2 rounded-sm hover:bg-orange-300 hover:cursor-pointer'>
-                    <FaRegHeart className='text-2xl' />
-                  </div>
-                  <Button variant="cart" className="flex items-center gap-2"><FiShoppingCart className='text-xl' />Add to Cart</Button>
-                  <div className='bg-orange-200 p-2 rounded-sm hover:bg-orange-300 hover:cursor-pointer'>
-                    <FaRegEye className='text-2xl' />
-                  </div>
-                </div>
-              </div> */}
-
               {products.slice(3, 13).map((product, index) => (
                 <Link key={index} to={`/product-details/${product._id}`}>
                   <div className="col-span-1 border-r-2">
@@ -334,116 +305,6 @@ const Home = () => {
               />
             </div>
           ))}
-        </section>
-
-        <section>
-          <h1 className="flex justify-center sm:mt-12 mt-4 sm:mb-10 mb-4 text-2xl font-semibold">
-            Shop with Categorys
-          </h1>
-
-          <div className="border-1 flex justify-between gap-5 overflow-x-scroll overflow-hidden">
-            {categories.map((category, index) => (
-              <div
-                onClick={() => handleCategoryClick(category.categoryName)}
-                key={index}
-                className="border-2 px-5"
-              >
-                <div className="flex justify-center">
-                  <img src="" alt="" className="w-[15vw] h-[15vw] mt-5 mb-2" />
-                </div>
-                <span className="flex justify-center font-semibold">
-                  {category.categoryName}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* <div className='border-2 border border-solid border-gray-200 border mt-10'>
-
-            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200'>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-              <div className='col-span-1'>
-                <div className='flex justify-center'>
-                  <img src="" alt="" className='w-56 h-56 mt-5 mb-3' />
-                </div>
-                <p className='w-22 text-sm px-4 mb-2'>Bose Sport Earbuds - Wireless Earphones - Bluetooth In Ear...</p>
-                <span className='pl-4'>$2000</span>
-              </div>
-
-            </div>
-          </div> */}
         </section>
 
         {products.slice(15, 16).map((product, index) => (

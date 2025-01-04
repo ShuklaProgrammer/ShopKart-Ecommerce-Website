@@ -61,7 +61,6 @@ const UpdateCoupon = () => {
 
   useEffect(() => {
     if (couponData && couponData.data._id) {
-      // setCouponImage(couponImage?.data?.couponImage)
       setCouponCode(couponData.data.couponCode);
       setCouponType(couponData.data.couponType);
       setCouponValue(couponData.data.couponValue);

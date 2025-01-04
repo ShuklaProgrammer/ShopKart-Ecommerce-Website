@@ -5,26 +5,16 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 import { FaRegCreditCard } from "react-icons/fa6";
 import { IoMdArrowForward } from "react-icons/io";
 
-//images
-import paypalLogo from "../../assets/images/paypalLogo.png";
-import amazonpayLogo from "../../assets/images/amazonpay.png";
-import razorpayLogo from "../../assets/images/razorpay.png";
-
 //shadcn
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   useAddPaymentMutation,
   useGetUserOrderQuery,
   useVerifyPaymentMutation,
 } from "@/redux/api/orderApiSlice";
-import {
-  useCreateProfileMutation,
-  useGetUserProfileQuery,
-  useUpdateProfileMutation,
-} from "@/redux/api/profileApiSlice";
+import { useUpdateProfileMutation } from "@/redux/api/profileApiSlice";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "@/components/mycomponents/Loader";
@@ -39,8 +29,6 @@ const OrderPage = () => {
   const [editAddress, setEditAddress] = useState(false);
   const [currentAddressId, setCurrentAddressId] = useState(null);
   const [addNewAddress, setAddNewAddress] = useState(false);
-  const [isSelectPaymentOption, setIsSelectPaymentOption] = useState("");
-  const [isSelectDeliveryAddress, setIsSelectDeliveryAddress] = useState("");
 
   const [fullName, setFullName] = useState("");
   const [companyName, setCompanyName] = useState("");
@@ -187,10 +175,6 @@ const OrderPage = () => {
     }
   };
 
-  const handleAddNewAddressClick = () => {
-    setAddNewAddress(true);
-  };
-
   const validationSchema = Yup.object().shape({
     deliveryAddress: Yup.string().required("Please select a delivery address"),
     paymentOption: Yup.string().required("Select a payment option"),
@@ -253,7 +237,6 @@ const OrderPage = () => {
                         value={addressData._id}
                         id={addressData._id}
                       />
-                      {/* <Label htmlFor={addressData._id}></Label> */}
                     </div>
                   </RadioGroup>
 
@@ -415,10 +398,6 @@ const OrderPage = () => {
               </div>
             ) : null}
 
-            {/* {!editAddress && 
-                        <Button className="m-5" variant="shop" onClick={handleAddNewAddressClick}>Add a new address</Button>
-                        } */}
-
             {addNewAddress && (
               <div className="space-y-4 p-5">
                 {editAddress && (
@@ -566,26 +545,6 @@ const OrderPage = () => {
                 {formik.errors.paymentOption}
               </div>
             ) : null}
-            {/* {isSelectPaymentOption === "card-payment" && (<div className='space-y-4 p-5'>
-                            <div className='space-y-2'>
-                                <label htmlFor="">Name on Card</label>
-                                <Input type="text" placeholder="" className="outline outline-1 outline-gray-300" />
-                            </div>
-                            <div className='space-y-2'>
-                                <label htmlFor="">Card Number</label>
-                                <Input type="text" placeholder="" className="outline outline-1 outline-gray-300" />
-                            </div>
-                            <div className='flex items-center gap-5'>
-                                <div className='space-y-2 w-full'>
-                                    <label htmlFor="">Expire Date</label>
-                                    <Input type="text" placeholder="" className="outline outline-1 outline-gray-300" />
-                                </div>
-                                <div className='space-y-2 w-full'>
-                                    <label htmlFor="">CVC</label>
-                                    <Input type="text" placeholder="" className="outline outline-1 outline-gray-300" />
-                                </div>
-                            </div>
-                        </div>)} */}
           </div>
         </section>
         <section>
@@ -596,7 +555,6 @@ const OrderPage = () => {
                 <img src={item.productImage[0]} alt="" className="w-10 h-10" />
                 <div>
                   <h3 className="line-clamp-1 sm:w-80">{item.productName}</h3>
-                  {/* <span>1 x %70</span> */}
                 </div>
               </div>
             ))}

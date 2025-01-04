@@ -35,11 +35,9 @@ import {
   FiTrendingUp,
   FiTrendingDown,
 } from "react-icons/fi";
-import { AiOutlineShop } from "react-icons/ai";
 import { PiDotsThreeOutlineFill } from "react-icons/pi";
 import { GoDotFill } from "react-icons/go";
 import {
-  useGetAllOrdersQuery,
   useGetOrderStatisticsQuery,
   useTopProductBySalesQuery,
   useTopStatesBySalesQuery,
@@ -364,19 +362,6 @@ const Dashboard = () => {
               />
             </div>
           </div>
-          {/* <div className='flex items-center gap-3 p-4 border border-1 border-gray-300'>
-            <div className='bg-gray-400 p-3 rounded-full'>
-              <AiOutlineShop className='text-3xl text-white' />
-            </div>
-            <div>
-              <h3>Orders Paid</h3>
-              <span className='text-2xl font-semibold'>$34,945</span>
-            </div>
-            <div className='flex items-center gap-2'>
-              <FiTrendingUp />
-              <span>1.56%</span>
-            </div>
-          </div> */}
           <div className="flex items-center gap-2 p-4 border border-1 border-gray-300">
             <div className="bg-blue-500 p-3 rounded-full">
               <FiUsers className="text-3xl text-white" />
@@ -466,38 +451,6 @@ const Dashboard = () => {
               </TableBody>
             </Table>
           </div>
-
-          {/* <div className='w-full p-4 border border-1 border-gray-300'>
-            <div className='flex items-center justify-between'>
-              <h2 className='text-xl font-semibold'>Orders</h2>
-              <PiDotsThreeOutlineFill className='text-2xl'/>
-            </div>
-            <Table className="mt-4">
-              <TableCaption>A list of your recent invoices.</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="">Product</TableHead>
-                  <TableHead>Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                        {orders.map((order, index) => (
-                            <TableRow key={index}>
-                                <TableCell className="font-medium">
-                                    {order.orderItems?.slice(0, 1).map((item, index) => (
-                                        <div key={index} className='flex items-center gap-2'>
-                                            <img src={item.productImage} alt="" className='w-10 h-10' />
-                                            <p className='w-72 whitespace-nowrap overflow-hidden overflow-ellipsis'>{item.productName}</p>
-                                        </div>
-                                    ))}
-                                </TableCell>
-                                <TableCell>{new Date(order.createdAt).toLocaleDateString()}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-            </Table>
-
-          </div> */}
         </section>
 
         <section className="flex justify-between gap-6">

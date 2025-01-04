@@ -15,7 +15,6 @@ import { FaRegHeart } from "react-icons/fa";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { SlLocationPin } from "react-icons/sl";
-import { FiRefreshCcw } from "react-icons/fi";
 import { FiHeadphones } from "react-icons/fi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { FiPhoneCall } from "react-icons/fi";
@@ -27,19 +26,14 @@ import { CgProfile } from "react-icons/cg";
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -48,9 +42,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogoutUserMutation } from "@/redux/api/authApiSlice";
 import { logout } from "../../redux/features/auth/authSlice";
-import { useGetAllProductQuery } from "@/redux/api/productApiSlice";
 import { updateSearch } from "@/redux/features/product/productSlice";
 import { useGetAllCategoryQuery } from "@/redux/api/categoryApiSlice";
+import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -61,6 +55,8 @@ const Header = () => {
   const [searching, setSearching] = useState("");
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+   const { toast } = useToast();
 
   const { userInfo } = useSelector((state) => state.auth);
   const cart = useSelector((state) => state.cart.cart);
@@ -81,7 +77,6 @@ const Header = () => {
       await logoutUser();
       dispatch(logout());
       navigate("/");
-      // console.log("logout successfully")
     } catch (error) {
       console.log("Cannot logout", error);
     }
@@ -101,6 +96,22 @@ const Header = () => {
   const handleCategoryClick = (categoryName) => {
     navigate(`/shop/?category=${categoryName}`);
   };
+
+  const handleTrackOrderClick = () => {
+    try {
+      if(!userInfo?._id){
+        toast({
+          title: "Login required",
+          description: "You need to log in order to track order.",
+        });
+        navigate("/auth");
+      }else{
+        navigate("/track-order")
+      }
+    } catch (error) {
+      console.log("Something Error", error)
+    }
+  }
 
   return (
     <>
@@ -206,7 +217,7 @@ const Header = () => {
                     </Link>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent onClick={() => setDropdownOpen(false)}>
-                    <Link to="/profile">
+                    <Link to="/profile/dashboard">
                       <p className="hover:bg-gray-200 cursor-pointer p-1 flex items-center gap-2 pr-20">
                         <CgProfile className="text-lg" />
                         Profile
@@ -314,14 +325,12 @@ const Header = () => {
                 </NavigationMenuList>
               </NavigationMenu>
             </li>
-            <li>
-              <Link
-                to="/track-order"
+            <li
+            onClick={() => handleTrackOrderClick()}
                 className="flex items-center gap-1 text-sm hover:cursor-pointer text-gray-500"
               >
                 <SlLocationPin className="text-lg text-gray-600" />
                 Track Order
-              </Link>
             </li>
             {/* <li className='flex items-center gap-1 text-sm hover:cursor-pointer text-gray-500'><FiRefreshCcw className='text-lg text-gray-600' />Compare</li> */}
             <li className="flex items-center gap-1 text-sm hover:cursor-pointer text-gray-500">

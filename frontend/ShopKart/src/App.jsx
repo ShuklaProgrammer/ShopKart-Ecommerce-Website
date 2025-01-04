@@ -16,13 +16,11 @@ import AddProduct from "./pages/Admin/AddProduct";
 import AllProduct from "./pages/Admin/AllProduct";
 import AddCategory from "./pages/Admin/AddCategory";
 import Brand from "./pages/Admin/Brand";
-// import Color from './pages/Admin/Color'
 import Users from "./pages/Admin/Users";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import AddDiscount from "./pages/Admin/AddDiscount";
 import AllDiscount from "./pages/Admin/AllDiscount";
 import UpdateDiscount from "./pages/Admin/UpdateDiscount";
-import Profile from "./pages/Auth/Profile";
 import AddCoupon from "./pages/Admin/AddCoupon";
 import AllCoupon from "./pages/Admin/AllCoupon";
 import UpdateCoupon from "./pages/Admin/UpdateCoupon";

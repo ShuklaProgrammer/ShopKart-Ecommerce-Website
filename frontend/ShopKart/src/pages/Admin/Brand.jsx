@@ -60,13 +60,6 @@ const Brand = () => {
 
   const brands = getAllBrand?.data || [];
 
-  // if (!brandResponse) {
-  //     return <h1>Cannot get the brands</h1>
-  // }
-
-  // const { data: brands } = brandResponse
-  // console.log(brands)
-
   const handleCreateBrandName = async () => {
     await createBrand({ brandName }).unwrap();
   };

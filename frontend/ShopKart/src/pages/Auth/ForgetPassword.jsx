@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import {
   useSendEmailCodeMutation,
-  useSendMobileCodeMutation,
   useVerifyEmailCodeMutation,
 } from "@/redux/api/verificationApiSlice";
 import React, { useState } from "react";
@@ -16,9 +15,6 @@ import { useFormik } from "formik";
 const SendCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [sendEmailCode] = useSendEmailCodeMutation();
-  const [sendVerifyCodeToMobile] = useSendMobileCodeMutation();
 
   const { text } = location.state || {};
 

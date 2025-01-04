@@ -12,14 +12,13 @@ import {
   useLoginUserMutation,
   useRegisterUserMutation,
 } from "@/redux/api/authApiSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setCredentials } from "@/redux/features/auth/authSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loader from "@/components/mycomponents/Loader";
-import { useGetUserProfileQuery } from "@/redux/api/profileApiSlice";
 import { useToast } from "@/hooks/use-toast";
 
 const SignUp = ({ onSignUpSuccess }) => {
@@ -29,21 +28,6 @@ const SignUp = ({ onSignUpSuccess }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [registerUser] = useRegisterUserMutation();
-
-  // const handleRegisterUser = async(e) => {
-  //     e.preventDefault()
-  //     try {
-  //         const signUp = {
-  //             username,
-  //             email,
-  //             password
-  //         }
-  //         await registerUser(signUp)
-  //         onSignUpSuccess()
-  //     } catch (error) {
-  //         console.log("Cannot register the user", error)
-  //     }
-  // }
 
   const handlePasswordToggle = () => {
     setShowPassword(!showPassword);
@@ -257,27 +241,9 @@ const SignIn = () => {
 
   const dispatch = useDispatch();
 
-  const { userInfo } = useSelector((state) => state.auth);
-
   const [showPassword, setShowPassword] = useState(false);
 
   const [loginUser] = useLoginUserMutation();
-
-  // const handleSignIn = async(e) => {
-  //     e.preventDefault()
-  //     try {
-  //         const signIn = {
-  //             email,
-  //             password,
-  //         }
-  //         const login = await loginUser(signIn)
-  //         const userData = login.data.data.user
-  //         dispatch(setCredentials(userData))
-  //         navigate(redirect)
-  //     } catch (error) {
-  //         console.log("Cannot logged in", error)
-  //     }
-  // }
 
   const handlePasswordToggle = () => {
     setShowPassword(!showPassword);

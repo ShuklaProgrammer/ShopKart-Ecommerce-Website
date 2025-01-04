@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 
 //all the icons are imported here
-import {
-  AiOutlineDashboard,
-  AiOutlineHistory,
-  AiOutlineShop,
-} from "react-icons/ai";
-import { FiRefreshCcw, FiSettings, FiShoppingCart } from "react-icons/fi";
+import { AiOutlineShop } from "react-icons/ai";
+import { FiSettings, FiShoppingCart } from "react-icons/fi";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlineIdcard } from "react-icons/ai";
 import { FaRegHeart } from "react-icons/fa";
@@ -46,7 +42,11 @@ const ProfileSidebar = () => {
         <div className="flex flex-col bg-white shadow-2xl w-56">
           <Link to="/profile/dashboard">
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "/profile/dashboard" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "/profile/dashboard"
+                  ? "bg-orange-400 text-white"
+                  : ""
+              }`}
             >
               <PiStack />
               Dashboard
@@ -54,14 +54,20 @@ const ProfileSidebar = () => {
           </Link>
           <Link to="/profile/orders">
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "order-history" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "order-history"
+                  ? "bg-orange-400 text-white"
+                  : ""
+              }`}
             >
               <AiOutlineShop /> Order History
             </span>
           </Link>
           <Link to="/track-order">
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "track-order" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "track-order" ? "bg-orange-400 text-white" : ""
+              }`}
             >
               <SlLocationPin />
               Track Order
@@ -69,7 +75,9 @@ const ProfileSidebar = () => {
           </Link>
           <Link to="/wishlist">
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "/wishlist" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "/wishlist" ? "bg-orange-400 text-white" : ""
+              }`}
             >
               <FaRegHeart />
               Wishlist
@@ -77,25 +85,33 @@ const ProfileSidebar = () => {
           </Link>
           <Link to="/cart">
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "/cart" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "/cart" ? "bg-orange-400 text-white" : ""
+              }`}
             >
               <FiShoppingCart />
               Shopping Cart
             </span>
           </Link>
-          {/* <Link ><span className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "compare" ? "bg-orange-400 text-white" : ""}`}><FiRefreshCcw />Compare</span></Link> */}
           <Link to="/profile/address">
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "/profile/address" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "/profile/address"
+                  ? "bg-orange-400 text-white"
+                  : ""
+              }`}
             >
               <AiOutlineIdcard />
               Cards & Address
             </span>
           </Link>
-          {/* <Link><span className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "browsing-history" ? "bg-orange-400 text-white" : ""}`}><AiOutlineHistory />Browsing History</span></Link> */}
           <Link to="/profile/setting">
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "/profile/setting" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "/profile/setting"
+                  ? "bg-orange-400 text-white"
+                  : ""
+              }`}
             >
               <FiSettings />
               Setting
@@ -103,7 +119,9 @@ const ProfileSidebar = () => {
           </Link>
           <Link onClick={handleUserLogout}>
             <span
-              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${currentPath === "log-out" ? "bg-orange-400 text-white" : ""}`}
+              className={`flex items-center gap-2 p-2 hover:bg-orange-400 hover:text-white ${
+                currentPath === "log-out" ? "bg-orange-400 text-white" : ""
+              }`}
             >
               <FiLogOut />
               Log-out

@@ -3,12 +3,11 @@ import { useState } from "react";
 
 // all icons are imported here
 import { AiOutlineShop } from "react-icons/ai";
-import { LuUsers2 } from "react-icons/lu";
+import { LuUsers } from "react-icons/lu";
 import { PiShoppingBagBold } from "react-icons/pi";
 import { BiCategoryAlt } from "react-icons/bi";
 import { GoDot } from "react-icons/go";
 import { TbBrandBilibili } from "react-icons/tb";
-import { IoColorPaletteOutline } from "react-icons/io5";
 import { PiStack } from "react-icons/pi";
 import { MdOutlineDiscount } from "react-icons/md";
 import { RiCoupon4Line } from "react-icons/ri";
@@ -66,7 +65,6 @@ const AdminSidebar = () => {
               Add Products
             </p>
           </Link>
-          {/* <p className='flex items-center gap-1'><GoDot />Update Products</p> */}
         </div>
       </div>
       <div className="select-none">
@@ -90,14 +88,12 @@ const AdminSidebar = () => {
             openAccordion === 3 ? "block" : "hidden"
           } px-8 py-2 space-y-2`}
         >
-          {/* <p className='flex items-center gap-1'><GoDot />All Category</p> */}
           <Link to="/admin/add-category">
             <p className="flex items-center gap-1">
               <GoDot />
               Add Category
             </p>
           </Link>
-          {/* <p className='flex items-center gap-1'><GoDot />Update Category</p> */}
         </div>
       </div>
       <div className="select-none">
@@ -121,14 +117,12 @@ const AdminSidebar = () => {
             openAccordion === 4 ? "block" : "hidden"
           } px-8 py-2 space-y-2`}
         >
-          {/* <p className='flex items-center gap-1'><GoDot />All Brands</p> */}
           <Link to="/admin/add-brand">
             <p className="flex items-center gap-1">
               <GoDot />
               Add Brands
             </p>
           </Link>
-          {/* <p className='flex items-center gap-1'><GoDot />Update Brands</p> */}
         </div>
       </div>
       <div className="select-none">
@@ -138,7 +132,7 @@ const AdminSidebar = () => {
           }`}
           onClick={() => handleAccordion(5)}
         >
-          <LuUsers2
+          <LuUsers
             className={`${
               openAccordion === 5
                 ? "text-white text-xl"
@@ -238,7 +232,6 @@ const AdminSidebar = () => {
               Create Discounts
             </p>
           </Link>
-          {/* <p className='flex items-center gap-1'><GoDot />Update Discounts</p> */}
         </div>
       </div>
       <div className="select-none">

@@ -1,20 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  useDeleteProductMutation,
   useGetProductByIdQuery,
   useUpdateProductMutation,
 } from "@/redux/api/productApiSlice";
 
-//shadcn
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -23,31 +12,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
 //all the icons are here
-import { PiDotsThreeOutline } from "react-icons/pi";
 import { RxCrossCircled } from "react-icons/rx";
-// import { FiUploadCloud } from "react-icons/fi";
-// import { RiVideoUploadLine } from "react-icons/ri";
 
 //shadcn
 import { Input } from "@/components/ui/input";
@@ -64,7 +31,6 @@ import { Button } from "@/components/ui/button";
 import { RiVideoUploadLine } from "react-icons/ri";
 import { useGetAllCategoryQuery } from "@/redux/api/categoryApiSlice";
 import { useGetAllBrandsQuery } from "@/redux/api/brandApiSlice";
-import { useGetAllColorsQuery } from "@/redux/api/colorApiSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { useFormik } from "formik";
@@ -77,7 +43,6 @@ const UpdateProduct = () => {
 
   const { toast } = useToast();
 
-  const navigate = useNavigate();
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
 
@@ -85,8 +50,6 @@ const UpdateProduct = () => {
 
   const { data: productDataById, isLoading: productLoading } =
     useGetProductByIdQuery(productId);
-
-  // console.log(productDataById)
 
   const [tagInput, setTagInput] = useState("");
 
@@ -221,7 +184,6 @@ const UpdateProduct = () => {
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     price: Yup.number().required("Price is required"),
-    // productImage: Yup.array().of(Yup.mixed().required("Product Image is required")),
     productImage: Yup.array()
       .min(1, "At least one product image is required")
       .of(Yup.mixed().required("Product image is required")),

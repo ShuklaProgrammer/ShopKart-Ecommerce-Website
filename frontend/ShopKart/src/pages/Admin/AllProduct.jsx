@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   useDeleteProductMutation,
   useGetAllProductQuery,
-  useUpdateProductMutation,
 } from "@/redux/api/productApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -35,9 +34,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -61,7 +57,7 @@ import {
 
 //all the icons are here
 import { PiDotsThreeOutline } from "react-icons/pi";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { useGetAllCategoryQuery } from "@/redux/api/categoryApiSlice";
 import Loader from "@/components/mycomponents/Loader";
@@ -175,7 +171,6 @@ const AllProduct = () => {
               <TableHead className="w-[400px]">Products</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Quantity</TableHead>
-              {/* <TableHead>Sale</TableHead> */}
               <TableHead>Status</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
@@ -198,7 +193,6 @@ const AllProduct = () => {
                   </TableCell>
                   <TableCell>{product.price}</TableCell>
                   <TableCell>{product.stockQuantity}</TableCell>
-                  {/* <TableCell>Sale</TableCell> */}
                   <TableCell>
                     {product.stockQuantity > 0 ? (
                       <span className="font-semibold text-green-500">

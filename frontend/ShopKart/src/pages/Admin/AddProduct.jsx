@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // all icons are imported here
 import { RxCrossCircled } from "react-icons/rx";
@@ -32,7 +32,6 @@ import { useCreateProductMutation } from "@/redux/api/productApiSlice";
 import { useGetAllCategoryQuery } from "@/redux/api/categoryApiSlice";
 import { useGetAllBrandsQuery } from "@/redux/api/brandApiSlice";
 import { useNavigate } from "react-router-dom";
-import { useGetAllColorsQuery } from "@/redux/api/colorApiSlice";
 import Loader from "@/components/mycomponents/Loader";
 
 import { useFormik } from "formik";
@@ -40,7 +39,6 @@ import * as Yup from "yup";
 import { useToast } from "@/hooks/use-toast";
 
 const AddProduct = () => {
-  const navigate = useNavigate();
   const imageInputRef = useRef(null);
   const videoInputRef = useRef(null);
 
@@ -48,22 +46,7 @@ const AddProduct = () => {
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
-  // const [title, setTitle] = useState("")
-  // const [description, setDescription] = useState("")
-  // const [price, setPrice] = useState("")
-  // const [brand, setBrand] = useState("")
-  // const [category, setCategory] = useState("")
-  // const [color, setColor] = useState("")
-  // const [sku, setSku] = useState("")
-  // const [stockQuantity, setStockQuantity] = useState(0)
-  // const [tags, setTags] = useState([])
-
   const [tagInput, setTagInput] = useState("");
-
-  // const [additionalInformation, setAdditionalInformation] = useState([{ key: "", value: "" }])
-  // const [specifications, setSpecifications] = useState([{ key: "", value: "" }])
-  // const [shippingInfo, setShippingInfo] = useState([{ key: "", value: "" }])
-  // const [feature, setFeature] = useState([""])
 
   const [createProduct] = useCreateProductMutation();
 
@@ -73,10 +56,6 @@ const AddProduct = () => {
 
   const categories = getAllCategory?.data || [];
   const brands = getAllBarnds?.data || [];
-
-  // if (!categoryResponse || !brandResponse) {
-  //   return <Loader size='3em' speed='0.4s' fullScreen={true} center={true} />;
-  // }
 
   const handleTagInputChange = (e) => {
     setTagInput(e.target.value);
@@ -191,65 +170,10 @@ const AddProduct = () => {
     setSelectedImageIndex(imageIndex);
   };
 
-  //get the api
-  // const handleProductSubmit = async (e) => {
-  //   console.log("Product Video on Submit:", productVideo);
-  //   e.preventDefault()
-  //   try {
-  //     const formData = new FormData()
-  //     formData.append("title", title)
-  //     formData.append("description", description)
-  //     formData.append("price", price)
-  //     // formData.append("productImage", productImage)
-  //     // formData.append("productVideo", productVideo)
-  //     formData.append("brand", brand)
-  //     formData.append("category", category)
-  //     formData.append("sku", sku)
-  //     // formData.append("specifications", specifications)
-  //     // formData.append("additionalInformation", additionalInformation)
-  //     // formData.append("shippingInfo", shippingInfo)
-  //     formData.append("stockQuantity", stockQuantity)
-  //     // formData.append("tags", tags)
-
-  //     if (productVideo) {
-  //       formData.append(`productVideo`, productVideo)
-  //     }
-
-  //     productImage.forEach((image) => {
-  //       formData.append(`productImage`, image)
-  //     })
-
-  //     tags.forEach((tag) => {
-  //       formData.append(`tags`, tag)
-  //     })
-
-  //     additionalInformation.filter(info => info.key.trim() !== "" && info.value.trim() !== "").forEach((info, index) => {
-  //       formData.append(`additionalInformation[${index}][key]`, info.key)
-  //       formData.append(`additionalInformation[${index}][value]`, info.value)
-  //     })
-
-  //     specifications.filter(spec => spec.key.trim() !== "" && spec.value.trim() !== "").forEach((spec, index) => {
-  //       formData.append(`specifications[${index}][key]`, spec.key)
-  //       formData.append(`specifications[${index}][value]`, spec.value)
-  //     })
-
-  //     shippingInfo.filter(ship => ship.key.trim() !== "" && ship.value.trim() !== "").forEach((ship, index) => {
-  //       formData.append(`shippingInfo[${index}][key]`, ship.key)
-  //       formData.append(`shippingInfo[${index}][value]`, ship.value)
-  //     })
-
-  //     await createProduct(formData)
-  //     // navigate("/admin/products")
-  //   } catch (error) {
-  //     console.log("Product creation failed", error)
-  //   }
-  // }
-
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     price: Yup.number().required("Price is required"),
-    // productImage: Yup.array().of(Yup.mixed().required("Product Image is required")),
     productImage: Yup.array()
       .min(1, "At least one product image is required")
       .of(Yup.mixed().required("Product image is required")),

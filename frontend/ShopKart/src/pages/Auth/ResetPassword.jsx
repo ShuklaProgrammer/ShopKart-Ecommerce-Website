@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useResetUserPasswordMutation } from "@/redux/api/authApiSlice";
-import { useSendEmailCodeMutation } from "@/redux/api/verificationApiSlice";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { IoMdArrowForward } from "react-icons/io";

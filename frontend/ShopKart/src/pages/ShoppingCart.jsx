@@ -18,10 +18,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setCart } from "@/redux/features/cart/cartSlice";
 import { FaCartArrowDown } from "react-icons/fa";
-import {
-  useCreateOrderMutation,
-  useGetUserOrderQuery,
-} from "@/redux/api/orderApiSlice";
+import { useCreateOrderMutation } from "@/redux/api/orderApiSlice";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/mycomponents/Loader";
 import {

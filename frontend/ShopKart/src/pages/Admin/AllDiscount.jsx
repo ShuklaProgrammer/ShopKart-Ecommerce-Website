@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 //shadcn
 import {
@@ -13,9 +13,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -37,7 +34,7 @@ import {
 
 //all the icons imported here
 import { PiDotsThreeOutline } from "react-icons/pi";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loader from "@/components/mycomponents/Loader";
 
 const AllDiscount = () => {

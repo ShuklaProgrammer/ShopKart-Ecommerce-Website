@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCreateDiscountMutation } from "@/redux/api/discountApiSlice";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 //shadcn
 import {

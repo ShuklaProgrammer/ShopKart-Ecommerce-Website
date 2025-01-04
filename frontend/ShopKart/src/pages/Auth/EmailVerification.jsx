@@ -3,11 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useGetUserByIdQuery } from "@/redux/api/authApiSlice";
-import { useGetUserProfileQuery } from "@/redux/api/profileApiSlice";
+
 import {
   useSendEmailCodeMutation,
   useVerifyEmailCodeMutation,
-  useVerifyMobileCodeMutation,
 } from "@/redux/api/verificationApiSlice";
 import { setCredentials } from "@/redux/features/auth/authSlice";
 import { useFormik } from "formik";
