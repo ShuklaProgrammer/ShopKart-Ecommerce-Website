@@ -1,5 +1,5 @@
-// export const BASE_URL = "https://shopkart-ecommerce-backend-8omj.onrender.com"
-export const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "https://shopkart-ecommerce-backend-8omj.onrender.com"
+// export const BASE_URL = "http://localhost:8000";
 export const USER_URL = "/api/v1/users";
 export const PROFILE_URL = "/api/v1/profiles";
 export const PRODUCT_URL = "/api/v1/products";
