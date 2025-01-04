@@ -100,6 +100,37 @@ backend/
 1. Clone the repository:  
    ```bash  
    git clone https://github.com/your-username/shopkart-ecommerce.git  
-   cd shopkart-ecommerce  
+   cd shopkart-ecommerce
+   
+2. Install frontend dependencies:
+   ```bash  
+   cd frontend/ShopKart  
+   npm install
+
+3. Install backend dependencies:
+    ```bash
+   cd ../../backend  
+   npm install
+
+4. Start the development servers:
+   Frontend:
+   ```bash
+   cd frontend/ShopKart
+   npm run dev
+  
+  Backend:
+   ```bash
+   cd frontend/ShopKart
+   npm run dev
+   
+
+
+   
+
+    
+     
+
+    
+
 
 
