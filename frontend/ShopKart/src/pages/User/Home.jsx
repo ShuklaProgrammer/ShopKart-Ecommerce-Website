@@ -9,28 +9,18 @@ import { GoCreditCard } from "react-icons/go";
 import { CiHeadphones } from "react-icons/ci";
 
 import { useGetAllProductQuery } from "@/redux/api/productApiSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { useGetAllCategoryQuery } from "@/redux/api/categoryApiSlice";
+import { Link } from "react-router-dom";
 import Loader from "@/components/mycomponents/Loader";
 
 const Home = () => {
-  const navigate = useNavigate();
-
   const [showMessage, setShowMessage] = useState(false);
 
   const { data: productData, isLoading: isProductsLoading } =
     useGetAllProductQuery({});
-  const { data: categoryData, isLoading: isCategoryLoading } =
-    useGetAllCategoryQuery({});
 
   const products = productData?.data?.products || [];
-  const categories = categoryData?.data || [];
 
-  const handleCategoryClick = (categoryName) => {
-    navigate(`/shop?category=${categoryName}`);
-  };
-
-  const isLoading = isProductsLoading || isCategoryLoading;
+  const isLoading = isProductsLoading;
 
   useEffect(() => {
     const timer = setTimeout(() => {
