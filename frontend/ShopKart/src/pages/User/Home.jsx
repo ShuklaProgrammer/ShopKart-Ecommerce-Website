@@ -61,6 +61,7 @@ const Home = () => {
                     src={product.productImage[0]}
                     alt=""
                     className="rounded-md"
+                    loading="lazy"
                   />
                 </div>
                 <p className="text-gray-500">
@@ -75,7 +76,7 @@ const Home = () => {
                 </Link>
               </div>
               <div className="w-80 bg-red-300 hidden sm:block">
-                <img src={product.productImage[0]} alt="" className="" />
+                <img src={product.productImage[0]} alt="" className="" loading="lazy" />
               </div>
             </div>
           ))}
@@ -94,6 +95,7 @@ const Home = () => {
                       src={product.productImage[0]}
                       alt=""
                       className="rounded-md"
+                      loading="lazy"
                     />
                   </div>
                   <h2 className="text-xl font-semibold text-white">
@@ -111,6 +113,7 @@ const Home = () => {
                     src={product.productImage[0]}
                     alt=""
                     className="rounded-md"
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -125,6 +128,7 @@ const Home = () => {
                     src={product.productImage[0]}
                     alt=""
                     className="rounded-md"
+                    loading="lazy"
                   />
                 </div>
                 <div className="sm:flex flex flex-col items-start justify-start space-y-3">
@@ -210,6 +214,7 @@ const Home = () => {
                         src={product.productImage[0]}
                         alt=""
                         className="w-56 h-56 mt-5 mb-3"
+                        loading="lazy"
                       />
                     </div>
                     <p className="line-clamp-2 leading-tight text-sm px-4 mb-2">
@@ -242,6 +247,7 @@ const Home = () => {
                   src={product.productImage[0]}
                   alt=""
                   className="w-56 h-56 block sm:hidden"
+                  loading="lazy"
                 />
                 <p className="line-clamp-2">
                   Jam-packed with innovation, HomePod mini delivers
@@ -258,6 +264,7 @@ const Home = () => {
                 src={product.productImage[0]}
                 alt=""
                 className="w-56 h-56 hidden sm:block"
+                loading="lazy"
               />
             </div>
           ))}
@@ -277,6 +284,7 @@ const Home = () => {
                   src={product.productImage[0]}
                   alt=""
                   className="w-56 h-56 block sm:hidden"
+                  loading="lazy"
                 />
                 <p className="text-gray-400 line-clamp-2">
                   *Data provided by internal laboratories. Industry measurment.
@@ -292,6 +300,7 @@ const Home = () => {
                 src={product.productImage[0]}
                 alt=""
                 className="w-56 h-56 hidden sm:block"
+                loading="lazy"
               />
             </div>
           ))}
@@ -311,6 +320,7 @@ const Home = () => {
                 src="https://m.media-amazon.com/images/I/71an9eiBxpL._SL1500_.jpg"
                 alt=""
                 className="w-56 h-56 sm:hidden block"
+                loading="lazy"
               />
               <p className="line-clamp-2">{product.title}</p>
               <Link to={`/product-details/${product._id}`}>
@@ -325,6 +335,7 @@ const Home = () => {
               src="https://m.media-amazon.com/images/I/71an9eiBxpL._SL1500_.jpg"
               alt=""
               className="w-[22vw] h-[22vw] hidden sm:block"
+              loading="lazy"
             />
           </section>
         ))}
