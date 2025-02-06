@@ -1,8 +1,6 @@
 import app from "./app.js";
 import connectDatabase from "./database/database.js";
 
-import CronJob from "./tasks/cron.job..js";
-
 import dotenv from "dotenv";
 
 dotenv.config({ path: "/env" });

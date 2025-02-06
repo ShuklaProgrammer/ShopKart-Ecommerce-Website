@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(
   cors({
-    origin: "https://shopkart-ecommerce.vercel.app",
+    origin: process.env.CORS_ORIGIN, 
     credentials: true,
   })
 );
