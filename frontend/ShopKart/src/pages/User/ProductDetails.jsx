@@ -82,6 +82,10 @@ const ProductDetails = () => {
     }
   }, [product.productImage, product.productVideo]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scrolls to the top when the component mounts
+  }, []);
+
   const [addToCartApi] = useAddToCartApiMutation();
   const [addToWishlist] = useAddWishlistMutation();
   const [createOrder] = useCreateOrderMutation();

@@ -142,6 +142,10 @@ const ShopPage = () => {
     updateURL();
   }, [selectCategory, selectBrand, tags, selectedPriceRanges, searching]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scrolls to the top when the component mounts
+  }, []);
+
   const handleCategoryChange = (categoryName) => {
     setSelectCategory((prevCategory) =>
       prevCategory.includes(categoryName)
@@ -474,7 +478,7 @@ const ShopPage = () => {
                 <h2 className="text-black w-full text-lg font-semibold">
                   Popular Tag
                 </h2>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   {[
                     "SmartPhone",
                     "iPhone",
@@ -501,16 +505,16 @@ const ShopPage = () => {
               </div>
             </div>
 
-            <section className="border-2 border border-solid border-gray-200">
-              <div className="grid grid-cols-1 sm:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200">
+            <section>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
                 {products.map((product, index) => (
                   <Link key={index} to={`/product-details/${product._id}`}>
-                    <div className="col-span-1">
-                      <div className="flex justify-center">
+                    <div className="border-2 py-4 hover:shadow-xl hover:border-2">
+                      <div className="w-48 h-48 mx-auto overflow-hidden">
                         <img
                           src={product.productImage[0]}
                           alt=""
-                          className="w-48 h-48 mt-5 mb-3"
+                          className="w-full h-full mb-3 object-contain"
                         />
                       </div>
                       <p className="line-clamp-2 w-22 text-sm px-4 mb-2">

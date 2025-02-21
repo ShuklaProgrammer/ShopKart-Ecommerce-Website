@@ -204,16 +204,16 @@ const Home = () => {
             <h1 className="text-2xl font-semibold">Best Deals</h1>
           </div>
 
-          <div className="border-2 border-gray-200 mt-5">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 divide-x-2 divide-y-2 divide-gray-200">
+          <div className="mt-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
               {products.slice(3, 13).map((product, index) => (
                 <Link key={index} to={`/product-details/${product._id}`}>
-                  <div className="col-span-1 border-r-2">
-                    <div className="flex justify-center">
+                  <div className="border-2 py-4 hover:shadow-2xl hover:border-0">
+                    <div className="w-56 h-56 mx-auto overflow-hidden">
                       <img
                         src={product.productImage[0]}
                         alt=""
-                        className="w-56 h-56 mt-5 mb-3"
+                        className="w-full h-full mb-3 object-contain"
                         loading="lazy"
                       />
                     </div>
