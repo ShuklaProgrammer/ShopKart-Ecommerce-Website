@@ -50,10 +50,10 @@ const Home = () => {
           {products?.slice(0, 1).map((product, index) => (
             <div
               key={index}
-              className="container1 flex justify-center items-center py-4 lg:py-0 px-4 w-full gap-10 bg-gray-100 rounded-md"
+              className="container1 flex justify-center items-center py-4 lg:py-0 px-4 w-full gap-10 border-2 rounded-md"
             >
               <div className="w-full space-y-4">
-                <span className="uppercase font-medium text-blue-400">
+                <span className="uppercase font-medium text-blue-500">
                   ――The Real World Experience
                 </span>
                 <div className="w-80 bg-red-300 block sm:hidden">
@@ -64,7 +64,7 @@ const Home = () => {
                     loading="lazy"
                   />
                 </div>
-                <p className="text-gray-500">
+                <p className="text-gray-700">
                   Save big on your next holiday on SmartPhone. Get 2 months
                   Subscription for Netflix, Prime Video, Youtube.
                 </p>
@@ -84,10 +84,10 @@ const Home = () => {
             {products?.slice(1, 2).map((product, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between lg:px-8 px-4 py-4 bg-gray-800 rounded-md"
+                className="flex items-center justify-between lg:px-8 px-4 py-4 border-2 rounded-md"
               >
                 <div className="space-y-3">
-                  <span className="uppercase text-yellow-400">
+                  <span className="uppercase text-yellow-500 font-semibold">
                     Summer Sales
                   </span>
                   <div className="w-40 sm:hidden block">
@@ -98,7 +98,7 @@ const Home = () => {
                       loading="lazy"
                     />
                   </div>
-                  <h2 className="text-xl font-semibold text-white">
+                  <h2 className="text-xl font-semibold">
                     {product.title}
                   </h2>
                   <Link to={`/product-details/${product._id}`}>
@@ -121,7 +121,7 @@ const Home = () => {
             {products?.slice(2, 3).map((product, index) => (
               <div
                 key={index}
-                className="sm:flex items-center justify-between gap-4 sm:px-8 px-4 py-4 bg-yellow-200 rounded-md"
+                className="sm:flex items-center justify-between gap-4 sm:px-8 px-4 py-4 border-2 rounded-md"
               >
                 <div className="w-40">
                   <img
@@ -133,7 +133,7 @@ const Home = () => {
                 </div>
                 <div className="sm:flex flex flex-col items-start justify-start space-y-3">
                   <h2 className="text-xl font-semibold">{product.title}</h2>
-                  <span className="uppercase font-semibold">
+                  <span className="uppercase font-semibold text-blue-500">
                     ${product.price}
                   </span>
                   <Link to={`/product-details/${product._id}`}>
@@ -234,7 +234,7 @@ const Home = () => {
           {products.slice(13, 14).map((product, index) => (
             <div
               key={index}
-              className="flex bg-gray-300 p-5 items-center gap-5"
+              className="flex border-2 rounded-md p-5 items-center gap-5"
             >
               <div className="space-y-2">
                 <span className="uppercase bg-sky-400 text-white px-2 py-1 rounded">
@@ -271,13 +271,13 @@ const Home = () => {
           {products.slice(14, 15).map((product, index) => (
             <div
               key={index}
-              className="flex bg-gray-800 p-5 items-center gap-5"
+              className="flex border-2 rounded-md p-5 items-center gap-5"
             >
               <div className="space-y-2">
                 <span className="uppercase bg-yellow-300 py-1 px-2 rounded text-sm md:text-base">
                   Introducing New
                 </span>
-                <h2 className="text-2xl font-semibold text-white line-clamp-1">
+                <h2 className="text-2xl font-semibold line-clamp-1">
                   {product.title}
                 </h2>
                 <img
@@ -286,7 +286,7 @@ const Home = () => {
                   className="w-56 h-56 block sm:hidden"
                   loading="lazy"
                 />
-                <p className="text-gray-400 line-clamp-2">
+                <p className="line-clamp-2">
                   *Data provided by internal laboratories. Industry measurment.
                 </p>
                 <Link to={`/product-details/${product._id}`}>
@@ -309,7 +309,7 @@ const Home = () => {
         {products.slice(15, 16).map((product, index) => (
           <section
             key={index}
-            className="flex justify-between items-center lg:px-20 px-4 py-4 lg:py-0 bg-orange-200 mt-10 rounded-sm mb-10"
+            className="flex justify-between items-center lg:px-20 px-4 py-4 lg:py-0 border-2 mt-10 rounded-md mb-10"
           >
             <div className="space-y-3">
               <span className="bg-blue-400 rounded-sm px-2 py-1 text-white">
