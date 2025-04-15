@@ -20,12 +20,12 @@ const Footer = () => {
           </h1>
           <ul className="text-white space-y-2 mt-10">
             <li className="text-sm text-gray-400">Customer Supports:</li>
-            <li>(629) 555-0129</li>
+            <li>(856) 333-3920</li>
             <li className="text-sm text-gray-400">
-              4517 Washington Ave.
-              <br /> Manchester, Kentucky 39495
+              3910 Jaipur.
+              <br /> Rajasthan, India 39495
             </li>
-            <li>info@kinbo.com</li>
+            <li>info@myshopkart.com</li>
           </ul>
         </section>
 
