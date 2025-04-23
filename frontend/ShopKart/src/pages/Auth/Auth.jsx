@@ -278,13 +278,14 @@ const SignIn = () => {
             title: "Login successful! Welcome back!",
             description: "You have successfully logged in.",
           });
-          if (!userData?.isEmailVerified) {
-            navigate("/verify-email");
-          } else if (!userData?.isMobileVerified) {
-            navigate("/verify-phone");
-          } else {
-            navigate("/");
-          }
+          // if (!userData?.isEmailVerified) {
+          //   navigate("/verify-email");
+          // } else if (!userData?.isMobileVerified) {
+          //   navigate("/verify-phone");
+          // } else {
+          //   navigate("/");
+          // }
+          navigate("/")
         }
 
         setSubmitting(false);
